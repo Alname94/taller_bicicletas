@@ -1,0 +1,66 @@
+package com.tallerbicicletas.models.entities;
+
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="presupuestos")
+public class Presupuesto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="presupuesto_numero")    
+    private Long numero;
+
+    @Column(name="fecha", nullable = false)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull(message = "Ingrese una fecha valida")
+    private LocalDate fecha;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    @NotNull(message = "El cliente no puede estar vacío")
+    @JsonIgnoreProperties("bicicletas")
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bicicleta_id", nullable = false)
+    @NotNull(message = "La bicicleta no puede estar vacía")
+    @JsonIgnoreProperties("cliente")
+    private Bicicleta bicicleta;
+
+    @Column(name="valor_total", nullable = false)
+    @NotNull(message = "El valor total no puede estar vacío")
+    private double valorTotal;
+    
+    @Column(name="descripcion", length = 300)
+    private String descripcion;
+
+    public void setValorTotal(double valorTotal) {
+        if(valorTotal<0) {
+            throw new IllegalArgumentException("El valor total no puede ser negativo");
+        }
+        double valorRedondeado = Math.round(valorTotal * 100.0) / 100.0;
+        this.valorTotal = valorRedondeado;
+    }
+}
