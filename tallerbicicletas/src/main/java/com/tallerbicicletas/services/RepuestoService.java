@@ -25,7 +25,7 @@ public class RepuestoService implements IRepuestoService {
         if (repuestoRepository.existsById(repuesto.getCodigo())) {
             throw new BadRequestException("El código de repuesto '" + repuesto.getCodigo() + "' ya existe.");
         }
-        
+
         if (repuesto.getPrecioVenta() < repuesto.getPrecioCosto()) {
             throw new BadRequestException("El precio de venta no puede ser menor al precio de costo.");
         }
@@ -36,9 +36,10 @@ public class RepuestoService implements IRepuestoService {
     @Override
     public void deleteRepuesto(String codigo) {
         Repuesto repuesto = findRepuesto(codigo);
-        
+
         if (repuesto.getDetalles() != null && !repuesto.getDetalles().isEmpty()) {
-            throw new BadRequestException("No se puede eliminar el repuesto porque ya figura en presupuestos existentes.");
+            throw new BadRequestException(
+                    "No se puede eliminar el repuesto porque ya figura en presupuestos existentes.");
         }
 
         repuestoRepository.delete(repuesto);
@@ -70,8 +71,9 @@ public class RepuestoService implements IRepuestoService {
 
     @Override
     public List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase(String producto, String marca) {
-        List<Repuesto> repuestos = repuestoRepository.findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase(producto, marca);
-        if(repuestos.isEmpty()){
+        List<Repuesto> repuestos = repuestoRepository
+                .findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase(producto, marca);
+        if (repuestos.isEmpty()) {
             throw new ResourceNotFoundException("No hay repuestos que coincidan con: " + producto);
         }
         return repuestos;

@@ -9,5 +9,5 @@ import com.tallerbicicletas.models.entities.DetalleId;
 
 public interface IDetalleRepository extends JpaRepository<Detalle, DetalleId>{
     
-    List<Detalle> findByPresupuestoNumero(Long presupuestoNumero);
+    List<Detalle> findByIdPresupuestoNumero(Long presupuestoNumero);
 }

@@ -14,5 +14,7 @@ public interface IDetalleService {
 
     public Detalle findDetalle(Long presupuestoNumero, String repuestoCodigo);
 
-    public List<Detalle> findByPresupuestoNumero(Long presupuestoNumero);
+    public List<Detalle> findByIdPresupuestoNumero(Long presupuestoNumero);
+
+    public void devolverStockPorAnulacion(Long presupuestoNumero);
 }

@@ -21,8 +21,6 @@ public class ClienteService implements IClienteService {
         return clienteRepository.findAll();
     }
 
-    // Guarda un cliente siempre y cuando cumpla con las validaciones
-    // para evitar valores repetidos de dni, email y teléfono.
     @Override
     public Cliente saveCliente(Cliente cliente) {
 
@@ -58,35 +56,34 @@ public class ClienteService implements IClienteService {
                 .orElseThrow(() -> new ResourceNotFoundException("El cliente con id " + id + " no existe."));
     }
 
-    // permite editar los datos de un cliente siempre que se cumpla con las
-    // validaciones para evitar valores repetidos
+
     @Override
     public Cliente editCliente(Cliente cliente) {
-        // Verificar si el cliente a editar existe
+        
         Cliente clienteExistente = findCliente(cliente.getId());
 
-        // Validar DNI
+        
         clienteRepository.findByDni(cliente.getDni())
                 .filter(c -> !c.getId().equals(cliente.getId()))
                 .ifPresent(c -> {
                     throw new BadRequestException("El DNI ya está registrado por otro cliente.");
                 });
 
-        // Validar Email
+        
         clienteRepository.findByEmail(cliente.getEmail())
                 .filter(c -> !c.getId().equals(cliente.getId()))
                 .ifPresent(c -> {
                     throw new BadRequestException("El Email ya está registrado por otro cliente.");
                 });
 
-        // Validar Teléfono
+        
         clienteRepository.findByTelefono(cliente.getTelefono())
                 .filter(c -> !c.getId().equals(cliente.getId()))
                 .ifPresent(c -> {
                     throw new BadRequestException("El teléfono ya está registrado por otro cliente.");
                 });
 
-        // Actualizar y Guardar
+        
         clienteExistente.setNombre(cliente.getNombre());
         clienteExistente.setApellido(cliente.getApellido());
         clienteExistente.setDni(cliente.getDni());
@@ -96,7 +93,7 @@ public class ClienteService implements IClienteService {
         return clienteRepository.save(clienteExistente);
     }
 
-    // Búsqueda por caracteres del nombre del cliente
+    
     @Override
     public List<Cliente> findByNombreContainingIgnoreCase(String nombre) {
         List<Cliente> clientes = clienteRepository.findByNombreContainingIgnoreCase(nombre);
@@ -108,7 +105,7 @@ public class ClienteService implements IClienteService {
         return clientes;
     }
 
-    // Búsqueda por dni
+    
     @Override
     public Optional<Cliente> findByDni(String dni) {
         return clienteRepository.findByDni(dni);

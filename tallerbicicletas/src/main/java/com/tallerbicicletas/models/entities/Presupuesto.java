@@ -1,6 +1,7 @@
 package com.tallerbicicletas.models.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,15 +26,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="presupuestos")
+@Table(name = "presupuestos")
 public class Presupuesto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="presupuesto_numero")    
+    @Column(name = "presupuesto_numero")
     private Long numero;
 
-    @Column(name="fecha", nullable = false)
+    @Column(name = "fecha", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Ingrese una fecha valida")
     private LocalDate fecha;
@@ -49,15 +51,21 @@ public class Presupuesto {
     @JsonIgnoreProperties("cliente")
     private Bicicleta bicicleta;
 
-    @Column(name="valor_total", nullable = false)
+    @Column(name = "valor_total", nullable = false)
     @NotNull(message = "El valor total no puede estar vacío")
     private double valorTotal;
-    
-    @Column(name="descripcion", length = 300)
+
+    @Column(name = "descripcion", length = 300)
     private String descripcion;
 
+    @Column(name = "estado", nullable = false, length = 20)
+    private String estado = "PENDIENTE"; // PENDIENTE, FACTURADO, ANULADO
+
+    @OneToMany(mappedBy = "presupuesto")
+    private List<Detalle> detalles;
+
     public void setValorTotal(double valorTotal) {
-        if(valorTotal<0) {
+        if (valorTotal < 0) {
             throw new IllegalArgumentException("El valor total no puede ser negativo");
         }
         double valorRedondeado = Math.round(valorTotal * 100.0) / 100.0;

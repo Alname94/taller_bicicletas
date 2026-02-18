@@ -10,6 +10,7 @@ import com.tallerbicicletas.models.entities.Bicicleta;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.repositories.IBicicletaRepository;
 import com.tallerbicicletas.services.interfaces.IBicicletaService;
+import com.tallerbicicletas.services.interfaces.IClienteService;
 
 public class BicicletaService implements IBicicletaService {
 
@@ -17,7 +18,7 @@ public class BicicletaService implements IBicicletaService {
     private IBicicletaRepository bicicletaRepository;
 
     @Autowired
-    private ClienteService clienteService;
+    private IClienteService clienteService;
 
     @Override
     public List<Bicicleta> getBicicletas() {

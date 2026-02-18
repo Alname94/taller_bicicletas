@@ -10,7 +10,7 @@ public interface IPresupuestoService {
 
     public Presupuesto savePresupuesto(Presupuesto presupuesto);
 
-    public Presupuesto findPresupuestoById(Long numero);
+    public Presupuesto findPresupuesto(Long numero);
 
     public void deletePresupuesto(Long numero);
 
@@ -19,4 +19,6 @@ public interface IPresupuestoService {
     public List<Presupuesto> findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(String query, String query2);
 
     public List<Presupuesto> findByBicicletaId(Long bicicletaId);
+
+    public void cambiarEstado (Long numero, String nuevoEstado);
 }
