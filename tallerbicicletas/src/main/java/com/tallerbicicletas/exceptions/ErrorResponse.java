@@ -1,7 +1,7 @@
 package com.tallerbicicletas.exceptions;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public record ErrorResponse(int status, String message, LocalDate timestamp) {
+public record ErrorResponse(int status, String message, LocalDateTime timestamp) {
 
 }

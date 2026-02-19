@@ -17,7 +17,7 @@ public interface IClienteService {
 
     public Cliente editCliente(Cliente cliente);
 
-    public List<Cliente> findByNombreContainingIgnoreCase(String nombre);
+    public List<Cliente> findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(String nombre, String apellido);
 
     public Optional<Cliente> findByDni(String dni);
 }

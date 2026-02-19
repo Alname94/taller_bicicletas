@@ -11,7 +11,7 @@ import com.tallerbicicletas.models.entities.Cliente;
 @Repository
 public interface IClienteRepository extends JpaRepository<Cliente, Long> {
 
-    List<Cliente> findByNombreContainingIgnoreCase(String nombre);
+    List<Cliente> findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(String nombre, String apellido);
 
     Optional<Cliente> findByDni(String dni);
 

@@ -97,8 +97,8 @@ public class ClienteService implements IClienteService {
 
     
     @Override
-    public List<Cliente> findByNombreContainingIgnoreCase(String nombre) {
-        List<Cliente> clientes = clienteRepository.findByNombreContainingIgnoreCase(nombre);
+    public List<Cliente> findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(String nombre, String apellido) {
+        List<Cliente> clientes = clienteRepository.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(nombre, apellido);
 
         if (clientes.isEmpty()) {
             throw new ResourceNotFoundException("No se encontraron clientes con el nombre: " + nombre);

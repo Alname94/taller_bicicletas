@@ -77,7 +77,6 @@ public class DetalleService implements IDetalleService {
                     + detalle.getPresupuesto().getEstado());
         }
 
-        // Devolver stock
         Repuesto repuesto = detalle.getRepuesto();
         repuesto.setStock(repuesto.getStock() + detalle.getCantidadAgregada());
         repuestoService.editRepuesto(repuesto);

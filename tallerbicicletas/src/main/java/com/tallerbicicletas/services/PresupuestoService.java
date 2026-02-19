@@ -74,7 +74,7 @@ public class PresupuestoService implements IPresupuestoService {
     public void deletePresupuesto(Long numero) {
         Presupuesto presupuesto = findPresupuesto(numero);
 
-        if (presupuesto.getEstado().equals("FACTURADO")) {
+        if (presupuesto.getEstado().equalsIgnoreCase("FACTURADO")) {
             throw new BadRequestException("No se puede eliminar un presupuesto FACTURADO.");
         }
 
@@ -89,7 +89,7 @@ public class PresupuestoService implements IPresupuestoService {
     public Presupuesto editPresupuesto(Presupuesto presupuesto) {
         Presupuesto presupuestoExistente = findPresupuesto(presupuesto.getNumero());
 
-        if (!presupuestoExistente.getEstado().equals("PENDIENTE")) {
+        if (!presupuestoExistente.getEstado().equalsIgnoreCase("PENDIENTE")) {
             throw new BadRequestException("Solo se pueden modificar presupuestos en estado PENDIENTE. " +
                     "El estado actual es: " + presupuestoExistente.getEstado());
         }
