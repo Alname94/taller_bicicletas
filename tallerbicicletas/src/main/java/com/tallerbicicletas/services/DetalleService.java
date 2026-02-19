@@ -3,6 +3,7 @@ package com.tallerbicicletas.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tallerbicicletas.exceptions.BadRequestException;
@@ -16,6 +17,7 @@ import com.tallerbicicletas.repositories.IPresupuestoRepository;
 import com.tallerbicicletas.services.interfaces.IDetalleService;
 import com.tallerbicicletas.services.interfaces.IRepuestoService;
 
+@Service
 public class DetalleService implements IDetalleService {
 
     @Autowired

@@ -3,6 +3,7 @@ package com.tallerbicicletas.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.exceptions.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import com.tallerbicicletas.models.entities.Repuesto;
 import com.tallerbicicletas.repositories.IRepuestoRepository;
 import com.tallerbicicletas.services.interfaces.IRepuestoService;
 
+@Service
 public class RepuestoService implements IRepuestoService {
 
     @Autowired

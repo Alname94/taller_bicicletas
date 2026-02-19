@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.exceptions.ResourceNotFoundException;
@@ -11,6 +12,7 @@ import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.repositories.IClienteRepository;
 import com.tallerbicicletas.services.interfaces.IClienteService;
 
+@Service
 public class ClienteService implements IClienteService {
 
     @Autowired

@@ -3,6 +3,7 @@ package com.tallerbicicletas.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.exceptions.ResourceNotFoundException;
@@ -12,6 +13,7 @@ import com.tallerbicicletas.repositories.IBicicletaRepository;
 import com.tallerbicicletas.services.interfaces.IBicicletaService;
 import com.tallerbicicletas.services.interfaces.IClienteService;
 
+@Service
 public class BicicletaService implements IBicicletaService {
 
     @Autowired
