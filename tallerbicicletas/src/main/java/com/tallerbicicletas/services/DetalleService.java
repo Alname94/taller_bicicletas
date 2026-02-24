@@ -58,14 +58,16 @@ public class DetalleService implements IDetalleService {
 
         detalle.setRepuesto(repuesto);
         detalle.setPresupuesto(presupuesto);
+        Detalle detalleGuardado = detalleRepository.save(detalle);
+        actualizarTotal(presupuesto.getNumero());
 
-        return detalleRepository.save(detalle);
+        return detalleGuardado;
     }
 
     @Override
     @Transactional
     public void deleteDetalle(Long presupuestoNumero, String repuestoCodigo) {
-       
+
         DetalleId id = new DetalleId(presupuestoNumero, repuestoCodigo);
 
         Detalle detalle = detalleRepository.findById(id)
@@ -82,7 +84,7 @@ public class DetalleService implements IDetalleService {
         repuestoService.editRepuesto(repuesto);
 
         detalleRepository.delete(detalle);
-
+        actualizarTotal(presupuestoNumero);
     }
 
     @Override
@@ -113,5 +115,11 @@ public class DetalleService implements IDetalleService {
             r.setStock(r.getStock() + d.getCantidadAgregada());
             repuestoService.editRepuesto(r);
         }
+    }
+
+    private void actualizarTotal(Long numero) {
+        Presupuesto p = presupuestoRepository.findById(numero).get();
+        p.setValorTotal(p.calcularTotalDeDetalles());
+        presupuestoRepository.save(p);
     }
 }

@@ -71,4 +71,11 @@ public class Presupuesto {
         double valorRedondeado = Math.round(valorTotal * 100.0) / 100.0;
         this.valorTotal = valorRedondeado;
     }
+
+    public double calcularTotalDeDetalles() {
+    if (this.detalles == null) return 0.0;
+    return this.detalles.stream()
+            .mapToDouble(d -> d.getCantidadAgregada() * d.getRepuesto().getPrecioVenta())
+            .sum();
+}
 }
