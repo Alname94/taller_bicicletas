@@ -21,4 +21,6 @@ public interface IPresupuestoService {
     public List<Presupuesto> findByBicicletaId(Long bicicletaId);
 
     public void cambiarEstado (Long numero, String nuevoEstado);
+
+    public void asignarServicio(Long presupuestoId, Long servicioId);
 }

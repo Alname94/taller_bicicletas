@@ -13,4 +13,6 @@ public interface IPresupuestoRepository extends JpaRepository<Presupuesto, Long>
     List<Presupuesto> findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(String nombre, String marca);
 
     List<Presupuesto> findByBicicletaId(Long bicicletaId);
+
+    boolean existsByServicioId(Long servicioId);
 }

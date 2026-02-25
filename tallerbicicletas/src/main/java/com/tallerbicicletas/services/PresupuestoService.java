@@ -12,11 +12,13 @@ import com.tallerbicicletas.exceptions.ResourceNotFoundException;
 import com.tallerbicicletas.models.entities.Bicicleta;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.models.entities.Presupuesto;
+import com.tallerbicicletas.models.entities.Servicio;
 import com.tallerbicicletas.repositories.IPresupuestoRepository;
 import com.tallerbicicletas.services.interfaces.IBicicletaService;
 import com.tallerbicicletas.services.interfaces.IClienteService;
 import com.tallerbicicletas.services.interfaces.IDetalleService;
 import com.tallerbicicletas.services.interfaces.IPresupuestoService;
+import com.tallerbicicletas.services.interfaces.IServicioService;
 
 @Service
 public class PresupuestoService implements IPresupuestoService {
@@ -32,6 +34,9 @@ public class PresupuestoService implements IPresupuestoService {
 
     @Autowired
     private IDetalleService detalleService;
+
+    @Autowired
+    private IServicioService servicioService;
 
     @Override
     public List<Presupuesto> getPresupuestos() {
@@ -56,6 +61,16 @@ public class PresupuestoService implements IPresupuestoService {
 
         presupuesto.setCliente(cliente);
         presupuesto.setBicicleta(bicicleta);
+
+        if (presupuesto.getServicio() != null && presupuesto.getServicio().getId() != null) {
+            Servicio s = servicioService.findServicio(presupuesto.getServicio().getId());
+            presupuesto.setServicio(s);
+            presupuesto.setValorServicioAplicado(s.getValor());
+        } else {
+            presupuesto.setValorServicioAplicado(0.0);
+        }
+
+        presupuesto.setValorTotal(presupuesto.calcularTotalFinal());
 
         if (presupuesto.getFecha().isAfter(LocalDate.now())) {
             throw new BadRequestException("La fecha del presupuesto no puede ser futura.");
@@ -94,9 +109,15 @@ public class PresupuestoService implements IPresupuestoService {
                     "El estado actual es: " + presupuestoExistente.getEstado());
         }
 
+        if (presupuesto.getServicio() != null) {
+            Servicio nuevoServicio = servicioService.findServicio(presupuesto.getServicio().getId());
+            presupuestoExistente.setServicio(nuevoServicio);
+            presupuestoExistente.setValorServicioAplicado(nuevoServicio.getValor());
+        }
+
         presupuestoExistente.setFecha(presupuesto.getFecha());
         presupuestoExistente.setDescripcion(presupuesto.getDescripcion());
-        presupuestoExistente.setValorTotal(presupuesto.getValorTotal());
+        presupuestoExistente.setValorTotal(presupuestoExistente.calcularTotalFinal());
 
         return presupuestoRepository.save(presupuestoExistente);
     }
@@ -136,5 +157,23 @@ public class PresupuestoService implements IPresupuestoService {
 
         presupuesto.setEstado(nuevoEstado.toUpperCase());
         presupuestoRepository.save(presupuesto);
+    }
+
+    @Override
+    @Transactional
+    public void asignarServicio(Long presupuestoId, Long servicioId) {
+        Presupuesto p = findPresupuesto(presupuestoId);
+
+        if (!p.getEstado().equalsIgnoreCase("PENDIENTE")) {
+            throw new BadRequestException("No se puede cambiar el servicio de un presupuesto " + p.getEstado());
+        }
+
+        Servicio s = servicioService.findServicio(servicioId);
+
+        p.setServicio(s);
+        p.setValorServicioAplicado(s.getValor());
+        p.setValorTotal(p.calcularTotalFinal());
+
+        presupuestoRepository.save(p);
     }
 }

@@ -45,11 +45,11 @@ public class Repuesto {
 
     @Column(name = "precio_venta", nullable = false)
     @NotNull(message = "El precio de venta no puede estar vacío")
-    private double precioVenta;
+    private Double precioVenta;
 
     @Column(name = "precio_costo", nullable = false)
     @NotNull(message = "El precio de costo no puede estar vacío")
-    private double precioCosto;
+    private Double precioCosto;
 
     @Column(name = "stock", nullable = false)
     @NotNull(message = "El stock no puede estar vacío")
@@ -76,7 +76,7 @@ public class Repuesto {
     }
 
     // para los precios se valida que no sean negativos y se aplica el redondeo
-    public void setPrecioVenta(double precioVenta) {
+    public void setPrecioVenta(Double precioVenta) {
         if (precioVenta < 0) {
             throw new IllegalArgumentException("El precio no puede ser negativo");
         }
@@ -84,7 +84,7 @@ public class Repuesto {
         this.precioVenta = valorRedondeado;
     }
 
-    public void setPrecioCosto(double precioCosto) {
+    public void setPrecioCosto(Double precioCosto) {
         if (precioCosto < 0) {
             throw new IllegalArgumentException("El precio no puede ser negativo");
         }

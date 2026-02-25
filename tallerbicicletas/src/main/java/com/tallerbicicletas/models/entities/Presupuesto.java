@@ -53,7 +53,7 @@ public class Presupuesto {
 
     @Column(name = "valor_total", nullable = false)
     @NotNull(message = "El valor total no puede estar vacío")
-    private double valorTotal;
+    private Double valorTotal;
 
     @Column(name = "descripcion", length = 300)
     private String descripcion;
@@ -64,7 +64,14 @@ public class Presupuesto {
     @OneToMany(mappedBy = "presupuesto")
     private List<Detalle> detalles;
 
-    public void setValorTotal(double valorTotal) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "servicio_id")
+    private Servicio servicio;
+
+    @Column(name = "valor_servicio_aplicado")
+    private Double valorServicioAplicado = 0.0;
+
+    public void setValorTotal(Double valorTotal) {
         if (valorTotal < 0) {
             throw new IllegalArgumentException("El valor total no puede ser negativo");
         }
@@ -72,10 +79,14 @@ public class Presupuesto {
         this.valorTotal = valorRedondeado;
     }
 
-    public double calcularTotalDeDetalles() {
-    if (this.detalles == null) return 0.0;
-    return this.detalles.stream()
-            .mapToDouble(d -> d.getCantidadAgregada() * d.getRepuesto().getPrecioVenta())
-            .sum();
-}
+    public double calcularTotalFinal() {
+        double subtotalRepuestos = (this.detalles == null) ? 0.0 : 
+            this.detalles.stream()
+                .mapToDouble(d -> d.getCantidadAgregada() * d.getRepuesto().getPrecioVenta())
+                .sum();
+        
+        double manoDeObra = (this.valorServicioAplicado == null) ? 0.0 : this.valorServicioAplicado;
+        
+        return subtotalRepuestos + manoDeObra;
+    }
 }

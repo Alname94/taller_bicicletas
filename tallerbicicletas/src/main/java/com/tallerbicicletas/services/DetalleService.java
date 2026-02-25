@@ -119,7 +119,7 @@ public class DetalleService implements IDetalleService {
 
     private void actualizarTotal(Long numero) {
         Presupuesto p = presupuestoRepository.findById(numero).get();
-        p.setValorTotal(p.calcularTotalDeDetalles());
+        p.setValorTotal(p.calcularTotalFinal());
         presupuestoRepository.save(p);
     }
 }
