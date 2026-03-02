@@ -20,6 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -65,6 +66,7 @@ public class Bicicleta {
     @Column(name = "fecha_ingreso", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Ingrese una fecha valida")
+    @PastOrPresent(message = "La fecha de ingreso no puede ser futura")
     private LocalDate fechaIngreso;
 
     @OneToMany(mappedBy = "bicicleta")

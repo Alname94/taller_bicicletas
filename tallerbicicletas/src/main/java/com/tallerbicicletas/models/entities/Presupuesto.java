@@ -18,6 +18,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +41,7 @@ public class Presupuesto {
     @Column(name = "fecha", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Ingrese una fecha valida")
+    @PastOrPresent(message = "La fecha no puede ser futura")
     private LocalDate fecha;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -53,13 +58,16 @@ public class Presupuesto {
 
     @Column(name = "valor_total", nullable = false)
     @NotNull(message = "El valor total no puede estar vacío")
-    private Double valorTotal;
+    @PositiveOrZero(message = "El valor total no puede ser negativo")
+    private Double valorTotal= 0.0;
 
     @Column(name = "descripcion", length = 300)
+    @Size(max = 300, message = "La descripción no puede superar los 300 caracteres")
     private String descripcion;
 
     @Column(name = "estado", nullable = false, length = 20)
-    private String estado = "PENDIENTE"; // PENDIENTE, FACTURADO, ANULADO
+    @Pattern(regexp = "PENDIENTE|FACTURADO|ANULADO", message = "Estado no válido")
+    private String estado = "PENDIENTE";
 
     @OneToMany(mappedBy = "presupuesto")
     private List<Detalle> detalles;
@@ -69,14 +77,13 @@ public class Presupuesto {
     private Servicio servicio;
 
     @Column(name = "valor_servicio_aplicado")
+    @PositiveOrZero(message = "El valor del servicio no puede ser negativo")
     private Double valorServicioAplicado = 0.0;
 
     public void setValorTotal(Double valorTotal) {
-        if (valorTotal < 0) {
-            throw new IllegalArgumentException("El valor total no puede ser negativo");
+        if (valorTotal != null) {
+            this.valorTotal = Math.round(valorTotal * 100.0) / 100.0;
         }
-        double valorRedondeado = Math.round(valorTotal * 100.0) / 100.0;
-        this.valorTotal = valorRedondeado;
     }
 
     public double calcularTotalFinal() {

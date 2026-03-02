@@ -51,7 +51,7 @@ public class RepuestoController {
     }
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<Repuesto> editRepuesto(@RequestParam String codigo, @Valid @RequestBody Repuesto repuesto) {
+    public ResponseEntity<Repuesto> editRepuesto(@PathVariable String codigo, @Valid @RequestBody Repuesto repuesto) {
         repuesto.setCodigo(codigo);
         return new ResponseEntity<>(repuestoService.editRepuesto(repuesto), HttpStatus.OK);
     }

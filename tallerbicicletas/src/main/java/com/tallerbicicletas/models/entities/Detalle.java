@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(name="detalles")
 public class Detalle {
 
-     @EmbeddedId
+    @EmbeddedId
     private DetalleId id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -38,12 +40,7 @@ public class Detalle {
     private Repuesto repuesto;
 
     @Column(name = "cantidad_agregada", nullable = false)
-    private int cantidadAgregada;
-
-    public void setCantidadAgregada(int cantidadAgregada) {
-        if(cantidadAgregada<0) {
-            throw new IllegalArgumentException("La cantidad no puede ser negativa");
-        }
-        this.cantidadAgregada = cantidadAgregada;
-    }
+    @NotNull(message = "La cantidad es obligatoria")
+    @Min(value = 1, message = "La cantidad debe ser al menos 1")
+    private Integer cantidadAgregada;
 }

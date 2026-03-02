@@ -44,7 +44,7 @@ public class Cliente {
 
     @Column(name = "dni", nullable = false, unique = true, length = 8)
     @NotBlank(message = "El dni no puede estar vacío")
-    @Size(min = 8, max = 8, message = "El dni debe tener 8 caracteres")
+    @Pattern(regexp = "^[0-9]{8}$", message = "El DNI debe ser de 8 dígitos numéricos")
     private String dni;
 
     @Column(name = "telefono", nullable = false, length = 15)
@@ -74,9 +74,9 @@ public class Cliente {
         this.email = email;
     }
 
-    public Bicicleta agregarBicicleta(Bicicleta bicicleta) {
+    public void agregarBicicleta(Bicicleta bicicleta) {
         this.bicicletas.add(bicicleta);
-        return bicicleta;
+        bicicleta.setCliente(this);
     }
 
     public void setNombre(String nombre) {

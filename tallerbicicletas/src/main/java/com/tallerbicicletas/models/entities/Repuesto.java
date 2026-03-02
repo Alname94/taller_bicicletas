@@ -9,8 +9,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +27,7 @@ public class Repuesto {
 
     @Id
     @Column(name = "repuesto_codigo")
-    @NotBlank(message = "El codigo del producto no puede estar vacío")
+    @NotBlank(message = "El codigo del producto es obligatorio")
     private String codigo;
 
     @Column(name = "producto", nullable = false, length = 100)
@@ -44,58 +46,41 @@ public class Repuesto {
     private String color;
 
     @Column(name = "precio_venta", nullable = false)
-    @NotNull(message = "El precio de venta no puede estar vacío")
+    @NotNull(message = "El precio de venta es obligatorio")
+    @PositiveOrZero(message = "El precio de venta no puede ser negativo")
     private Double precioVenta;
 
     @Column(name = "precio_costo", nullable = false)
     @NotNull(message = "El precio de costo no puede estar vacío")
+    @PositiveOrZero(message = "El precio de costo no puede ser negativo")
     private Double precioCosto;
 
     @Column(name = "stock", nullable = false)
     @NotNull(message = "El stock no puede estar vacío")
-    private int stock;
+    @Min(value = 0, message = "El stock no puede ser negativo")
+    private Integer stock;
 
     @OneToMany(mappedBy = "repuesto")
     @JsonIgnore
     private List<Detalle> detalles;
 
     public void setCodigo(String codigo) {
-        this.codigo = codigo == null ? null : codigo.trim();
+        this.codigo = (codigo != null) ? codigo.trim() : null;
     }
 
     public void setProducto(String producto) {
-        this.producto = producto == null ? null : producto.trim();
+        this.producto = (producto != null) ? producto.trim() : null;
     }
 
-    public void setMarca(String marca) {
-        this.marca = marca == null ? null : marca.trim();
-    }
-
-    public void setColor(String color) {
-        this.color = color == null ? null : color.trim();
-    }
-
-    // para los precios se valida que no sean negativos y se aplica el redondeo
     public void setPrecioVenta(Double precioVenta) {
-        if (precioVenta < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo");
+        if (precioVenta != null) {
+            this.precioVenta = Math.round(precioVenta * 100.0) / 100.0;
         }
-        double valorRedondeado = Math.round(precioVenta * 100.0) / 100.0;
-        this.precioVenta = valorRedondeado;
     }
 
     public void setPrecioCosto(Double precioCosto) {
-        if (precioCosto < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo");
+        if (precioCosto != null) {
+            this.precioCosto = Math.round(precioCosto * 100.0) / 100.0;
         }
-        double valorRedondeado = Math.round(precioCosto * 100.0) / 100.0;
-        this.precioCosto = valorRedondeado;
-    }
-
-    public void setStock(int stock) {
-        if (stock < 0) {
-            throw new IllegalArgumentException("El stock no puede ser negativo");
-        }
-        this.stock = stock;
     }
 }
