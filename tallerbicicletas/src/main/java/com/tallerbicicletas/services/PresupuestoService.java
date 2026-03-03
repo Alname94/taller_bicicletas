@@ -89,8 +89,8 @@ public class PresupuestoService implements IPresupuestoService {
     public void deletePresupuesto(Long numero) {
         Presupuesto presupuesto = findPresupuesto(numero);
 
-        if (presupuesto.getEstado().equalsIgnoreCase("FACTURADO")) {
-            throw new BadRequestException("No se puede eliminar un presupuesto FACTURADO.");
+        if (presupuesto.getEstado().equalsIgnoreCase("FACTURADO")|| presupuesto.getEstado().equalsIgnoreCase("ANULADO")) {
+            throw new BadRequestException("No se puede eliminar un presupuesto en estado " + presupuesto.getEstado());
         }
 
         if (presupuesto.getDetalles() != null && !presupuesto.getDetalles().isEmpty()) {

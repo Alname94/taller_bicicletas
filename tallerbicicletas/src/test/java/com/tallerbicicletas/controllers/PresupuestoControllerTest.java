@@ -119,8 +119,7 @@ public class PresupuestoControllerTest {
 
     @Test
     void savePresupuesto_DebeRetornarBadRequest_CuandoEstadoEsInvalido() throws Exception {
-        // Forzamos un estado que no cumple con el @Pattern
-        presupuestoMock.setEstado("TERMINADO"); // Solo acepta PENDIENTE, FACTURADO, ANULADO
+        presupuestoMock.setEstado("TERMINADO");
 
         mockMvc.perform(post("/presupuestos")
                 .contentType(MediaType.APPLICATION_JSON)

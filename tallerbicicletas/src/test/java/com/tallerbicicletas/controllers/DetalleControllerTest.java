@@ -46,7 +46,6 @@ public class DetalleControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Configuramos el ID compuesto
         detalleId = new DetalleId(100L, "CAD-KMC-9");
         
         repuestoMock = new Repuesto();
@@ -58,8 +57,6 @@ public class DetalleControllerTest {
         detalleMock.setId(detalleId);
         detalleMock.setRepuesto(repuestoMock);
         detalleMock.setCantidadAgregada(2);
-        // El presupuesto no se suele setear aquí por el @JsonIgnore, 
-        // pero el ID ya contiene el número del presupuesto.
     }
 
     // --- GET ALL ---
