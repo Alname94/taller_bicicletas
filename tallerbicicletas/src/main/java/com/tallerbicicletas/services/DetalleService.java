@@ -1,5 +1,6 @@
 package com.tallerbicicletas.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,12 @@ public class DetalleService implements IDetalleService {
 
         detalle.setRepuesto(repuesto);
         detalle.setPresupuesto(presupuesto);
+
+        if (presupuesto.getDetalles() == null) {
+            presupuesto.setDetalles(new ArrayList<>());
+        }
+        presupuesto.getDetalles().add(detalle);
+        
         Detalle detalleGuardado = detalleRepository.save(detalle);
         actualizarTotal(presupuesto.getNumero());
 
@@ -107,7 +114,8 @@ public class DetalleService implements IDetalleService {
 
     @Override
     @Transactional
-    public void devolverStockPorAnulacion(Long presupuestoNumero) {
+    public void devolverStockPorAnulacion(Long presupuestoNumero) { // Método para devolver el stock de los repuestos al
+                                                                    // anular un presupuesto
         List<Detalle> detalles = detalleRepository.findByIdPresupuestoNumero(presupuestoNumero);
 
         for (Detalle d : detalles) {
@@ -117,6 +125,8 @@ public class DetalleService implements IDetalleService {
         }
     }
 
+    // Método privado para actualizar el valor total del presupuesto después de
+    // agregar o eliminar un detalle
     private void actualizarTotal(Long numero) {
         Presupuesto p = presupuestoRepository.findById(numero).get();
         p.setValorTotal(p.calcularTotalFinal());

@@ -76,6 +76,7 @@ public class Presupuesto {
     @JoinColumn(name = "servicio_id")
     private Servicio servicio;
 
+    // Nuevo campo para almacenar el valor del servicio aplicado al presupuesto y evitar que el valor total se vea afectado por cambios futuros en el precio del servicio
     @Column(name = "valor_servicio_aplicado")
     @PositiveOrZero(message = "El valor del servicio no puede ser negativo")
     private Double valorServicioAplicado = 0.0;
@@ -86,6 +87,7 @@ public class Presupuesto {
         }
     }
 
+    // Método para calcular el valor total del presupuesto sumando el costo de los repuestos y el valor del servicio aplicado
     public double calcularTotalFinal() {
         double subtotalRepuestos = (this.detalles == null) ? 0.0 : 
             this.detalles.stream()

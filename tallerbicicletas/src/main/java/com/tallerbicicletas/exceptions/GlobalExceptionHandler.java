@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
+    // Manejador para excepciones de recurso no encontrado
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
-
+    // Manejador para excepciones de solicitud incorrecta
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequest(BadRequestException ex) {
         ErrorResponse error = new ErrorResponse(
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
+    // Manejador para excepciones generales no controladas
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
         ErrorResponse error = new ErrorResponse(
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
+    // Manejador para excepciones de validación de argumentos en las solicitudes
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
