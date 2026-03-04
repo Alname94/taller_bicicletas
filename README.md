@@ -20,7 +20,7 @@ El sistema permite gestionar clientes, bicicletas, repuestos, servicios y la gen
 
 - **Persistencia**: Spring Data JPA
 
-- **Base de Datos**: MySQL (Producción/Desarrollo)
+- **Base de Datos**: MySQL (Producción/Desarrollo) / H2 (Testing)
 
 - **Testing**: JUnit 5, Mockito, AssertJ
 
