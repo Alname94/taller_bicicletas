@@ -13,10 +13,13 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.exceptions.ResourceNotFoundException;
 import com.tallerbicicletas.models.entities.Servicio;
@@ -25,6 +28,8 @@ import com.tallerbicicletas.services.interfaces.IServicioService;
 import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ServicioController.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class ServicioControllerTest {
 
     @Autowired
@@ -37,6 +42,7 @@ public class ServicioControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getServiciosActivos_DebeRetornarListaYOk() throws Exception {
         Servicio s = new Servicio(1L, "Lavado", "Desc", 5000.0, true);
         given(servicioService.getServiciosActivos()).willReturn(List.of(s));
@@ -47,6 +53,7 @@ public class ServicioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getServicioById_DebeRetornarServicio_CuandoExiste() throws Exception {
         Servicio s = new Servicio(1L, "Ajuste", "Desc", 3000.0, true);
         given(servicioService.findServicio(1L)).willReturn(s);
@@ -57,6 +64,7 @@ public class ServicioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getServicioById_DebeRetornarNotFound_CuandoNoExiste() throws Exception {
         given(servicioService.findServicio(99L))
                 .willThrow(new ResourceNotFoundException("El servicio con id 99 no existe."));
@@ -68,6 +76,7 @@ public class ServicioControllerTest {
     // --- TESTS POST ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void createServicio_DebeRetornarCreated_CuandoEsValido() throws Exception {
         Servicio s = new Servicio(null, "Nuevo", "Desc", 1000.0, true);
         given(servicioService.saveServicio(any(Servicio.class))).willReturn(s);
@@ -79,6 +88,7 @@ public class ServicioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void createServicio_DebeRetornarBadRequest_CuandoNombreDuplicado() throws Exception {
         Servicio s = new Servicio(null, "Repetido", "Desc", 1000.0, true);
         given(servicioService.saveServicio(any(Servicio.class)))
@@ -94,6 +104,7 @@ public class ServicioControllerTest {
     // --- TESTS PUT ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void editServicio_DebeRetornarOk_CuandoEsExitoso() throws Exception {
         Servicio s = new Servicio(1L, "Editado", "Desc", 2000.0, true);
         given(servicioService.editServicio(any(Servicio.class))).willReturn(s);
@@ -108,6 +119,7 @@ public class ServicioControllerTest {
     // --- TESTS DELETE ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteServicio_DebeRetornarOk_CuandoSeElimina() throws Exception {
         doNothing().when(servicioService).deleteServicio(1L);
 
@@ -119,6 +131,7 @@ public class ServicioControllerTest {
     // --- TESTS DE VALIDACIÓN (BEAN VALIDATION) ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void createServicio_DebeRetornarBadRequest_CuandoNombreEstaVacio() throws Exception {
         Servicio s = new Servicio(null, "", "Descripción válida", 1000.0, true);
 
@@ -131,6 +144,7 @@ public class ServicioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void createServicio_DebeRetornarBadRequest_CuandoValorEsNegativo() throws Exception {
         Servicio s = new Servicio(null, "Servicio Test", "Desc", -50.0, true);
 
@@ -141,6 +155,7 @@ public class ServicioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void createServicio_DebeRetornarBadRequest_CuandoValorEsNulo() throws Exception {
         Servicio s = new Servicio(null, "Servicio Test", "Desc", null, true);
 
@@ -151,6 +166,7 @@ public class ServicioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void createServicio_DebeRetornarBadRequest_CuandoNombreEsMuyLargo() throws Exception {
         String nombreLargo = "A".repeat(51);
         Servicio s = new Servicio(null, nombreLargo, "Desc", 1000.0, true);

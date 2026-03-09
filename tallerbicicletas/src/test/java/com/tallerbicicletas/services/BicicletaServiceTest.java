@@ -19,7 +19,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.exceptions.ResourceNotFoundException;
 import com.tallerbicicletas.models.entities.Bicicleta;
@@ -29,6 +32,8 @@ import com.tallerbicicletas.repositories.IBicicletaRepository;
 import com.tallerbicicletas.services.interfaces.IClienteService;
 
 @ExtendWith(MockitoExtension.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class BicicletaServiceTest {
 
     @Mock
@@ -51,6 +56,7 @@ public class BicicletaServiceTest {
 
     // --- TEST SAVE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveBicicleta_DebeGuardar_CuandoClienteExiste() {
         given(clienteService.findCliente(1L)).willReturn(clienteMock);
         given(bicicletaRepository.save(any(Bicicleta.class))).willReturn(bicicletaMock);
@@ -65,6 +71,7 @@ public class BicicletaServiceTest {
 
     // --- TEST SAVE (Error: Cliente Null) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveBicicleta_DebeLanzarExcepcion_CuandoClienteEsNull() {
         bicicletaMock.setCliente(null);
 
@@ -76,6 +83,7 @@ public class BicicletaServiceTest {
 
     // --- TEST DELETE (Error: Tiene Presupuestos) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteBicicleta_DebeLanzarExcepcion_CuandoTienePresupuestos() {
         bicicletaMock.getPresupuestos().add(new Presupuesto());
         given(bicicletaRepository.findById(10L)).willReturn(Optional.of(bicicletaMock));
@@ -90,6 +98,7 @@ public class BicicletaServiceTest {
 
     // --- TEST FIND BY CLIENTE ID (Error: Sin bicis) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findByClienteId_DebeLanzarExcepcion_CuandoClienteNoTieneBicis() {
         given(clienteService.findCliente(1L)).willReturn(clienteMock);
         given(bicicletaRepository.findByClienteId(1L)).willReturn(Collections.emptyList());

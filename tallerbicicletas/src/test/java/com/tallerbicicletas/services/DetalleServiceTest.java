@@ -18,7 +18,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.models.entities.Detalle;
 import com.tallerbicicletas.models.entities.DetalleId;
@@ -29,6 +32,8 @@ import com.tallerbicicletas.repositories.IPresupuestoRepository;
 import com.tallerbicicletas.services.interfaces.IRepuestoService;
 
 @ExtendWith(MockitoExtension.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class DetalleServiceTest {
 
     @Mock
@@ -56,6 +61,7 @@ public class DetalleServiceTest {
         repuestoMock.setCodigo("CAD-KMC");
         repuestoMock.setProducto("Cadena KMC");
         repuestoMock.setStock(10);
+        repuestoMock.setPrecioVenta(1500.0);
 
         detalleId = new DetalleId(100L, "CAD-KMC");
         detalleMock = new Detalle();
@@ -65,6 +71,7 @@ public class DetalleServiceTest {
 
     // --- TEST SAVE: Descontar Stock ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveDetalle_DebeDescontarStockYGuardar_CuandoHayStockYEstadoPendiente() {
         given(presupuestoRepository.findById(100L)).willReturn(Optional.of(presupuestoMock));
         given(repuestoService.findRepuesto("CAD-KMC")).willReturn(repuestoMock);
@@ -80,6 +87,7 @@ public class DetalleServiceTest {
 
     // --- TEST SAVE: Error por Stock Insuficiente ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveDetalle_DebeLanzarExcepcion_CuandoStockEsInsuficiente() {
         detalleMock.setCantidadAgregada(15); // Quiere 15 y hay 10
         given(presupuestoRepository.findById(100L)).willReturn(Optional.of(presupuestoMock));
@@ -95,6 +103,7 @@ public class DetalleServiceTest {
 
     // --- TEST DELETE: Devolver Stock ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteDetalle_DebeSumarStockYBorrar() {
         detalleMock.setPresupuesto(presupuestoMock);
         detalleMock.setRepuesto(repuestoMock);
@@ -110,6 +119,7 @@ public class DetalleServiceTest {
 
     // --- TEST VALIDACIÓN: No agregar si no está PENDIENTE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveDetalle_DebeLanzarExcepcion_CuandoPresupuestoEstaFacturado() {
         presupuestoMock.setEstado("FACTURADO");
         given(presupuestoRepository.findById(100L)).willReturn(Optional.of(presupuestoMock));

@@ -20,7 +20,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.models.entities.Bicicleta;
 import com.tallerbicicletas.models.entities.Cliente;
@@ -33,6 +36,8 @@ import com.tallerbicicletas.services.interfaces.IDetalleService;
 import com.tallerbicicletas.services.interfaces.IServicioService;
 
 @ExtendWith(MockitoExtension.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class PresupuestoServiceTest {
 
     @Mock
@@ -74,6 +79,7 @@ public class PresupuestoServiceTest {
 
     // --- TEST SAVE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void savePresupuesto_DebeCalcularTotalYGuardar_CuandoDatosSonValidos() {
         given(clienteService.findCliente(1L)).willReturn(clienteMock);
         given(bicicletaService.findBicicleta(10L)).willReturn(bicicletaMock);
@@ -89,6 +95,7 @@ public class PresupuestoServiceTest {
 
     // --- TEST VALIDACIÓN: Bicicleta no pertenece al cliente ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void savePresupuesto_DebeLanzarExcepcion_CuandoBicicletaNoEsDelCliente() {
         Cliente otroCliente = new Cliente(2L, "Pedro", "Gomez", "87654321", "99887766", "pedro@mail.com");
         bicicletaMock.setCliente(otroCliente);
@@ -106,6 +113,7 @@ public class PresupuestoServiceTest {
 
     // --- TEST CAMBIO DE ESTADO A ANULADO ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void cambiarEstado_DebeDevolverStock_CuandoSeAnula() {
         given(presupuestoRepository.findById(100L)).willReturn(Optional.of(presupuestoMock));
 
@@ -118,6 +126,7 @@ public class PresupuestoServiceTest {
 
     // --- TEST CAMBIO DE ESTADO: Error si está Anulado ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void cambiarEstado_DebeLanzarExcepcion_CuandoPresupuestoYaEstaAnulado() {
         presupuestoMock.setEstado("ANULADO");
         given(presupuestoRepository.findById(100L)).willReturn(Optional.of(presupuestoMock));
@@ -134,6 +143,7 @@ public class PresupuestoServiceTest {
 
     // --- TEST DELETE: Error si está Facturado ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deletePresupuesto_DebeLanzarExcepcion_CuandoEstaFacturado() {
         presupuestoMock.setEstado("FACTURADO");
         given(presupuestoRepository.findById(100L)).willReturn(Optional.of(presupuestoMock));
@@ -148,6 +158,7 @@ public class PresupuestoServiceTest {
 
     // --- TEST DELETE: Error si está Anulado ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deletePresupuesto_DebeLanzarExcepcion_CuandoEstaAnulado() {
         presupuestoMock.setEstado("ANULADO");
         given(presupuestoRepository.findById(100L)).willReturn(Optional.of(presupuestoMock));

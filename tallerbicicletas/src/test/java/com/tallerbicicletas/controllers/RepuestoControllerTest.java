@@ -15,16 +15,21 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.models.entities.Repuesto;
 import com.tallerbicicletas.services.interfaces.IRepuestoService;
 
 import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(RepuestoController.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class RepuestoControllerTest {
 
     @Autowired
@@ -38,6 +43,7 @@ public class RepuestoControllerTest {
 
     // --- GET ALL ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getRepuestos_DebeRetornarListaYOk() throws Exception {
         Repuesto r = new Repuesto("CUB-29-MAX", "Cubierta 29", "Maxxis", "Negro", 45000.0, 30000.0, 10, null);
         given(repuestoService.getRepuestos()).willReturn(List.of(r));
@@ -50,6 +56,7 @@ public class RepuestoControllerTest {
 
     // --- POST ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveRepuesto_DebeRetornarCreated_CuandoEsValido() throws Exception {
         Repuesto r = new Repuesto("CAD-KMC-9", "Cadena 9v", "KMC", "Plateado", 15000.0, 8000.0, 20, null);
         given(repuestoService.saveRepuesto(any(Repuesto.class))).willReturn(r);
@@ -63,6 +70,7 @@ public class RepuestoControllerTest {
 
     // --- GET POR CODIGO ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findRepuesto_DebeRetornarRepuesto_CuandoExiste() throws Exception {
         Repuesto r = new Repuesto("FRE-SHI-MT200", "Freno Hidraulico", "Shimano", "Negro", 60000.0, 40000.0, 5, null);
         given(repuestoService.findRepuesto("FRE-SHI-MT200")).willReturn(r);
@@ -74,6 +82,7 @@ public class RepuestoControllerTest {
 
     // --- DELETE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteRepuesto_DebeRetornarOk() throws Exception {
         doNothing().when(repuestoService).deleteRepuesto("CUB-29-MAX");
 
@@ -84,6 +93,7 @@ public class RepuestoControllerTest {
 
     // --- BUSQUEDA POR QUERY PARAM ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void searchRepuestos_DebeRetornarListaFiltrada() throws Exception {
         Repuesto r = new Repuesto("CUB-29", "Cubierta", "Maxxis", "Negro", 45000.0, 30000.0, 10, null);
         given(repuestoService.findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase("Maxxis", "Maxxis"))
@@ -98,6 +108,7 @@ public class RepuestoControllerTest {
     // --- TESTS DE VALIDACIÓN (BEAN VALIDATION) ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveRepuesto_DebeRetornarBadRequest_CuandoPrecioVentaEsNegativo() throws Exception {
         // precioVenta -100.0
         Repuesto r = new Repuesto("TEST", "Producto", "Marca", "Color", -100.0, 50.0, 10, null);
@@ -109,6 +120,7 @@ public class RepuestoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveRepuesto_DebeRetornarBadRequest_CuandoStockEsNegativo() throws Exception {
         // stock -1
         Repuesto r = new Repuesto("TEST", "Producto", "Marca", "Color", 100.0, 50.0, -1, null);
@@ -120,6 +132,7 @@ public class RepuestoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveRepuesto_DebeRetornarBadRequest_CuandoCodigoEstaVacio() throws Exception {
         // codigo ""
         Repuesto r = new Repuesto("", "Producto", "Marca", "Color", 100.0, 50.0, 10, null);

@@ -18,13 +18,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.models.entities.Detalle;
 import com.tallerbicicletas.models.entities.Repuesto;
 import com.tallerbicicletas.repositories.IRepuestoRepository;
 
 @ExtendWith(MockitoExtension.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class RepuestoServiceTest {
 
     @Mock
@@ -48,6 +53,7 @@ public class RepuestoServiceTest {
 
     // --- TEST SAVE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveRepuesto_DebeGuardar_CuandoDatosSonCorrectos() {
         given(repuestoRepository.existsById("CUB-29-MAX")).willReturn(false);
         given(repuestoRepository.save(any(Repuesto.class))).willReturn(repuestoMock);
@@ -61,6 +67,7 @@ public class RepuestoServiceTest {
 
     // --- TEST SAVE (Error: Precio de Venta menor al Costo) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveRepuesto_DebeLanzarExcepcion_CuandoPrecioVentaEsMenorAlCosto() {
         repuestoMock.setPrecioVenta(20000.0);
 
@@ -76,6 +83,7 @@ public class RepuestoServiceTest {
 
     // --- TEST SAVE (Error: Código duplicado) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveRepuesto_DebeLanzarExcepcion_CuandoCodigoYaExiste() {
         given(repuestoRepository.existsById("CUB-29-MAX")).willReturn(true);
 
@@ -89,6 +97,7 @@ public class RepuestoServiceTest {
 
     // --- TEST DELETE (Error: Repuesto en uso) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteRepuesto_DebeLanzarExcepcion_CuandoEstaEnPresupuestos() {
         repuestoMock.setDetalles(List.of(new Detalle()));
         given(repuestoRepository.findById("CUB-29-MAX")).willReturn(Optional.of(repuestoMock));
@@ -103,6 +112,7 @@ public class RepuestoServiceTest {
 
     // --- TEST EDIT (Validación de Precios en Edición) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void editRepuesto_DebeLanzarExcepcion_CuandoSeIntentaPonerPrecioVentaInvalido() {
         given(repuestoRepository.findById("CUB-29-MAX")).willReturn(Optional.of(repuestoMock));
 

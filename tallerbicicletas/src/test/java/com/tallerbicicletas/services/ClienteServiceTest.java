@@ -17,7 +17,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.exceptions.ResourceNotFoundException;
 import com.tallerbicicletas.models.entities.Bicicleta;
@@ -25,6 +28,8 @@ import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.repositories.IClienteRepository;
 
 @ExtendWith(MockitoExtension.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class ClienteServiceTest {
 
     @Mock
@@ -42,6 +47,7 @@ public class ClienteServiceTest {
 
     // --- TEST SAVE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeGuardar_CuandoDatosSonUnicos() {
         given(clienteRepository.existsByDni(anyString())).willReturn(false);
         given(clienteRepository.existsByEmail(anyString())).willReturn(false);
@@ -57,6 +63,7 @@ public class ClienteServiceTest {
 
     // --- TEST SAVE (Error por DNI duplicado) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeLanzarExcepcion_CuandoDniYaExiste() {
         given(clienteRepository.existsByDni("12345678")).willReturn(true);
 
@@ -70,6 +77,7 @@ public class ClienteServiceTest {
 
     // --- TEST DELETE (Error por Bicicletas asociadas) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteCliente_DebeLanzarExcepcion_CuandoTieneBicicletas() {
         clienteMock.getBicicletas().add(new Bicicleta());
         given(clienteRepository.findById(1L)).willReturn(Optional.of(clienteMock));
@@ -84,6 +92,7 @@ public class ClienteServiceTest {
 
     // --- TEST FIND BY ID (Error Not Found) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findCliente_DebeLanzarExcepcion_CuandoNoExiste() {
         given(clienteRepository.findById(99L)).willReturn(Optional.empty());
 
@@ -94,6 +103,7 @@ public class ClienteServiceTest {
 
     // --- TEST EDIT (Lógica de filtrado de ID) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void editCliente_DebeLanzarExcepcion_CuandoEmailLoTieneOtroCliente() {
         Cliente otroCliente = new Cliente(2L, "Ana", "Gomez", "88888888", "11555555", "ana@mail.com");
 
@@ -108,6 +118,7 @@ public class ClienteServiceTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void editCliente_DebeLanzarExcepcion_CuandoTelefonoLoTieneOtroCliente() {
         Cliente otroCliente = new Cliente(2L, "Ana", "Gomez", "88888888", "11223344", "ana@mail.com");
 
@@ -122,6 +133,7 @@ public class ClienteServiceTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void editCliente_DebeLanzarExcepcion_CuandoDniLoTieneOtroCliente() {
         Cliente otroCliente = new Cliente(2L, "Ana", "Gomez", "12345678", "11222233", "ana@mail.com");
 

@@ -16,10 +16,13 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.models.entities.Bicicleta;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.services.interfaces.IBicicletaService;
@@ -27,6 +30,8 @@ import com.tallerbicicletas.services.interfaces.IBicicletaService;
 import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(BicicletaController.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class BicicletaControllerTest {
 
     @Autowired
@@ -44,6 +49,7 @@ public class BicicletaControllerTest {
 
     // --- GET ALL ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getBicicletas_DebeRetornarListaYOk() throws Exception {
         Bicicleta b = new Bicicleta(1L, crearClienteMock(), "Vairo", "XR 3.5", "Negro", "29", LocalDate.now(), null);
         given(bicicletaService.getBicicletas()).willReturn(List.of(b));
@@ -56,6 +62,7 @@ public class BicicletaControllerTest {
 
     // --- POST ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveBicicleta_DebeRetornarCreated_CuandoEsValido() throws Exception {
         Bicicleta b = new Bicicleta(null, crearClienteMock(), "TopMega", "Sunshine", "Blanco", "26", LocalDate.now(), null);
         given(bicicletaService.saveBicicleta(any(Bicicleta.class))).willReturn(b);
@@ -69,6 +76,7 @@ public class BicicletaControllerTest {
 
     // --- GET BY CLIENTE ID ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findByCliente_DebeRetornarListaDeBicicletas() throws Exception {
         Bicicleta b = new Bicicleta(1L, crearClienteMock(), "Venzo", "Skyline", "Azul", "29", LocalDate.now(), null);
         given(bicicletaService.findByClienteId(1L)).willReturn(List.of(b));
@@ -81,6 +89,7 @@ public class BicicletaControllerTest {
 
     // --- GET BUSCAR POR MARCA ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findByMarca_DebeRetornarListaFiltrada() throws Exception {
         Bicicleta b = new Bicicleta(1L, crearClienteMock(), "Scott", "Aspect", "Gris", "29", LocalDate.now(), null);
         given(bicicletaService.findByMarcaContainingIgnoreCase("Sco")).willReturn(List.of(b));
@@ -93,6 +102,7 @@ public class BicicletaControllerTest {
 
     // --- DELETE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteBicicleta_DebeRetornarOk() throws Exception {
         doNothing().when(bicicletaService).deleteBicicleta(1L);
 
@@ -104,6 +114,7 @@ public class BicicletaControllerTest {
     // --- TESTS DE VALIDACIÓN (BEAN VALIDATION) ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveBicicleta_DebeRetornarBadRequest_CuandoFechaEsFutura() throws Exception {
         // Fecha en el 2030
         Bicicleta b = new Bicicleta(null, crearClienteMock(), "Marca", "Modelo", "Color", "29", LocalDate.of(2030, 1, 1), null);
@@ -115,6 +126,7 @@ public class BicicletaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveBicicleta_DebeRetornarBadRequest_CuandoClienteEsNulo() throws Exception {
         // Cliente null
         Bicicleta b = new Bicicleta(null, null, "Marca", "Modelo", "Color", "29", LocalDate.now(), null);
@@ -126,6 +138,7 @@ public class BicicletaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveBicicleta_DebeRetornarBadRequest_CuandoMarcaEsVacia() throws Exception {
         // Marca vacía
         Bicicleta b = new Bicicleta(null, crearClienteMock(), "", "Modelo", "Color", "29", LocalDate.now(), null);

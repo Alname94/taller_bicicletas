@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.models.entities.Bicicleta;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.models.entities.Detalle;
@@ -26,6 +29,8 @@ import com.tallerbicicletas.services.interfaces.IRepuestoService;
 @SpringBootTest
 @ActiveProfiles("test") // Indica que use application-test.properties
 @Transactional // Revierte los cambios en la DB al finalizar cada test
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class PresupuestoIntegrationTest {
 
     @Autowired
@@ -44,6 +49,7 @@ public class PresupuestoIntegrationTest {
     private IDetalleService detalleService;
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void flujoCompleto_DebeAfectarStockYTotales_EnBaseDeDatosReal() {
         // --- 1. Preparación de datos reales ---
 

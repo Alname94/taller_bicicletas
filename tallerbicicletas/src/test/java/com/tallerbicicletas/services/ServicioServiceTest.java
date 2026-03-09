@@ -18,13 +18,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.models.entities.Servicio;
 import com.tallerbicicletas.repositories.IPresupuestoRepository;
 import com.tallerbicicletas.repositories.IServicioRepository;
 
 @ExtendWith(MockitoExtension.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class ServicioServiceTest {
 
     @Mock
@@ -50,6 +55,7 @@ public class ServicioServiceTest {
 
     // --- TEST SAVE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveServicio_DebeGuardar_CuandoDatosSonValidos() {
         given(servicioRepository.existsByNombreIgnoreCase("Mantenimiento General")).willReturn(false);
         given(servicioRepository.save(any(Servicio.class))).willReturn(servicioMock);
@@ -64,6 +70,7 @@ public class ServicioServiceTest {
 
     // --- TEST SAVE (Error: Nombre Duplicado) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveServicio_DebeLanzarExcepcion_CuandoNombreYaExiste() {
         given(servicioRepository.existsByNombreIgnoreCase("Mantenimiento General")).willReturn(true);
 
@@ -77,6 +84,7 @@ public class ServicioServiceTest {
 
     // --- TEST SAVE (Error: Valor <= 0) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveServicio_DebeLanzarExcepcion_CuandoValorEsInvalido() {
         servicioMock.setValor(0.0);
 
@@ -90,6 +98,7 @@ public class ServicioServiceTest {
 
     // --- TEST DELETE: Baja Lógica (Soft Delete) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteServicio_DebeDesactivar_CuandoExisteEnPresupuestos() {
         given(servicioRepository.findById(1L)).willReturn(Optional.of(servicioMock));
         given(presupuestoRepository.existsByServicioId(1L)).willReturn(true);
@@ -103,6 +112,7 @@ public class ServicioServiceTest {
 
     // --- TEST DELETE: Baja Física (Hard Delete) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteServicio_DebeBorrarFisicamente_CuandoNoTienePresupuestos() {
         given(servicioRepository.findById(1L)).willReturn(Optional.of(servicioMock));
         given(presupuestoRepository.existsByServicioId(1L)).willReturn(false);
@@ -115,6 +125,7 @@ public class ServicioServiceTest {
 
     // --- TEST EDIT---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void editServicio_DebeActualizarCampos_CuandoEsValido() {
         Servicio servicioEditado = new Servicio();
         servicioEditado.setId(1L);

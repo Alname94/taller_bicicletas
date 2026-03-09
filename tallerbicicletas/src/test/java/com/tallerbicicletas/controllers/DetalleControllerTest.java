@@ -16,10 +16,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.models.entities.Detalle;
 import com.tallerbicicletas.models.entities.DetalleId;
 import com.tallerbicicletas.models.entities.Repuesto;
@@ -28,6 +31,8 @@ import com.tallerbicicletas.services.interfaces.IDetalleService;
 import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(DetalleController.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class DetalleControllerTest {
 
     @Autowired
@@ -61,6 +66,7 @@ public class DetalleControllerTest {
 
     // --- GET ALL ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getDetalles_DebeRetornarListaYOk() throws Exception {
         given(detalleService.getDetalles()).willReturn(List.of(detalleMock));
 
@@ -72,6 +78,7 @@ public class DetalleControllerTest {
 
     // --- POST ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveDetalle_DebeRetornarCreated_CuandoEsValido() throws Exception {
         given(detalleService.saveDetalle(any(Detalle.class))).willReturn(detalleMock);
 
@@ -84,6 +91,7 @@ public class DetalleControllerTest {
 
     // --- GET FIND DETALLE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findDetalle_DebeRetornarDetalle_CuandoExiste() throws Exception {
         given(detalleService.findDetalle(100L, "CAD-KMC-9")).willReturn(detalleMock);
 
@@ -94,6 +102,7 @@ public class DetalleControllerTest {
 
     // --- DELETE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteDetalle_DebeRetornarOk() throws Exception {
         doNothing().when(detalleService).deleteDetalle(100L, "CAD-KMC-9");
 
@@ -104,6 +113,7 @@ public class DetalleControllerTest {
 
     // --- GET BY PRESUPUESTO ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findByPresupuesto_DebeRetornarLista() throws Exception {
         given(detalleService.findByIdPresupuestoNumero(100L)).willReturn(List.of(detalleMock));
 
@@ -115,6 +125,7 @@ public class DetalleControllerTest {
     // --- TESTS DE VALIDACIÓN ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveDetalle_DebeRetornarBadRequest_CuandoCantidadEsCero() throws Exception {
         // Forzamos cantidad 0
         detalleMock.setCantidadAgregada(0);

@@ -18,10 +18,13 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.services.interfaces.IClienteService;
@@ -29,6 +32,8 @@ import com.tallerbicicletas.services.interfaces.IClienteService;
 import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ClienteController.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class ClienteControllerTest {
 
     @Autowired
@@ -42,6 +47,7 @@ public class ClienteControllerTest {
 
     // --- GET ALL ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getClientes_DebeRetornarListaYOk() throws Exception {
         Cliente c = new Cliente(1L, "Juan", "Perez", "12345678", "+5411223344", "juan@mail.com");
         given(clienteService.getClientes()).willReturn(List.of(c));
@@ -54,6 +60,7 @@ public class ClienteControllerTest {
 
     // --- GET BY ID ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findCliente_DebeRetornarCliente_CuandoExiste() throws Exception {
         Cliente c = new Cliente(1L, "Ana", "Gomez", "87654321", "1199887766", "ana@mail.com");
         given(clienteService.findCliente(1L)).willReturn(c);
@@ -65,6 +72,7 @@ public class ClienteControllerTest {
 
     // --- POST ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeRetornarCreated_CuandoEsValido() throws Exception {
         Cliente c = new Cliente(null, "Luis", "Sosa", "11223344", "2233445566", "luis@mail.com");
         given(clienteService.saveCliente(any(Cliente.class))).willReturn(c);
@@ -77,6 +85,7 @@ public class ClienteControllerTest {
 
     // --- PUT ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void editCliente_DebeRetornarOk_CuandoEsExitoso() throws Exception {
         Cliente c = new Cliente(1L, "Juan", "Modificado", "12345678", "11223344", "juan@mail.com");
         given(clienteService.editCliente(any(Cliente.class))).willReturn(c);
@@ -90,6 +99,7 @@ public class ClienteControllerTest {
 
     // --- DELETE ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteCliente_DebeRetornarOk_CuandoSeElimina() throws Exception {
         doNothing().when(clienteService).deleteCliente(1L);
 
@@ -100,6 +110,7 @@ public class ClienteControllerTest {
 
     // --- GET BUSCAR (QUERY PARAM) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findByNombreOrApellido_DebeRetornarListaFiltrada() throws Exception {
         Cliente c = new Cliente(1L, "Juan", "Perez", "12345678", "11223344", "juan@mail.com");
         given(clienteService.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase("Juan", "Juan"))
@@ -114,6 +125,7 @@ public class ClienteControllerTest {
     // --- TESTS DE VALIDACIÓN (BEAN VALIDATION) ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeRetornarBadRequest_CuandoDniInvalido() throws Exception {
         // DNI con letras o longitud incorrecta
         Cliente c = new Cliente(null, "Juan", "Perez", "1234567A", "1122334455", "juan@mail.com");
@@ -127,6 +139,7 @@ public class ClienteControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeRetornarBadRequest_CuandoEmailInvalido() throws Exception {
         // Email sin @ o formato incorrecto
         Cliente c = new Cliente(null, "Juan", "Perez", "12345678", "1122334455", "juan.com");
@@ -138,6 +151,7 @@ public class ClienteControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeRetornarBadRequest_CuandoTelefonoInvalido() throws Exception {
         // Teléfono con caracteres no permitidos
         Cliente c = new Cliente(null, "Juan", "Perez", "12345678", "abc-12345", "juan@mail.com");
@@ -149,6 +163,7 @@ public class ClienteControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeRetornarBadRequest_CuandoNombreEsMuyCorto() throws Exception {
         // Nombre con 1 solo caracter
         Cliente c = new Cliente(null, "J", "Perez", "12345678", "1122334455", "juan@mail.com");
@@ -160,6 +175,7 @@ public class ClienteControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeRetornarBadRequest_CuandoCamposObligatoriosEstanVacios() throws Exception {
         // Cliente con campos en blanco
         Cliente c = new Cliente(null, "", "", "", "", "");
@@ -173,6 +189,7 @@ public class ClienteControllerTest {
     // --- TEST DNI DUPLICADO ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void saveCliente_DebeRetornarBadRequest_CuandoDniYaExiste() throws Exception {
         Cliente c = new Cliente(null, "Juan", "Perez", "12345678", "1122334455", "juan@mail.com");
         given(clienteService.saveCliente(any(Cliente.class)))

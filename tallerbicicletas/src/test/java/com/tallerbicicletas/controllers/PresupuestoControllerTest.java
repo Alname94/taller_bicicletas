@@ -17,10 +17,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.tallerbicicletas.config.SecurityConfig;
 import com.tallerbicicletas.models.entities.Bicicleta;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.models.entities.Presupuesto;
@@ -29,6 +32,8 @@ import com.tallerbicicletas.services.interfaces.IPresupuestoService;
 import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(PresupuestoController.class)
+@Import(SecurityConfig.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
 public class PresupuestoControllerTest {
 
     @Autowired
@@ -60,6 +65,7 @@ public class PresupuestoControllerTest {
 
     // --- GET ALL ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getPresupuestos_DebeRetornarListaYOk() throws Exception {
         given(presupuestoService.getPresupuestos()).willReturn(List.of(presupuestoMock));
 
@@ -71,6 +77,7 @@ public class PresupuestoControllerTest {
 
     // --- POST ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void savePresupuesto_DebeRetornarCreated_CuandoEsValido() throws Exception {
         given(presupuestoService.savePresupuesto(any(Presupuesto.class))).willReturn(presupuestoMock);
 
@@ -83,6 +90,7 @@ public class PresupuestoControllerTest {
 
     // --- PATCH (Cambio de Estado) ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void cambiarEstado_DebeRetornarOk() throws Exception {
         doNothing().when(presupuestoService).cambiarEstado(100L, "FACTURADO");
 
@@ -94,6 +102,7 @@ public class PresupuestoControllerTest {
 
     // --- BUSCAR CON MULTIPLES PARAMS ---
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void search_DebeRetornarListaSegunFiltros() throws Exception {
         given(presupuestoService.findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase("Juan", "Vairo"))
                 .willReturn(List.of(presupuestoMock));
@@ -108,6 +117,7 @@ public class PresupuestoControllerTest {
     // --- TESTS DE VALIDACIÓN (Bean Validation) ---
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void savePresupuesto_DebeRetornarBadRequest_CuandoFechaEsFutura() throws Exception {
         presupuestoMock.setFecha(LocalDate.now().plusDays(1)); // Mañana
 
@@ -118,6 +128,7 @@ public class PresupuestoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void savePresupuesto_DebeRetornarBadRequest_CuandoEstadoEsInvalido() throws Exception {
         presupuestoMock.setEstado("TERMINADO");
 
@@ -128,6 +139,7 @@ public class PresupuestoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
     void savePresupuesto_DebeRetornarBadRequest_CuandoValorTotalEsNegativo() throws Exception {
         presupuestoMock.setValorTotal(-1.0);
 
