@@ -16,7 +16,7 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("API Sistema Taller de Bicicletas")
                         .description(
-                                "Documentación de los servicios REST para la gestión de clientes, bicicletas, presupuestos y repuestos.")
+                                "Documentación de los servicios REST para la gestión de clientes, bicicletas, presupuestos, repuestos, servicios y detalles.")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Soporte Taller")

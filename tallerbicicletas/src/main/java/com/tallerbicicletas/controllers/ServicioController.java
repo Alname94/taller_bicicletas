@@ -61,7 +61,7 @@ public class ServicioController {
     }
 
     @Operation(summary = "Eliminar o desactivar un servicio", description = "Permite eliminar o desactivar un servicio del sistema utilizando su ID. La eliminación puede ser lógica (desactivación) para mantener el historial de servicios realizados.")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/borrar/{id}")
     public ResponseEntity<String> deleteServicio(@PathVariable Long id) {
         servicioService.deleteServicio(id);
         return new ResponseEntity<>("Servicio eliminado/desactivado correctamente", HttpStatus.OK);

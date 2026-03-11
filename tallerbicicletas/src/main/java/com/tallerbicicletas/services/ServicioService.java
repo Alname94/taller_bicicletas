@@ -70,6 +70,7 @@ public class ServicioService implements IServicioService {
         existente.setNombre(servicio.getNombre());
         existente.setDescripcion(servicio.getDescripcion());
         existente.setValor(servicio.getValor());
+        existente.setActivo(servicio.getActivo());
 
         return servicioRepository.save(existente);
     }

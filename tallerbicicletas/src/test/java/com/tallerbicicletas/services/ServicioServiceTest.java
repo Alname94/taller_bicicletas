@@ -64,7 +64,7 @@ public class ServicioServiceTest {
 
         assertNotNull(resultado);
         assertEquals("Mantenimiento General", resultado.getNombre());
-        assertTrue(resultado.isActivo());
+        assertTrue(resultado.getActivo());
         verify(servicioRepository).save(servicioMock);
     }
 
@@ -105,7 +105,7 @@ public class ServicioServiceTest {
 
         servicioService.deleteServicio(1L);
 
-        assertFalse(servicioMock.isActivo());
+        assertFalse(servicioMock.getActivo());
         verify(servicioRepository).save(servicioMock);
         verify(servicioRepository, never()).deleteById(1L);
     }

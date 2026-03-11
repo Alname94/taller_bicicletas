@@ -39,6 +39,14 @@ El proyecto cuenta con una robusta suite de Tests Unitarios que aseguran la esta
 
 - **Pruebas de Controlador**: Uso de MockMvc para validar los endpoints REST y el manejo de excepciones personalizadas.
 
+- ## 🚀 Pruebas con Postman
+
+ + He incluido una colección de Postman para facilitar las pruebas de los endpoints. 
+ + Para usarla:
+    + 1. Importa el archivo `docs/TallerBicicletas.postman_collection.json` en tu Postman.
+    + 2. Asegúrate de tener la aplicación corriendo en `localhost:8080`.
+    + 3. Las peticiones están configuradas con **Basic Auth** (Usuario: `admin`, Contraseña: `taller2026`).
+
 # 🛠️ Buenas Prácticas y Arquitectura
 - **Arquitectura en Capas**: El proyecto está estructurado siguiendo el patrón de diseño por capas (Controller - Service - Repository), separando claramente las responsabilidades.
 

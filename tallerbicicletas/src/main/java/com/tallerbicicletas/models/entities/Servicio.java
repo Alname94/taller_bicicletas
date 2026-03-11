@@ -47,5 +47,5 @@ public class Servicio {
 
     @Column(name = "activo")
     @Schema(description = "Indica si el servicio está activo o inactivo", example = "true")
-    private boolean activo = true;
+    private Boolean activo = true;
 }

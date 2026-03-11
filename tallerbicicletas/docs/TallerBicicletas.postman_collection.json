@@ -1,0 +1,5312 @@
+{
+  "info": {
+    "_postman_id": "0f282185-68b6-4d7d-959c-3e80f6234af3",
+    "name": "TallerBicicletas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48341780"
+  },
+  "item": [
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Nuevo Cliente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombre\" : \"Carlos\",\r\n    \"apellido\" : \"Gonzalez\",\r\n    \"dni\" : 40123656,\r\n    \"telefono\" : \"12345634567890\",\r\n    \"email\" : \"carlosgonz@example.com\"\r\n}    \r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/clientes",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "clientes"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nuevo Cliente Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"nombre\" : \"Carlos\",\r\n    \"apellido\" : \"Gonzalez\",\r\n    \"dni\" : 40123656,\r\n    \"telefono\" : \"12345634567890\",\r\n    \"email\" : \"carlosgonz@example.com\"\r\n}    \r\n\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/clientes",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "clientes"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 12:32:10 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"nombre\": \"Carlos\",\n    \"apellido\": \"Gonzalez\",\n    \"dni\": \"40123656\",\n    \"telefono\": \"12345634567890\",\n    \"email\": \"carlosgonz@example.com\",\n    \"bicicletas\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Clientes",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/clientes",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "clientes"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Clientes Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/clientes",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "clientes"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 12:23:19 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"telefono\": \"1234567890\",\n        \"email\": \"juanperez@example.com\",\n        \"bicicletas\": []\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Buscar Cliente por nombre o apellido",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/clientes/buscar?nombre=ju",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "clientes",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "nombre",
+                  "value": "ju",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Buscar Cliente por nombre o apellido Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/clientes/buscar?nombre=ju",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "clientes",
+                    "buscar"
+                  ],
+                  "query": [
+                    {
+                      "key": "nombre",
+                      "value": "ju"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 12:26:10 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"telefono\": \"1234567890\",\n        \"email\": \"juanperez@example.com\",\n        \"bicicletas\": []\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Cliente por Id",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/clientes/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Cliente por Id Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/clientes/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "clientes",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 12:27:16 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"nombre\": \"Juan\",\n    \"apellido\": \"Perez\",\n    \"dni\": \"40123456\",\n    \"telefono\": \"1234567890\",\n    \"email\": \"juanperez@example.com\",\n    \"bicicletas\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar Cliente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"Juan\",\r\n    \"apellido\": \"Perez\",\r\n    \"dni\": \"40123456\",\r\n    \"telefono\": \"+5491112345678\",\r\n    \"email\": \"juan.perezperez@example.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/clientes/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "clientes",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Actualizar Cliente Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"Juan\",\r\n    \"apellido\": \"Perez\",\r\n    \"dni\": \"40123456\",\r\n    \"telefono\": \"+5491112345678\",\r\n    \"email\": \"juan.perezperez@example.com\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/clientes/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "clientes",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 12:30:12 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"nombre\": \"Juan\",\n    \"apellido\": \"Perez\",\n    \"dni\": \"40123456\",\n    \"telefono\": \"+5491112345678\",\n    \"email\": \"juan.perezperez@example.com\",\n    \"bicicletas\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Cliente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/clientes/borrar/2",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "clientes",
+                "borrar",
+                "2"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Eliminar Cliente Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/clientes/borrar/2",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "clientes",
+                    "borrar",
+                    "2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "31"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 12:32:48 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Cliente eliminado correctamente"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bicicletas",
+      "item": [
+        {
+          "name": "Nueva Bicicleta",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    },\r\n    \"marca\": \"Cavalera\",\r\n    \"modelo\": \"Altech\",\r\n    \"color\": \"Rojo\",\r\n    \"rodado\": \"28\",\r\n    \"fechaIngreso\": \"2024-06-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/bicicletas",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bicicletas"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nueva Bicicleta Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    },\r\n    \"marca\": \"Trek\",\r\n    \"modelo\": \"Domane SL 7\",\r\n    \"color\": \"Rojo\",\r\n    \"rodado\": \"28\",\r\n    \"fechaIngreso\": \"2024-06-01\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/bicicletas",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "bicicletas"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 13:15:16 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"cliente\": {\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"telefono\": \"+5491112345678\",\n        \"email\": \"juan.perezperez@example.com\"\n    },\n    \"marca\": \"Trek\",\n    \"modelo\": \"Domane SL 7\",\n    \"color\": \"Rojo\",\n    \"rodado\": \"28\",\n    \"fechaIngreso\": \"2024-06-01\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Bicicletas",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/bicicletas",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bicicletas"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Bicicletas Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/bicicletas",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "bicicletas"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 13:26:29 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"cliente\": {\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\",\n            \"email\": \"juan.perezperez@example.com\",\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"telefono\": \"+5491112345678\"\n        },\n        \"marca\": \"Trek\",\n        \"modelo\": \"Domane SL 7\",\n        \"color\": \"Rojo\",\n        \"rodado\": \"28\",\n        \"fechaIngreso\": \"2024-06-01\"\n    },\n    {\n        \"id\": 2,\n        \"cliente\": {\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\",\n            \"email\": \"juan.perezperez@example.com\",\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"telefono\": \"+5491112345678\"\n        },\n        \"marca\": \"Cavalera\",\n        \"modelo\": \"Altech\",\n        \"color\": \"Rojo\",\n        \"rodado\": \"28\",\n        \"fechaIngreso\": \"2024-06-01\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Bicicleta Por Id",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/bicicletas/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bicicletas",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Bicicleta Por Id Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/bicicletas/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "bicicletas",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 13:27:37 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"cliente\": {\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"email\": \"juan.perezperez@example.com\",\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"telefono\": \"+5491112345678\"\n    },\n    \"marca\": \"Trek\",\n    \"modelo\": \"Domane SL 7\",\n    \"color\": \"Rojo\",\n    \"rodado\": \"28\",\n    \"fechaIngreso\": \"2024-06-01\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Buscar Bicicleta Por Marca",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/bicicletas/buscar?marca=tr",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bicicletas",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "marca",
+                  "value": "tr",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Buscar Bicicleta Por Marca Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/bicicletas/buscar?marca=tr",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "bicicletas",
+                    "buscar"
+                  ],
+                  "query": [
+                    {
+                      "key": "marca",
+                      "value": "tr",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 13:28:43 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"cliente\": {\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\",\n            \"email\": \"juan.perezperez@example.com\",\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"telefono\": \"+5491112345678\"\n        },\n        \"marca\": \"Trek\",\n        \"modelo\": \"Domane SL 7\",\n        \"color\": \"Rojo\",\n        \"rodado\": \"28\",\n        \"fechaIngreso\": \"2024-06-01\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Buscar Bicicleta por Cliente Id",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/bicicletas/cliente/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bicicletas",
+                "cliente",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Buscar Bicicleta por Cliente Id Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/bicicletas/cliente/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "bicicletas",
+                    "cliente",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 13:30:20 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"cliente\": {\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\",\n            \"email\": \"juan.perezperez@example.com\",\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"telefono\": \"+5491112345678\"\n        },\n        \"marca\": \"Trek\",\n        \"modelo\": \"Domane SL 7\",\n        \"color\": \"Rojo\",\n        \"rodado\": \"28\",\n        \"fechaIngreso\": \"2024-06-01\"\n    },\n    {\n        \"id\": 2,\n        \"cliente\": {\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\",\n            \"email\": \"juan.perezperez@example.com\",\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"telefono\": \"+5491112345678\"\n        },\n        \"marca\": \"Cavalera\",\n        \"modelo\": \"Altech\",\n        \"color\": \"Rojo\",\n        \"rodado\": \"28\",\n        \"fechaIngreso\": \"2024-06-01\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar Bicicleta",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{   \r\n    \"id\": 1,\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    },\r\n    \"marca\": \"Trek\",\r\n    \"modelo\": \"Domane SL 7\",\r\n    \"color\": \"Negro\",\r\n    \"rodado\": \"28\",\r\n    \"fechaIngreso\": \"2024-06-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/bicicletas/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bicicletas",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Actualizar Bicicleta Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{   \r\n    \"id\": 1,\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    },\r\n    \"marca\": \"Trek\",\r\n    \"modelo\": \"Domane SL 7\",\r\n    \"color\": \"Negro\",\r\n    \"rodado\": \"28\",\r\n    \"fechaIngreso\": \"2024-06-01\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/bicicletas/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "bicicletas",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 13:36:53 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"cliente\": {\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"email\": \"juan.perezperez@example.com\",\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"telefono\": \"+5491112345678\"\n    },\n    \"marca\": \"Trek\",\n    \"modelo\": \"Domane SL 7\",\n    \"color\": \"Negro\",\n    \"rodado\": \"28\",\n    \"fechaIngreso\": \"2024-06-01\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Bicicleta",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{   \r\n    \"id\": 1,\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    },\r\n    \"marca\": \"Trek\",\r\n    \"modelo\": \"Domane SL 7\",\r\n    \"color\": \"Negro\",\r\n    \"rodado\": \"28\",\r\n    \"fechaIngreso\": \"2024-06-01\"\r\n}"
+            },
+            "url": {
+              "raw": "localhost:8080/bicicletas/borrar/2",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bicicletas",
+                "borrar",
+                "2"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Eliminar Bicicleta Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{   \r\n    \"id\": 1,\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    },\r\n    \"marca\": \"Trek\",\r\n    \"modelo\": \"Domane SL 7\",\r\n    \"color\": \"Negro\",\r\n    \"rodado\": \"28\",\r\n    \"fechaIngreso\": \"2024-06-01\"\r\n}"
+                },
+                "url": {
+                  "raw": "localhost:8080/bicicletas/borrar/2",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "bicicletas",
+                    "borrar",
+                    "2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "30"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 13:37:48 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Bicicleta eliminada con éxito"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Repuestos",
+      "item": [
+        {
+          "name": "Nuevo Repuesto",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"codigo\": \"REP12345\",\r\n  \"producto\": \"Frenos de disco\",\r\n  \"marca\": \"Shimano\",\r\n  \"color\": \"Negro\",\r\n  \"precioVenta\": 500,\r\n  \"precioCosto\": 300,\r\n  \"stock\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/repuestos",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "repuestos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nuevo Repuesto Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"codigo\": \"REP12345\",\r\n  \"producto\": \"Frenos de disco\",\r\n  \"marca\": \"Shimano\",\r\n  \"color\": \"Negro\",\r\n  \"precioVenta\": 500,\r\n  \"precioCosto\": 300,\r\n  \"stock\": 10\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/repuestos",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "repuestos"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:17:28 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"codigo\": \"REP12345\",\n    \"producto\": \"Frenos de disco\",\n    \"marca\": \"Shimano\",\n    \"color\": \"Negro\",\n    \"precioVenta\": 500,\n    \"precioCosto\": 300,\n    \"stock\": 10\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Repuestos",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/repuestos",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "repuestos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Repuestos Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/repuestos",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "repuestos"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:18:21 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"codigo\": \"REP12345\",\n        \"producto\": \"Frenos de disco\",\n        \"marca\": \"Shimano\",\n        \"color\": \"Negro\",\n        \"precioVenta\": 500,\n        \"precioCosto\": 300,\n        \"stock\": 10\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Repuesto por Id",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/repuestos/REP12345",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "repuestos",
+                "REP12345"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Repuesto por Id Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/repuestos/REP12345",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "repuestos",
+                    "REP12345"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:19:41 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"codigo\": \"REP12345\",\n    \"producto\": \"Frenos de disco\",\n    \"marca\": \"Shimano\",\n    \"color\": \"Negro\",\n    \"precioVenta\": 500,\n    \"precioCosto\": 300,\n    \"stock\": 10\n}"
+            }
+          ]
+        },
+        {
+          "name": "Buscar por producto o marca",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/repuestos/buscar?query=shi",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "repuestos",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "shi",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Buscar por producto o marca Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/repuestos/buscar?query=shi",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "repuestos",
+                    "buscar"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "shi",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:21:17 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"codigo\": \"REP12345\",\n        \"producto\": \"Frenos de disco\",\n        \"marca\": \"Shimano\",\n        \"color\": \"Negro\",\n        \"precioVenta\": 500,\n        \"precioCosto\": 300,\n        \"stock\": 10\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar Repuesto",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"codigo\": \"REP12345\",\r\n    \"producto\": \"Frenos de disco\",\r\n    \"marca\": \"Shimano\",\r\n    \"color\": \"Negro\",\r\n    \"precioVenta\": 800,\r\n    \"precioCosto\": 500,\r\n    \"stock\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/repuestos/REP12345",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "repuestos",
+                "REP12345"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Actualizar Repuesto Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"codigo\": \"REP12345\",\r\n    \"producto\": \"Frenos de disco\",\r\n    \"marca\": \"Shimano\",\r\n    \"color\": \"Negro\",\r\n    \"precioVenta\": 800,\r\n    \"precioCosto\": 500,\r\n    \"stock\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/repuestos/REP12345",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "repuestos",
+                    "REP12345"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:23:17 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"codigo\": \"REP12345\",\n    \"producto\": \"Frenos de disco\",\n    \"marca\": \"Shimano\",\n    \"color\": \"Negro\",\n    \"precioVenta\": 800,\n    \"precioCosto\": 500,\n    \"stock\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Repuesto",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/repuestos/borrar/REP12345",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "repuestos",
+                "borrar",
+                "REP12345"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Eliminar Repuesto Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/repuestos/borrar/REP12345",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "repuestos",
+                    "borrar",
+                    "REP12345"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "32"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:24:03 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Repuesto eliminado correctamente"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Servicios",
+      "item": [
+        {
+          "name": "Nuevo Servicio",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nombre\": \"Cambio de cadena\",\r\n  \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\r\n  \"valor\": 800,\r\n  \"activo\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/servicios",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "servicios"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nuevo Servicio Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"nombre\": \"Cambio de cadena\",\r\n  \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\r\n  \"valor\": 800,\r\n  \"activo\": true\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/servicios",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "servicios"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:28:01 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"nombre\": \"Cambio de cadena\",\n    \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\n    \"valor\": 800,\n    \"activo\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Servicios",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/servicios",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "servicios"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Servicios Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/servicios",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "servicios"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:28:24 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Cambio de cadena\",\n        \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\n        \"valor\": 800,\n        \"activo\": true\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Servicio por Id",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/servicios/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "servicios",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Servicio por Id Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/servicios/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "servicios",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:29:07 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"nombre\": \"Cambio de cadena\",\n    \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\n    \"valor\": 800,\n    \"activo\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Servicios Activos",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/servicios/activos",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "servicios",
+                "activos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Servicios Activos Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/servicios/activos",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "servicios",
+                    "activos"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:29:44 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Cambio de cadena\",\n        \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\n        \"valor\": 800,\n        \"activo\": true\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar Servicio",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": 1,\r\n  \"nombre\": \"Cambio de cadena\",\r\n  \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\r\n  \"valor\": 1000,\r\n  \"activo\": false\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/servicios/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "servicios",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Actualizar Servicio Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"id\": 1,\r\n  \"nombre\": \"Cambio de cadena\",\r\n  \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\r\n  \"valor\": 1000,\r\n  \"activo\": false\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/servicios/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "servicios",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:35:01 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"nombre\": \"Cambio de cadena\",\n    \"descripcion\": \"Incluye cambio de cadena, ajuste de cambios y lubricación\",\n    \"valor\": 1000,\n    \"activo\": false\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Servicio",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/servicios/borrar/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "servicios",
+                "borrar",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Eliminar Servicio Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/servicios/borrar/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "servicios",
+                    "borrar",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "44"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 12:38:57 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Servicio eliminado/desactivado correctamente"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Presupuestos",
+      "item": [
+        {
+          "name": "Nuevo Presupuesto",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 1\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1500,\r\n  \"descripcion\": \"\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nuevo Presupuesto Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 1\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1500,\r\n  \"descripcion\": \"\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 13:06:12 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"numero\": 1,\n    \"fecha\": \"2024-06-15\",\n    \"cliente\": {\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"email\": \"juan.perezperez@example.com\",\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"telefono\": \"+5491112345678\"\n    },\n    \"bicicleta\": {\n        \"id\": 1,\n        \"marca\": \"Trek\",\n        \"modelo\": \"Domane SL 7\",\n        \"color\": \"Negro\",\n        \"rodado\": \"28\",\n        \"fechaIngreso\": \"2024-06-01\"\n    },\n    \"valorTotal\": 10000,\n    \"descripcion\": \"\",\n    \"estado\": \"PENDIENTE\",\n    \"detalles\": [],\n    \"servicio\": {\n        \"id\": 2,\n        \"nombre\": \"Service full\",\n        \"descripcion\": \"Desarmado completo\",\n        \"valor\": 10000,\n        \"activo\": true\n    },\n    \"valorServicioAplicado\": 10000\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Presupuestos",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Presupuestos Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 1\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1500,\r\n  \"descripcion\": \"\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}"
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 13:07:53 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"numero\": 1,\n        \"fecha\": \"2024-06-15\",\n        \"cliente\": {\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\",\n            \"email\": \"juan.perezperez@example.com\",\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"telefono\": \"+5491112345678\"\n        },\n        \"bicicleta\": {\n            \"id\": 1,\n            \"marca\": \"Trek\",\n            \"modelo\": \"Domane SL 7\",\n            \"color\": \"Negro\",\n            \"rodado\": \"28\",\n            \"fechaIngreso\": \"2024-06-01\"\n        },\n        \"valorTotal\": 10000,\n        \"descripcion\": \"\",\n        \"estado\": \"PENDIENTE\",\n        \"detalles\": [],\n        \"servicio\": {\n            \"id\": 2,\n            \"nombre\": \"Service full\",\n            \"descripcion\": \"Desarmado completo\",\n            \"valor\": 10000,\n            \"activo\": true\n        },\n        \"valorServicioAplicado\": 10000\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Presupuesto por Id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Presupuesto por Id Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 1\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1500,\r\n  \"descripcion\": \"\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}"
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 13:10:45 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"numero\": 1,\n    \"fecha\": \"2024-06-15\",\n    \"cliente\": {\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"email\": \"juan.perezperez@example.com\",\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"telefono\": \"+5491112345678\"\n    },\n    \"bicicleta\": {\n        \"id\": 1,\n        \"marca\": \"Trek\",\n        \"modelo\": \"Domane SL 7\",\n        \"color\": \"Negro\",\n        \"rodado\": \"28\",\n        \"fechaIngreso\": \"2024-06-01\"\n    },\n    \"valorTotal\": 10000,\n    \"descripcion\": \"\",\n    \"estado\": \"PENDIENTE\",\n    \"detalles\": [],\n    \"servicio\": {\n        \"id\": 2,\n        \"nombre\": \"Service full\",\n        \"descripcion\": \"Desarmado completo\",\n        \"valor\": 10000,\n        \"activo\": true\n    },\n    \"valorServicioAplicado\": 10000\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Presupuesto por Cliente o Bicicleta",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos/buscar?cliente=ju",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "cliente",
+                  "value": "ju"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Presupuesto por Cliente o Bicicleta Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 1\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1500,\r\n  \"descripcion\": \"\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}"
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos/buscar?cliente=ju",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos",
+                    "buscar"
+                  ],
+                  "query": [
+                    {
+                      "key": "cliente",
+                      "value": "ju"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 13:14:24 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"numero\": 1,\n        \"fecha\": \"2024-06-15\",\n        \"cliente\": {\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\",\n            \"email\": \"juan.perezperez@example.com\",\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"telefono\": \"+5491112345678\"\n        },\n        \"bicicleta\": {\n            \"id\": 1,\n            \"marca\": \"Trek\",\n            \"modelo\": \"Domane SL 7\",\n            \"color\": \"Negro\",\n            \"rodado\": \"28\",\n            \"fechaIngreso\": \"2024-06-01\"\n        },\n        \"valorTotal\": 10000,\n        \"descripcion\": \"\",\n        \"estado\": \"PENDIENTE\",\n        \"detalles\": [],\n        \"servicio\": {\n            \"id\": 2,\n            \"nombre\": \"Service full\",\n            \"descripcion\": \"Desarmado completo\",\n            \"valor\": 10000,\n            \"activo\": true\n        },\n        \"valorServicioAplicado\": 10000\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar Presupuesto",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"numero\": 1,  \r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 1\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1500,\r\n  \"descripcion\": \"Service Full\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Actualizar Presupuesto Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"numero\": 1,  \r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 1\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1500,\r\n  \"descripcion\": \"Service Full\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 13:27:51 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"numero\": 1,\n    \"fecha\": \"2024-06-15\",\n    \"cliente\": {\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"email\": \"juan.perezperez@example.com\",\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"telefono\": \"+5491112345678\"\n    },\n    \"bicicleta\": {\n        \"id\": 1,\n        \"marca\": \"Trek\",\n        \"modelo\": \"Domane SL 7\",\n        \"color\": \"Negro\",\n        \"rodado\": \"28\",\n        \"fechaIngreso\": \"2024-06-01\"\n    },\n    \"valorTotal\": 10000,\n    \"descripcion\": \"Service Full\",\n    \"estado\": \"PENDIENTE\",\n    \"detalles\": [],\n    \"servicio\": {\n        \"id\": 2,\n        \"nombre\": \"Service full\",\n        \"descripcion\": \"Desarmado completo\",\n        \"valor\": 10000,\n        \"activo\": true\n    },\n    \"valorServicioAplicado\": 10000\n}"
+            }
+          ]
+        },
+        {
+          "name": "Cambiar Estado Presupuesto",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos/1/estado?nuevoEstado=anulado",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos",
+                "1",
+                "estado"
+              ],
+              "query": [
+                {
+                  "key": "nuevoEstado",
+                  "value": "anulado",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Cambiar Estado Presupuesto Response",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos/1/estado?nuevoEstado=anulado",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos",
+                    "1",
+                    "estado"
+                  ],
+                  "query": [
+                    {
+                      "key": "nuevoEstado",
+                      "value": "anulado",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "28"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 13:33:42 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Estado actualizado a ANULADO"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Presupuesto",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos/borrar/2",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos",
+                "borrar",
+                "2"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Eliminar Presupuesto Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos/borrar/2",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos",
+                    "borrar",
+                    "2"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "32"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 13:38:50 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Presupuesto eliminado con éxito"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Detalles",
+      "item": [
+        {
+          "name": "Nuevo Detalle",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": {\r\n    \"presupuestoNumero\": 3,\r\n    \"repuestoCodigo\": \"REP12345\"\r\n  },\r\n  \"cantidadAgregada\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/detalles",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "detalles"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nuevo Detalle Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"id\": {\r\n    \"presupuestoNumero\": 3,\r\n    \"repuestoCodigo\": \"REP12345\"\r\n  },\r\n  \"cantidadAgregada\": 2\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/detalles",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "detalles"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 16:33:47 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": {\n        \"presupuestoNumero\": 3,\n        \"repuestoCodigo\": \"REP12345\"\n    },\n    \"repuesto\": {\n        \"codigo\": \"REP12345\",\n        \"producto\": \"Frenos de disco\",\n        \"marca\": \"Shimano\",\n        \"color\": \"Negro\",\n        \"precioVenta\": 500\n    },\n    \"cantidadAgregada\": 2\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Detalles",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/detalles",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "detalles"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Detalles Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/detalles",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "detalles"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 16:35:51 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": {\n            \"presupuestoNumero\": 3,\n            \"repuestoCodigo\": \"REP12345\"\n        },\n        \"repuesto\": {\n            \"codigo\": \"REP12345\",\n            \"producto\": \"Frenos de disco\",\n            \"marca\": \"Shimano\",\n            \"color\": \"Negro\",\n            \"precioVenta\": 500\n        },\n        \"cantidadAgregada\": 2\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Detalles por N° Presupuesto",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/detalles/presupuesto/3",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "detalles",
+                "presupuesto",
+                "3"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Detalles por N° Presupuesto Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/detalles/presupuesto/3",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "detalles",
+                    "presupuesto",
+                    "3"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 16:37:02 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": {\n            \"presupuestoNumero\": 3,\n            \"repuestoCodigo\": \"REP12345\"\n        },\n        \"repuesto\": {\n            \"codigo\": \"REP12345\",\n            \"producto\": \"Frenos de disco\",\n            \"marca\": \"Shimano\",\n            \"color\": \"Negro\",\n            \"precioVenta\": 500\n        },\n        \"cantidadAgregada\": 2\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Detalle por Id compuesto",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/detalles/presupuesto/3/repuesto/REP12345",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "detalles",
+                "presupuesto",
+                "3",
+                "repuesto",
+                "REP12345"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Detalle por Id compuesto Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/detalles/presupuesto/3/repuesto/REP12345",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "detalles",
+                    "presupuesto",
+                    "3",
+                    "repuesto",
+                    "REP12345"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 16:38:07 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": {\n        \"presupuestoNumero\": 3,\n        \"repuestoCodigo\": \"REP12345\"\n    },\n    \"repuesto\": {\n        \"codigo\": \"REP12345\",\n        \"producto\": \"Frenos de disco\",\n        \"marca\": \"Shimano\",\n        \"color\": \"Negro\",\n        \"precioVenta\": 500\n    },\n    \"cantidadAgregada\": 2\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Detalle",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/detalles/presupuesto/3/repuesto/REP12345",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "detalles",
+                "presupuesto",
+                "3",
+                "repuesto",
+                "REP12345"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Eliminar Detalle Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/detalles/presupuesto/3/repuesto/REP12345",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "detalles",
+                    "presupuesto",
+                    "3",
+                    "repuesto",
+                    "REP12345"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain;charset=UTF-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "37"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 16:39:00 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "Repuesto eliminado y stock restaurado"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Validaciones",
+      "item": [
+        {
+          "name": "Nuevo Cliente con Dni existente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"nombre\" : \"Juan\",\r\n    \"apellido\" : \"Gonzalez\",\r\n    \"dni\" : 40123656,\r\n    \"telefono\" : \"1234563456780\",\r\n    \"email\" : \"juangonz@example.com\"\r\n}   ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/clientes",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "clientes"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nuevo Cliente con Dni existente Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"nombre\" : \"Juan\",\r\n    \"apellido\" : \"Gonzalez\",\r\n    \"dni\" : 40123656,\r\n    \"telefono\" : \"1234563456780\",\r\n    \"email\" : \"juangonz@example.com\"\r\n}   ",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/clientes",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "clientes"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 16:49:08 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": 400,\n    \"message\": \"El DNI '40123656' ya está registrado.\",\n    \"timestamp\": \"2026-03-11T13:49:08.1387005\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Nuevo Detalle con cantidad insuficiente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"id\": {\r\n    \"presupuestoNumero\": 3,\r\n    \"repuestoCodigo\": \"REP12345\"\r\n  },\r\n  \"cantidadAgregada\": 234\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/detalles",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "detalles"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nuevo Detalle con cantidad insuficiente Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"id\": {\r\n    \"presupuestoNumero\": 3,\r\n    \"repuestoCodigo\": \"REP12345\"\r\n  },\r\n  \"cantidadAgregada\": 234\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/detalles",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "detalles"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 16:51:28 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": 400,\n    \"message\": \"Stock insuficiente para 'Frenos de disco'. Disponible: 10\",\n    \"timestamp\": \"2026-03-11T13:51:28.0796832\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Endpoint sin Autorización",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/detalles",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "detalles"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Endpoint sin Autorización Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/detalles",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "detalles"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Set-Cookie",
+                  "value": "JSESSIONID=824098729B8B089B3C9F668296248159; Path=/; HttpOnly"
+                },
+                {
+                  "key": "WWW-Authenticate",
+                  "value": "Basic realm=\"Realm\""
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "0"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 16:52:47 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "Nuevo Presupuesto con Bicicleta de otro Cliente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 3\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1,\r\n  \"descripcion\": \"\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Nuevo Presupuesto con Bicicleta de otro Cliente Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 3\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1,\r\n  \"descripcion\": \"\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 17:10:22 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": 400,\n    \"message\": \"La bicicleta con ID 1 no pertenece al cliente Juan Gonzalez\",\n    \"timestamp\": \"2026-03-11T14:10:22.8975517\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Eliminar Repuesto en Uso",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/repuestos/borrar/REP12345",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "repuestos",
+                "borrar",
+                "REP12345"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Eliminar Repuesto en Uso Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/repuestos/borrar/REP12345",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "repuestos",
+                    "borrar",
+                    "REP12345"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 11 Mar 2026 17:13:13 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": 400,\n    \"message\": \"No se puede eliminar el repuesto porque ya figura en presupuestos existentes.\",\n    \"timestamp\": \"2026-03-11T14:13:13.0191253\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
