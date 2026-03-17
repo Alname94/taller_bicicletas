@@ -1,7 +1,5 @@
-export function renderDashboard() {
-    const userName = localStorage.getItem('user_name') || 'Mecánico';
-
-    return `
+export function renderDashboardLayout() {
+  return `
     <div class="flex h-screen bg-gray-50">
       <aside class="w-64 bg-white shadow-md flex flex-col">
         <div class="p-6">
@@ -9,22 +7,22 @@ export function renderDashboard() {
         </div>
         
         <nav class="flex-1 px-4 space-y-2">
-          <a href="#" class="flex items-center p-2 text-gray-700 bg-blue-50 rounded-lg group">
+          <a href="#" id="link-home" class="flex items-center p-2 text-gray-700 bg-blue-50 rounded-lg group">
             <span class="ml-3 font-medium">Dashboard</span>
           </a>
-          <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
+          <a href="#" id="link-clientes" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
             <span class="ml-3">Clientes</span>
           </a>
-          <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
+          <a href="#" id="link-bicicletas" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
             <span class="ml-3">Bicicletas</span>
           </a>
-          <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
+          <a href="#" id="link-presupuestos" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
             <span class="ml-3">Presupuestos</span>
           </a>
-          <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
+          <a href="#" id="link-servicios" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
             <span class="ml-3">Servicios</span>
           </a>
-          <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
+          <a href="#" id="link-repuestos" class="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded-lg group">
             <span class="ml-3">Repuestos</span>
           </a>
         </nav>
@@ -36,8 +34,16 @@ export function renderDashboard() {
         </div>
       </aside>
 
-      <main class="flex-1 overflow-y-auto p-8">
-        <header class="flex justify-between items-center mb-8">
+      <main id="main-content" class="flex-1 overflow-y-auto p-8">        
+      </main>
+    </div>
+    `;
+}
+
+export function renderHomeContent() {
+  const userName = localStorage.getItem('user_name') || 'Mecánico';
+  return `
+    <header class="flex justify-between items-center mb-8">
           <div>
             <h2 class="text-3xl font-bold text-gray-800">Panel de Control</h2>
             <p class="text-gray-500">Hola, ${userName}. Este es el resumen de hoy.</p>
@@ -67,8 +73,6 @@ export function renderDashboard() {
             <p class="text-rose-100 text-sm font-medium">Stock Bajo</p>
             <p class="text-3xl font-bold mt-1 text-white">3</p>
           </div>
-        </div>
-      </main>
-    </div>
-    `;
+        </div> 
+        `;
 }
