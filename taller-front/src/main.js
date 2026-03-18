@@ -1,4 +1,5 @@
 import './css/style.css';
+import Swal from 'sweetalert2';
 import { authService } from './services/authService';
 import { apiService } from './services/apiService';
 import { renderLogin } from './views/loginView';
