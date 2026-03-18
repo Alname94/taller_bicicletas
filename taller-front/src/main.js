@@ -3,7 +3,7 @@ import { authService } from './services/authService';
 import { apiService } from './services/apiService';
 import { renderLogin } from './views/loginView';
 import { renderDashboardLayout, renderHomeContent } from './views/dashboardView';
-import { renderServices } from './views/servicesView';
+import { renderServices, renderServiceModal } from './views/servicesView';
 
 const app = document.querySelector('#app');
 
@@ -21,8 +21,8 @@ const app = document.querySelector('#app');
 function init() {
     if (authService.isLoggedIn()) {
         app.innerHTML = renderDashboardLayout();
-        const mainArea = document.querySelector('#main-content');
-        mainArea.innerHTML = renderHomeContent();
+        const mainContent = document.querySelector('#main-content');
+        mainContent.innerHTML = renderHomeContent();
         setupDashboardEvents();
     } else {
         app.innerHTML = renderLogin();
@@ -32,6 +32,7 @@ function init() {
 
 function handleLoginEvents() {
     const form = document.querySelector('#loginForm');
+    if (!form) return;
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const user = document.querySelector('#username').value;
@@ -55,11 +56,11 @@ function setupDashboardEvents() {
             });
         };
 
-    const mainArea = document.querySelector('#main-content');
+    const mainContent = document.querySelector('#main-content');
 
     document.querySelector('#link-home').addEventListener('click', (e) => {
         e.preventDefault();
-        mainArea.innerHTML = renderHomeContent();
+        mainContent.innerHTML = renderHomeContent();
     });       
 
     const linkServicios = document.querySelector('#link-servicios');
@@ -74,6 +75,74 @@ async function navigateToServices() {
     mainContent.innerHTML = renderServices([]);
     const servicios = await apiService.getServicios();
     mainContent.innerHTML = renderServices(servicios);
+
+    const btnNewService = document.querySelector('#btnNewService');
+    btnNewService.addEventListener('click', () => openServiceModal());
+    setupTableEventListeners(servicios);
+}
+
+function openServiceModal(servicio = null) {
+    const container = document.querySelector('#modal-container');
+    container.innerHTML = renderServiceModal(servicio);
+    
+    const modal = document.querySelector('#serviceModal');
+    modal.classList.remove('hidden');
+    setupModalListeners();
+}
+
+function setupModalListeners() {
+    const modal = document.querySelector('#serviceModal');
+    const form = document.querySelector('#serviceForm');
+    
+    document.querySelector('#btnCloseModal').onclick = () => modal.classList.add('hidden');
+    document.querySelector('#btnCloseX').onclick = () => modal.classList.add('hidden');
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const id = document.querySelector('#serviceId').value;
+        const data = {
+            nombre: document.querySelector('#serviceName').value,
+            descripcion: document.querySelector('#serviceDesc').value,
+            valor: parseFloat(document.querySelector('#serviceValue').value),
+            activo: document.querySelector('#serviceActive').value === 'true'
+        };
+
+        const success = id 
+            ? await apiService.updateServicio(id, data) // Si hay ID, es PUT
+            : await apiService.saveServicio(data);      // Si no, es POST
+
+        if (success) {
+            modal.classList.add('hidden');
+            navigateToServices(); 
+        }
+    };
+}
+
+function setupTableEventListeners(servicios) {
+    const tableBody = document.querySelector('tbody');
+    if (!tableBody) return;
+
+    tableBody.addEventListener('click', async (e) => {
+        const id = e.target.dataset.id;
+        if (!id) return;
+
+        if (e.target.classList.contains('btn-edit-service')) {
+            const servicioAEditar = servicios.find(s => s.id == id);
+            openServiceModal(servicioAEditar);
+        }
+
+        if (e.target.classList.contains('btn-delete-service')) {
+            const confirmar = confirm(`¿Estás seguro de eliminar el servicio #${id}?`);
+            if (confirmar) {
+                const ok = await apiService.deleteServicio(id);
+                if (ok) {
+                    navigateToServices();
+                } else {
+                    alert("No se pudo eliminar el servicio.");
+                }
+            }
+        }
+    });
 }
 
 // ----------------------------------------------
