@@ -1,5 +1,5 @@
 import './css/style.css';
-import Swal from 'sweetalert2';
+import { notifications } from  './utils/notifications';
 import { authService } from './services/authService';
 import { apiService } from './services/apiService';
 import { renderLogin } from './views/loginView';
@@ -50,19 +50,19 @@ function handleLoginEvents() {
 
 function setupDashboardEvents() {
     const logoutBtn = document.querySelector('#logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                authService.logout();
-                init();
-            });
-        };
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            authService.logout();
+            init();
+        });
+    };
 
     const mainContent = document.querySelector('#main-content');
 
     document.querySelector('#link-home').addEventListener('click', (e) => {
         e.preventDefault();
         mainContent.innerHTML = renderHomeContent();
-    });       
+    });
 
     const linkServicios = document.querySelector('#link-servicios');
     linkServicios.addEventListener('click', (e) => {
@@ -85,7 +85,7 @@ async function navigateToServices() {
 function openServiceModal(servicio = null) {
     const container = document.querySelector('#modal-container');
     container.innerHTML = renderServiceModal(servicio);
-    
+
     const modal = document.querySelector('#serviceModal');
     modal.classList.remove('hidden');
     setupModalListeners();
@@ -94,7 +94,7 @@ function openServiceModal(servicio = null) {
 function setupModalListeners() {
     const modal = document.querySelector('#serviceModal');
     const form = document.querySelector('#serviceForm');
-    
+
     document.querySelector('#btnCloseModal').onclick = () => modal.classList.add('hidden');
     document.querySelector('#btnCloseX').onclick = () => modal.classList.add('hidden');
 
@@ -108,13 +108,14 @@ function setupModalListeners() {
             activo: document.querySelector('#serviceActive').value === 'true'
         };
 
-        const success = id 
+        const success = id
             ? await apiService.updateServicio(id, data) // Si hay ID, es PUT
             : await apiService.saveServicio(data);      // Si no, es POST
 
         if (success) {
             modal.classList.add('hidden');
-            navigateToServices(); 
+            notifications.showToast(id ? 'Servicio actualizado' : 'Servicio creado');
+            navigateToServices();
         }
     };
 }
@@ -133,13 +134,18 @@ function setupTableEventListeners(servicios) {
         }
 
         if (e.target.classList.contains('btn-delete-service')) {
-            const confirmar = confirm(`¿Estás seguro de eliminar el servicio #${id}?`);
+            const confirmar = await notifications.showConfirm(
+                '¿Eliminar servicio?',
+                `Estás por borrar el servicio #${id}. Esta acción es permanente.`,
+                'Eliminar'
+            );
             if (confirmar) {
                 const ok = await apiService.deleteServicio(id);
                 if (ok) {
+                    notifications.showToast('Servicio eliminado correctamente');
                     navigateToServices();
                 } else {
-                    alert("No se pudo eliminar el servicio.");
+                    notifications.showAlert('Error', 'No se pudo eliminar el servicio.', 'error');
                 }
             }
         }
