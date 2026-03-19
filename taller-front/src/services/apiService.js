@@ -2,62 +2,43 @@ import { authService } from './authService';
 
 const API_URL = 'http://localhost:8080';
 
-export const apiService = {
-    getServicios: async () => {
-        try {
-            const response = await fetch(`${API_URL}/servicios`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': authService.getAuthHeader(),
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) throw new Error('Error al obtener servicios');
-            return await response.json();
-        } catch (error) {
-            console.error(error);
-            return [];
+async function request(endpoint, method = 'GET', body = null) {
+    const options = {
+        method,
+        headers: {
+            'Authorization': authService.getAuthHeader(),
+            'Content-Type': 'application/json'
         }
-    },
+    };
 
-    saveServicio: async (servicio) => {
-        try {
-            const response = await fetch('http://localhost:8080/servicios', {
-                method: 'POST',
-                headers: {
-                    'Authorization': authService.getAuthHeader(),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(servicio)
-            });
-            if (!response.ok) throw new Error('Error al guardar');
-            return true;
-        } catch (error) {
-            console.error(error);
-            return false;
-        }
-    },
-
-    updateServicio: async (id, servicio) => {
-        const response = await fetch(`http://localhost:8080/servicios/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': authService.getAuthHeader(),
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(servicio)
-        });
-        return response.ok;
-    },
-
-    deleteServicio: async (id) => {
-        const response = await fetch(`http://localhost:8080/servicios/borrar/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': authService.getAuthHeader()
-            }
-        });
-        return response.ok;
+    if (body) {
+        options.body = JSON.stringify(body);
     }
+
+    try {
+        const response = await fetch(`${API_URL}${endpoint}`, options);
+
+        if (response.status === 204) return true;
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(`Error en la petición ${method} ${endpoint}:`, error);
+        throw error; // Re-lanzamos el error para que pueda ser manejado por quien llame a esta función
+    }
+}
+
+export const apiService = {
+    // --- SERVICIOS ---
+    getServicios: () => request('/servicios'),
+    
+    saveServicio: (data) => request('/servicios', 'POST', data),
+    
+    updateServicio: (id, data) => request(`/servicios/${id}`, 'PUT', data),
+    
+    deleteServicio: (id) => request(`/servicios/${id}`, 'DELETE'),
 };
