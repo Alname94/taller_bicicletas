@@ -3,7 +3,7 @@ import { renderServices, renderServiceModal } from '../views/servicesView';
 
 export const ENTITY_CONFIG = {
     servicios: {
-        title: 'Servicios',
+        title: 'Servicio',
         fetchData: () => apiService.getServicios(),
         onSave: (id, data) => id ? apiService.updateServicio(id, data) : apiService.saveServicio(data),
         onDelete: (id) => apiService.deleteServicio(id),

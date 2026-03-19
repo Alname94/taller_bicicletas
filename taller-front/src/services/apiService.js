@@ -18,27 +18,30 @@ async function request(endpoint, method = 'GET', body = null) {
     try {
         const response = await fetch(`${API_URL}${endpoint}`, options);
 
-        if (response.status === 204) return true;
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+        if (response.status === 204 || response.ok && method === 'DELETE') {
+            return true; 
         }
 
-        return await response.json();
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            return await response.json();
+        }
+        
+        return true;
     } catch (error) {
         console.error(`Error en la petición ${method} ${endpoint}:`, error);
-        throw error; // Re-lanzamos el error para que pueda ser manejado por quien llame a esta función
+        throw error; // Re-lanzamos el error para que pueda ser manejado en la UI
     }
 }
 
 export const apiService = {
     // --- SERVICIOS ---
-    getServicios: () => request('/servicios'),
-    
-    saveServicio: (data) => request('/servicios', 'POST', data),
-    
-    updateServicio: (id, data) => request(`/servicios/${id}`, 'PUT', data),
-    
-    deleteServicio: (id) => request(`/servicios/${id}`, 'DELETE'),
+    getServicios: () => request('/servicios'),    
+    saveServicio: (data) => request('/servicios', 'POST', data),    
+    updateServicio: (id, data) => request(`/servicios/${id}`, 'PUT', data),    
+    deleteServicio: (id) => request(`/servicios/borrar/${id}`, 'DELETE'),
 };

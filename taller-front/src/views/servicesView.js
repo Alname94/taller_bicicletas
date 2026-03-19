@@ -21,18 +21,18 @@ export function renderServices(servicios = []) {
     <div class="space-y-6">
         <div class="flex justify-between items-center">
             <h3 class="text-2xl font-bold text-gray-800">Gestión de Servicios</h3>
-            <button id="btnNewService" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition-colors flex items-center">
+            <button class="js-btn-new-entity bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition-colors flex items-center">
                 <span class="mr-2">+</span> Nuevo Servicio
             </button>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Nombre</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Descripción</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase truncate">Descripción</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Valor</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Estado</th>
                         <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Acciones</th>
@@ -45,7 +45,7 @@ export function renderServices(servicios = []) {
         </div>
     </div>
 
-    <div id="modal-container">
+    <div class="js-modal-container">
         ${renderServiceModal()}
     </div>
     `;
@@ -55,7 +55,7 @@ export function renderServiceModal(servicio = null) {
     const isEdit = !!servicio; // true si estamos editando
     
     return `
-    <div id="serviceModal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div class="js-entity-modal fixed inset-0 z-50 flex items-center justify-center hidden">
         <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"></div>
         
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden z-10 transform transition-all">
@@ -63,35 +63,35 @@ export function renderServiceModal(servicio = null) {
                 <h3 class="text-xl font-bold text-gray-800">
                     ${isEdit ? 'Editar Servicio' : 'Crear Nuevo Servicio'}
                 </h3>
-                <button id="btnCloseX" class="text-gray-400 hover:text-gray-600">&times;</button>
+                <button class="js-btn-close-modal text-gray-400 hover:text-gray-600">&times;</button>
             </div>
-            <form id="serviceForm" class="p-6 space-y-4">
-                <input type="hidden" id="serviceId" value="${servicio?.id || ''}">
+            <form class="js-entity-form p-6 space-y-4">
+                <input type="hidden" name="id" value="${servicio?.id || ''}">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nombre del Servicio</label>
-                    <input type="text" id="serviceName" required value="${servicio?.nombre || ''}" 
+                    <input type="text" name="nombre" required value="${servicio?.nombre || ''}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Descripción</label>
-                    <textarea id="serviceDesc" rows="3" 
+                    <textarea name="descripcion" rows="3" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">${servicio?.descripcion || ''}</textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Valor (ARS)</label>
-                    <input type="number" id="serviceValue" required value="${servicio?.valor || ''}" 
+                    <input type="number" name="valor" required value="${servicio?.valor || ''}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Estado</label>
-                    <select id="serviceActive"
+                    <select name="activo"
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
                         <option value="true" ${servicio?.activo ? 'selected' : ''}>Activo</option>
                         <option value="false" ${!servicio?.activo ? 'selected' : ''}>Inactivo</option>
                     </select>
                 </div>
                 <div class="flex justify-end space-x-3 pt-4 border-t">
-                    <button type="button" id="btnCloseModal" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">Cancelar</button>
+                    <button type="button" class="js-btn-cancel-modal px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">Cancelar</button>
                     <button type="submit" id="btnSaveService" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all font-medium">
                         ${isEdit ? 'Guardar Cambios' : 'Crear Servicio'}
                     </button>
