@@ -1,11 +1,9 @@
 import './css/style.css';
 import { ENTITY_CONFIG } from './config/entityConfig';
-import { notifications } from  './utils/notifications';
+import { notifications } from './utils/notifications';
 import { authService } from './services/authService';
-import { apiService } from './services/apiService';
 import { renderLogin } from './views/loginView';
 import { renderDashboardLayout, renderHomeContent } from './views/dashboardView';
-import { renderServices, renderServiceModal } from './views/servicesView';
 
 const app = document.querySelector('#app');
 
@@ -58,17 +56,24 @@ function setupDashboardEvents() {
         });
     };
 
-    const mainContent = document.querySelector('#main-content');
+    const sidebar = document.querySelector('#sidebar-menu');
+    if (sidebar) {
+        sidebar.onclick = (e) => {
+            const link = e.target.closest('[data-link]');
+            if (!link) return;
 
-    document.querySelector('#link-home').addEventListener('click', (e) => {
-        e.preventDefault();
-        mainContent.innerHTML = renderHomeContent();
-    });
+            e.preventDefault();
+            const target = link.dataset.link;
 
-    document.querySelector('#link-servicios').onclick = (e) => {
-        e.preventDefault();
-        navigateTo('servicios');
-    };
+            if (target === 'home') {
+                document.querySelector('#main-content').innerHTML = renderHomeContent();
+            } else {
+                navigateTo(target);
+            }
+
+            // updateActiveLink(link);
+        };
+    }
 }
 
 async function navigateTo(entityKey) {
@@ -94,83 +99,46 @@ async function navigateTo(entityKey) {
     }
 }
 
-// async function navigateToServices() {
-//     const mainContent = document.querySelector('#main-content');
-//     mainContent.innerHTML = renderServices([]);
-//     const servicios = await apiService.getServicios();
-//     mainContent.innerHTML = renderServices(servicios);
-
-//     const btnNewService = document.querySelector('#btnNewService');
-//     btnNewService.addEventListener('click', () => openServiceModal());
-//     setupTableEventListeners(servicios);
-// }
-
-// function openServiceModal(servicio = null) {
-//     const container = document.querySelector('#modal-container');
-//     container.innerHTML = renderServiceModal(servicio);
-
-//     const modal = document.querySelector('#serviceModal');
-//     modal.classList.remove('hidden');
-//     setupModalListeners();
-// }
-
-// function setupModalListeners() {
-//     const modal = document.querySelector('#serviceModal');
-//     const form = document.querySelector('#serviceForm');
-
-//     document.querySelector('#btnCloseModal').onclick = () => modal.classList.add('hidden');
-//     document.querySelector('#btnCloseX').onclick = () => modal.classList.add('hidden');
-
-//     form.onsubmit = async (e) => {
-//         e.preventDefault();
-//         const id = document.querySelector('#serviceId').value;
-//         const data = {
-//             nombre: document.querySelector('#serviceName').value,
-//             descripcion: document.querySelector('#serviceDesc').value,
-//             valor: parseFloat(document.querySelector('#serviceValue').value),
-//             activo: document.querySelector('#serviceActive').value === 'true'
-//         };
-
-//         const success = id
-//             ? await apiService.updateServicio(id, data) // Si hay ID, es PUT
-//             : await apiService.saveServicio(data);      // Si no, es POST
-
-//         if (success) {
-//             modal.classList.add('hidden');
-//             notifications.showToast(id ? 'Servicio actualizado' : 'Servicio creado');
-//             navigateToServices();
-//         }
-//     };
-// }
-
 function openGenericModal(item = null, entityKey) {
     const config = ENTITY_CONFIG[entityKey];
     const modalContainer = document.querySelector('.js-modal-container');
-    
+
     modalContainer.innerHTML = config.renderModal(item);
-    
+
     const modal = modalContainer.querySelector('.js-entity-modal');
     const form = modalContainer.querySelector('.js-entity-form');
     const closeBtn = modalContainer.querySelector('.js-btn-close-modal');
     const cancelBtn = modalContainer.querySelector('.js-btn-cancel-modal');
 
+    const closeModal = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    };
+
     modal.classList.remove('hidden');
-    closeBtn.onclick = () => modal.classList.add('hidden');
-    cancelBtn.onclick = () => modal.classList.add('hidden');
+    modal.classList.add('flex');
+
+    closeBtn.onclick = closeModal;
+    cancelBtn.onclick = closeModal;
 
     form.onsubmit = async (e) => {
         e.preventDefault();
-        const formData = Object.fromEntries(new FormData(form));
-        
+
+        const formData = Object.fromEntries(new FormData(e.target));
+
         try {
             const success = await config.onSave(item?.id, formData);
             if (success) {
                 notifications.showToast(`${config.title} guardado con éxito`);
-                modal.classList.add('hidden');
+                closeModal();
                 navigateTo(entityKey);
             }
         } catch (error) {
-            notifications.showAlert('Error', 'No se pudo guardar los cambios', 'error');
+            notifications.showAlert(
+                'Atención',
+                error.message || 'No se pudo procesar la solicitud',
+                'warning'
+            );
         }
     };
 }
@@ -185,7 +153,7 @@ function setupTableListeners(data, entityKey) {
         if (!btn) return;
 
         const id = btn.dataset.id;
-        
+
         if (btn.classList.contains(config.btnEditClass)) {
             const item = data.find(i => i.id == id);
             openGenericModal(item, entityKey);
@@ -196,7 +164,7 @@ function setupTableListeners(data, entityKey) {
                 '¿Estás seguro?',
                 'Esta acción no se puede deshacer.'
             );
-            
+
             if (confirmado) {
                 const ok = await config.onDelete(id);
                 if (ok) {
@@ -207,40 +175,12 @@ function setupTableListeners(data, entityKey) {
                 }
             }
         }
+
+        // if (btn.classList.contains(config.btnViewClass)) {
+        // navigateToClientProfile(id); 
+        // }
     };
 }
-
-// function setupTableEventListeners(servicios) {
-//     const tableBody = document.querySelector('tbody');
-//     if (!tableBody) return;
-
-//     tableBody.addEventListener('click', async (e) => {
-//         const id = e.target.dataset.id;
-//         if (!id) return;
-
-//         if (e.target.classList.contains('btn-edit-service')) {
-//             const servicioAEditar = servicios.find(s => s.id == id);
-//             openServiceModal(servicioAEditar);
-//         }
-
-//         if (e.target.classList.contains('btn-delete-service')) {
-//             const confirmar = await notifications.showConfirm(
-//                 '¿Eliminar servicio?',
-//                 `Estás por borrar el servicio #${id}. Esta acción es permanente.`,
-//                 'Eliminar'
-//             );
-//             if (confirmar) {
-//                 const ok = await apiService.deleteServicio(id);
-//                 if (ok) {
-//                     notifications.showToast('Servicio eliminado correctamente');
-//                     navigateToServices();
-//                 } else {
-//                     notifications.showAlert('Error', 'No se pudo eliminar el servicio.', 'error');
-//                 }
-//             }
-//         }
-//     });
-// }
 
 // ----------------------------------------------
 init();

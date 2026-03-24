@@ -1,4 +1,4 @@
-export function renderServices(servicios = []) {
+export function renderServiciosTable(servicios = []) {
     const rows = servicios.map(s => `
         <tr class="border-b hover:bg-gray-50 transition-colors">
             <td class="px-6 py-4 text-sm font-medium text-gray-900">#${s.id}</td>
@@ -10,9 +10,9 @@ export function renderServices(servicios = []) {
                     ${s.activo ? 'Activo' : 'Inactivo'}
                 </span>
             </td>
-            <td class="px-6 py-4 text-sm text-right space-x-2">
-                <button data-id="${s.id}" class="btn-edit-service text-blue-600 hover:text-blue-900 font-medium">Editar</button>
-                <button data-id="${s.id}" class="btn-delete-service text-red-600 hover:text-red-900 font-medium">Eliminar</button>
+            <td class="px-6 py-4 text-sm text-center space-x-2">
+                <button data-id="${s.id}" class="js-btn-edit-service text-blue-600 hover:text-blue-900 font-medium">Editar</button>
+                <button data-id="${s.id}" class="js-btn-delete-service text-red-600 hover:text-red-900 font-medium">Eliminar</button>
             </td>
         </tr>
     `).join('');
@@ -35,7 +35,7 @@ export function renderServices(servicios = []) {
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase truncate">Descripción</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Valor</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Estado</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Acciones</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
@@ -46,16 +46,16 @@ export function renderServices(servicios = []) {
     </div>
 
     <div class="js-modal-container">
-        ${renderServiceModal()}
+        ${renderServicioModal()}
     </div>
     `;
 }
 
-export function renderServiceModal(servicio = null) {
+export function renderServicioModal(servicio = null) {
     const isEdit = !!servicio; // true si estamos editando
     
     return `
-    <div class="js-entity-modal fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div class="js-entity-modal fixed inset-0 z-50 items-center justify-center hidden">
         <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"></div>
         
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden z-10 transform transition-all">
