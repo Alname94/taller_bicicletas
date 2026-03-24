@@ -71,7 +71,7 @@ function setupDashboardEvents() {
                 navigateTo(target);
             }
 
-            // updateActiveLink(link);
+            updateActiveLink(link);
         };
     }
 }
@@ -180,6 +180,24 @@ function setupTableListeners(data, entityKey) {
         // navigateToClientProfile(id); 
         // }
     };
+}
+
+function updateActiveLink(activeLink) {
+    const links = document.querySelectorAll('[data-link]');
+
+    links.forEach(link => {
+        link.classList.remove('bg-blue-50', 'text-gray-700');
+        link.classList.add('text-gray-600', 'hover:bg-gray-100');
+        
+        const span = link.querySelector('span');
+        if (span) span.classList.remove('font-medium');
+    });
+
+    activeLink.classList.remove('text-gray-600', 'hover:bg-gray-100');
+    activeLink.classList.add('bg-blue-50', 'text-gray-700');
+    
+    const activeSpan = activeLink.querySelector('span');
+    if (activeSpan) activeSpan.classList.add('font-medium');
 }
 
 // ----------------------------------------------
