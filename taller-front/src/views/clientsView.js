@@ -5,9 +5,9 @@ export function renderClientesTable(clientes = []) {
             <td class="px-6 py-4 text-sm text-gray-700">${c.nombre} ${c.apellido}</td>
             <td class="px-6 py-4 text-sm text-gray-700">${c.dni}</td>
             <td class="px-6 py-4 text-sm text-center space-x-2">
-                <button data-id="${c.id}" class="js-btn-view-client text-emerald-600 hover:text-blue-900 font-medium">Ver Ficha</button>
-                <button data-id="${c.id}" class="js-btn-edit-client text-blue-600 hover:text-blue-900 font-medium">Editar</button>
-                <button data-id="${c.id}" class="js-btn-delete-client text-red-600 hover:text-red-900 font-medium">Eliminar</button>
+                <button data-id="${c.id}" class="js-btn-view text-emerald-600 hover:text-blue-900 font-medium">Ver Ficha</button>
+                <button data-id="${c.id}" class="js-btn-edit text-blue-600 hover:text-blue-900 font-medium">Editar</button>
+                <button data-id="${c.id}" class="js-btn-delete text-red-600 hover:text-red-900 font-medium">Eliminar</button>
             </td>
         </tr>
     `).join('');
@@ -20,7 +20,7 @@ export function renderClientesTable(clientes = []) {
                 <div class="relative w-full md:w-96">
                     <input type="text"
                         class="js-search-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg rounded-r-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" 
-                        placeholder="Buscar por nombre, apellido o DNI..."
+                        placeholder="Buscar por ID, nombre o apellido..."
                         autocomplete="off">
                 </div>
                 <button class="js-btn-search bg-gray-800 hover:bg-gray-900 text-white px-5 py-2.5 rounded-r-lg rounded-l-none text-sm font-medium transition-colors border border-gray-800">

@@ -9,15 +9,6 @@ const app = document.querySelector('#app');
 
 // ----------------------------------------------
 
-// function router() {
-//     if (authService.isLoggedIn()) {
-//         app.innerHTML = renderDashboardLayout();
-//     } else {
-//         app.innerHTML = renderLogin();
-//         setupLoginEvents();
-//     }
-// }
-
 function init() {
     if (authService.isLoggedIn()) {
         app.innerHTML = renderDashboardLayout();
@@ -84,19 +75,39 @@ async function navigateTo(entityKey) {
     mainContent.innerHTML = `<div class="p-10 text-center text-gray-500 italic">Cargando ${config.title}...</div>`;
 
     try {
-        const data = await config.fetchData();
-        mainContent.innerHTML = config.renderTable(data);
-
-        const btnNewEntity = document.querySelector('.js-btn-new-entity');
-        if (btnNewEntity) {
-            btnNewEntity.onclick = () => openGenericModal(null, entityKey);
-        }
-
-        setupTableListeners(data, entityKey);
-
+        await renderMainContent(entityKey);
     } catch (error) {
         notifications.showAlert('Error', `No se pudo cargar la sección de ${config.title}`, 'error');
     }
+}
+
+async function renderMainContent(entityKey, providedData = null) {
+    const config = ENTITY_CONFIG[entityKey];
+    const container = document.getElementById('main-content');
+    
+    const data = providedData ? providedData : await config.fetchData();
+    
+    container.innerHTML = config.renderTable(data);
+    
+    setupEntityListeners(entityKey, data);
+}
+
+function updateActiveLink(activeLink) {
+    const links = document.querySelectorAll('[data-link]');
+
+    links.forEach(link => {
+        link.classList.remove('bg-blue-50', 'text-gray-700');
+        link.classList.add('text-gray-600', 'hover:bg-gray-100');
+        
+        const span = link.querySelector('span');
+        if (span) span.classList.remove('font-medium');
+    });
+
+    activeLink.classList.remove('text-gray-600', 'hover:bg-gray-100');
+    activeLink.classList.add('bg-blue-50', 'text-gray-700');
+    
+    const activeSpan = activeLink.querySelector('span');
+    if (activeSpan) activeSpan.classList.add('font-medium');
 }
 
 function openGenericModal(item = null, entityKey) {
@@ -154,12 +165,12 @@ function setupTableListeners(data, entityKey) {
 
         const id = btn.dataset.id;
 
-        if (btn.classList.contains(config.btnEditClass)) {
+        if (btn.classList.contains('js-btn-edit')) {
             const item = data.find(i => i.id == id);
             openGenericModal(item, entityKey);
         }
 
-        if (btn.classList.contains(config.btnDeleteClass)) {
+        if (btn.classList.contains('js-btn-delete')) {
             const confirmado = await notifications.showConfirm(
                 '¿Estás seguro?',
                 'Esta acción no se puede deshacer.'
@@ -182,22 +193,68 @@ function setupTableListeners(data, entityKey) {
     };
 }
 
-function updateActiveLink(activeLink) {
-    const links = document.querySelectorAll('[data-link]');
+function setupSearchLogic(entityKey) {
+    const btn = document.querySelector('.js-btn-search');
+    const input = document.querySelector('.js-search-input');
 
-    links.forEach(link => {
-        link.classList.remove('bg-blue-50', 'text-gray-700');
-        link.classList.add('text-gray-600', 'hover:bg-gray-100');
-        
-        const span = link.querySelector('span');
-        if (span) span.classList.remove('font-medium');
-    });
+    if (!btn || !input) return;
 
-    activeLink.classList.remove('text-gray-600', 'hover:bg-gray-100');
-    activeLink.classList.add('bg-blue-50', 'text-gray-700');
-    
-    const activeSpan = activeLink.querySelector('span');
-    if (activeSpan) activeSpan.classList.add('font-medium');
+    btn.onclick = () => handleEntitySearch(entityKey);
+
+    input.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+            handleEntitySearch(entityKey);
+        }
+    };
+}
+
+async function handleEntitySearch(entityKey) {
+    const input = document.querySelector('.js-search-input');
+    if (!input) return;
+
+    const query = input.value.trim();
+    const config = ENTITY_CONFIG[entityKey];
+
+    if (query === "") {
+        await renderMainContent(entityKey);
+        return;
+    }
+
+    try {
+        let data = await config.onSearch(query);
+
+        // Si la respuesta es un solo objeto, lo convertimos en un array para mantener la consistencia
+        if (data && !Array.isArray(data)) {
+            data = [data];
+        }
+
+        if (!data || data.length === 0) {
+            notifications.showAlert('Sin resultados', `No se encontraron ${config.title} con el término: "${query}"`, 'info');
+            await renderMainContent(entityKey); // Carga la lista completa por defecto
+        } else {
+            await renderMainContent(entityKey, data);
+            
+            // Devolvemos el foco al input para que el usuario pueda seguir operando
+            const newInput = document.querySelector('.js-search-input');
+            if (newInput) {
+                newInput.focus();
+                newInput.value = query;
+            }
+        }
+
+    } catch (error) {
+        notifications.showAlert('Sin resultados', `No se encontró ningún resultado para "${query}"`, 'warning');
+        await renderMainContent(entityKey);
+    }
+}
+
+function setupEntityListeners(entityKey, data) {
+    const btnNewEntity = document.querySelector('.js-btn-new-entity');
+    if (btnNewEntity) {
+        btnNewEntity.onclick = () => openGenericModal(null, entityKey);
+    }
+    setupTableListeners(data, entityKey);
+    setupSearchLogic(entityKey);
 }
 
 // ----------------------------------------------
