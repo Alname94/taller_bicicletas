@@ -21,6 +21,17 @@ export function renderServiciosTable(servicios = []) {
     <div class="space-y-6">
         <div class="flex justify-between items-center">
             <h3 class="text-2xl font-bold text-gray-800">Gestión de Servicios</h3>
+            <div class="flex grow max-w-md">
+                <div class="relative w-full md:w-96">
+                    <input type="text"
+                        class="js-search-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg rounded-r-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" 
+                        placeholder="Buscar por servicio..."
+                        autocomplete="off">
+                </div>
+                <button class="js-btn-search bg-gray-800 hover:bg-gray-900 text-white px-5 py-2.5 rounded-r-lg rounded-l-none text-sm font-medium transition-colors border border-gray-800">
+                    Buscar
+                </button>
+            </div>
             <button class="js-btn-new-entity bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition-colors flex items-center">
                 <span class="mr-2">+</span> Nuevo Servicio
             </button>
