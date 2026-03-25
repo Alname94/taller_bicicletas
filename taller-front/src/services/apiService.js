@@ -51,20 +51,26 @@ async function request(endpoint, method = 'GET', body = null) {
 }
 
 export const apiService = {
+    // --- BÚSQUEDA GENÉRICA ---
+    // Permite buscar por ID (si el query es numérico) o por un término específico (si es texto)
+    searchEntity: (path, query, paramName = 'term') => {
+        const url = isNaN(query)
+            ? `/${path}/buscar?${paramName}=${encodeURIComponent(query)}`
+            : `/${path}/${query}`;
+
+        return request(url);
+    },
+
     // --- SERVICIOS ---
     getServicios: () => request('/servicios'),
     saveServicio: (data) => request('/servicios', 'POST', data),
     updateServicio: (id, data) => request(`/servicios/${id}`, 'PUT', data),
     deleteServicio: (id) => request(`/servicios/borrar/${id}`, 'DELETE'),
     getServiciosActivos: () => request('/servicios/activos'),
-    getServicioById: (id) => request(`/servicios/${id}`),
 
     // --- CLIENTES ---
     getClientes: () => request('/clientes'),
     saveCliente: (data) => request('/clientes', 'POST', data),
     updateCliente: (id, data) => request(`/clientes/${id}`, 'PUT', data),
     deleteCliente: (id) => request(`/clientes/borrar/${id}`, 'DELETE'),
-    getClientesByNombreOrApellido: (termino) =>
-        request(`/clientes/buscar?nombre=${termino}&apellido=${termino}`),
-    getClienteById: (id) => request(`/clientes/${id}`),
 };
