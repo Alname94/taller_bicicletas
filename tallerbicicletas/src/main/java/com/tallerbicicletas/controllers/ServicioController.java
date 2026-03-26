@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tallerbicicletas.models.entities.Servicio;
@@ -63,5 +64,11 @@ public class ServicioController {
     public ResponseEntity<String> deleteServicio(@PathVariable Long id) {
         servicioService.deleteServicio(id);
         return new ResponseEntity<>("Servicio eliminado/desactivado correctamente", HttpStatus.OK);
+    }
+
+    @Operation(summary = "Buscar servicios por nombre", description = "Permite buscar servicios cuyo nombre contenga el término de búsqueda proporcionado. Se requiere proporcionar el término de búsqueda como parámetro de consulta.")
+    @GetMapping("/buscar")
+    public ResponseEntity<List<Servicio>> findByNombre(@RequestParam String nombre) {
+        return new ResponseEntity<>(servicioService.findByNombreContainingIgnoreCase(nombre), HttpStatus.OK);
     }
 }

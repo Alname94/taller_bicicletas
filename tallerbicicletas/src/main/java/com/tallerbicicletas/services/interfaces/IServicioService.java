@@ -17,4 +17,6 @@ public interface IServicioService {
     public Servicio editServicio(Servicio servicio);
 
     public List<Servicio> getServiciosActivos();
+
+    public List<Servicio> findByNombreContainingIgnoreCase(String nombre);
 }

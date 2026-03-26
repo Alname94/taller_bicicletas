@@ -29,151 +29,177 @@ import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ServicioController.class)
 @Import(SecurityConfig.class)
-@WithMockUser(username = "admin", roles = {"ADMIN"})
+@WithMockUser(username = "admin", roles = { "ADMIN" })
 public class ServicioControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @MockitoBean
-    private IServicioService servicioService;
+        @MockitoBean
+        private IServicioService servicioService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void getServiciosActivos_DebeRetornarListaYOk() throws Exception {
-        Servicio s = new Servicio(1L, "Lavado", "Desc", 5000.0, true);
-        given(servicioService.getServiciosActivos()).willReturn(List.of(s));
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void getServiciosActivos_DebeRetornarListaYOk() throws Exception {
+                Servicio s = new Servicio(1L, "Lavado", "Desc", 5000.0, true);
+                given(servicioService.getServiciosActivos()).willReturn(List.of(s));
 
-        mockMvc.perform(get("/servicios/activos"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].nombre").value("Lavado"));
-    }
+                mockMvc.perform(get("/servicios/activos"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$[0].nombre").value("Lavado"));
+        }
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void getServicioById_DebeRetornarServicio_CuandoExiste() throws Exception {
-        Servicio s = new Servicio(1L, "Ajuste", "Desc", 3000.0, true);
-        given(servicioService.findServicio(1L)).willReturn(s);
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void getServicioById_DebeRetornarServicio_CuandoExiste() throws Exception {
+                Servicio s = new Servicio(1L, "Ajuste", "Desc", 3000.0, true);
+                given(servicioService.findServicio(1L)).willReturn(s);
 
-        mockMvc.perform(get("/servicios/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("Ajuste"));
-    }
+                mockMvc.perform(get("/servicios/1"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.nombre").value("Ajuste"));
+        }
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void getServicioById_DebeRetornarNotFound_CuandoNoExiste() throws Exception {
-        given(servicioService.findServicio(99L))
-                .willThrow(new ResourceNotFoundException("El servicio con id 99 no existe."));
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void getServicioById_DebeRetornarNotFound_CuandoNoExiste() throws Exception {
+                given(servicioService.findServicio(99L))
+                                .willThrow(new ResourceNotFoundException("El servicio con id 99 no existe."));
 
-        mockMvc.perform(get("/servicios/99"))
-                .andExpect(status().isNotFound());
-    }
+                mockMvc.perform(get("/servicios/99"))
+                                .andExpect(status().isNotFound());
+        }
 
-    // --- TESTS POST ---
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void buscarPorNombre_DebeRetornarLista_CuandoExistenCoincidencias() throws Exception {
+                Servicio s1 = new Servicio(1L, "Mantenimiento", "Desc", 1500.0, true);
+                given(servicioService.findByNombreContainingIgnoreCase("Mantenimiento"))
+                                .willReturn(List.of(s1));
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void createServicio_DebeRetornarCreated_CuandoEsValido() throws Exception {
-        Servicio s = new Servicio(null, "Nuevo", "Desc", 1000.0, true);
-        given(servicioService.saveServicio(any(Servicio.class))).willReturn(s);
+                mockMvc.perform(get("/servicios/buscar")
+                                .param("nombre", "Mantenimiento"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.length()").value(1))
+                                .andExpect(jsonPath("$[0].nombre").value("Mantenimiento"));
+        }
 
-        mockMvc.perform(post("/servicios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(s)))
-                .andExpect(status().isCreated());
-    }
+        // --- TESTS POST ---
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void createServicio_DebeRetornarBadRequest_CuandoNombreDuplicado() throws Exception {
-        Servicio s = new Servicio(null, "Repetido", "Desc", 1000.0, true);
-        given(servicioService.saveServicio(any(Servicio.class)))
-                .willThrow(new BadRequestException("El Servicio 'Repetido' ya está registrado."));
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void createServicio_DebeRetornarCreated_CuandoEsValido() throws Exception {
+                Servicio s = new Servicio(null, "Nuevo", "Desc", 1000.0, true);
+                given(servicioService.saveServicio(any(Servicio.class))).willReturn(s);
 
-        mockMvc.perform(post("/servicios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(s)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("El Servicio 'Repetido' ya está registrado."));
-    }
+                mockMvc.perform(post("/servicios")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(s)))
+                                .andExpect(status().isCreated());
+        }
 
-    // --- TESTS PUT ---
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void createServicio_DebeRetornarBadRequest_CuandoNombreDuplicado() throws Exception {
+                Servicio s = new Servicio(null, "Repetido", "Desc", 1000.0, true);
+                given(servicioService.saveServicio(any(Servicio.class)))
+                                .willThrow(new BadRequestException("El Servicio 'Repetido' ya está registrado."));
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void editServicio_DebeRetornarOk_CuandoEsExitoso() throws Exception {
-        Servicio s = new Servicio(1L, "Editado", "Desc", 2000.0, true);
-        given(servicioService.editServicio(any(Servicio.class))).willReturn(s);
+                mockMvc.perform(post("/servicios")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(s)))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.message").value("El Servicio 'Repetido' ya está registrado."));
+        }
 
-        mockMvc.perform(put("/servicios/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(s)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("Editado"));
-    }
+        // --- TESTS PUT ---
 
-    // --- TESTS DELETE ---
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void editServicio_DebeRetornarOk_CuandoEsExitoso() throws Exception {
+                Servicio s = new Servicio(1L, "Editado", "Desc", 2000.0, true);
+                given(servicioService.editServicio(any(Servicio.class))).willReturn(s);
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void deleteServicio_DebeRetornarOk_CuandoSeElimina() throws Exception {
-        doNothing().when(servicioService).deleteServicio(1L);
+                mockMvc.perform(put("/servicios/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(s)))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.nombre").value("Editado"));
+        }
 
-        mockMvc.perform(delete("/servicios/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Servicio eliminado/desactivado correctamente"));
-    }
+        // --- TESTS DELETE ---
 
-    // --- TESTS DE VALIDACIÓN (BEAN VALIDATION) ---
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void deleteServicio_DebeRetornarOk_CuandoSeElimina() throws Exception {
+                doNothing().when(servicioService).deleteServicio(1L);
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void createServicio_DebeRetornarBadRequest_CuandoNombreEstaVacio() throws Exception {
-        Servicio s = new Servicio(null, "", "Descripción válida", 1000.0, true);
+                mockMvc.perform(delete("/servicios/borrar/1"))
+                                .andExpect(status().isOk())
+                                .andExpect(content().string("Servicio eliminado/desactivado correctamente"));
+        }
 
-        mockMvc.perform(post("/servicios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(s)))
-                .andExpect(status().isBadRequest());
-        
-        verify(servicioService, times(0)).saveServicio(any());
-    }
+        // --- TESTS DE VALIDACIÓN (BEAN VALIDATION) ---
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void createServicio_DebeRetornarBadRequest_CuandoValorEsNegativo() throws Exception {
-        Servicio s = new Servicio(null, "Servicio Test", "Desc", -50.0, true);
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void createServicio_DebeRetornarBadRequest_CuandoNombreEstaVacio() throws Exception {
+                Servicio s = new Servicio(null, "", "Descripción válida", 1000.0, true);
 
-        mockMvc.perform(post("/servicios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(s)))
-                .andExpect(status().isBadRequest());
-    }
+                mockMvc.perform(post("/servicios")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(s)))
+                                .andExpect(status().isBadRequest());
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void createServicio_DebeRetornarBadRequest_CuandoValorEsNulo() throws Exception {
-        Servicio s = new Servicio(null, "Servicio Test", "Desc", null, true);
+                verify(servicioService, times(0)).saveServicio(any());
+        }
 
-        mockMvc.perform(post("/servicios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(s)))
-                .andExpect(status().isBadRequest());
-    }
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void createServicio_DebeRetornarBadRequest_CuandoValorEsNegativo() throws Exception {
+                Servicio s = new Servicio(null, "Servicio Test", "Desc", -50.0, true);
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void createServicio_DebeRetornarBadRequest_CuandoNombreEsMuyLargo() throws Exception {
-        String nombreLargo = "A".repeat(51);
-        Servicio s = new Servicio(null, nombreLargo, "Desc", 1000.0, true);
+                mockMvc.perform(post("/servicios")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(s)))
+                                .andExpect(status().isBadRequest());
+        }
 
-        mockMvc.perform(post("/servicios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(s)))
-                .andExpect(status().isBadRequest());
-    }
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void createServicio_DebeRetornarBadRequest_CuandoValorEsNulo() throws Exception {
+                Servicio s = new Servicio(null, "Servicio Test", "Desc", null, true);
+
+                mockMvc.perform(post("/servicios")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(s)))
+                                .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void createServicio_DebeRetornarBadRequest_CuandoNombreEsMuyLargo() throws Exception {
+                String nombreLargo = "A".repeat(51);
+                Servicio s = new Servicio(null, nombreLargo, "Desc", 1000.0, true);
+
+                mockMvc.perform(post("/servicios")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(s)))
+                                .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        @WithMockUser(username = "admin", roles = { "ADMIN" })
+        void buscarPorNombre_DebeRetornarListaVacia_CuandoNoHayCoincidencias() throws Exception {
+                given(servicioService.findByNombreContainingIgnoreCase("Inexistente"))
+                                .willReturn(List.of());
+
+                mockMvc.perform(get("/servicios/buscar")
+                                .param("nombre", "Inexistente"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.length()").value(0));
+        }
 }

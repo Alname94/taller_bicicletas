@@ -79,4 +79,9 @@ public class ServicioService implements IServicioService {
     public List<Servicio> getServiciosActivos() {
         return servicioRepository.findByActivoTrue();
     }
+
+    @Override
+    public List<Servicio> findByNombreContainingIgnoreCase(String nombre) {
+        return servicioRepository.findByNombreContainingIgnoreCase(nombre);
+    }
 }
