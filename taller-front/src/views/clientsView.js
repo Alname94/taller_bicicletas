@@ -1,13 +1,13 @@
 export function renderClientesTable(clientes = []) {
-    const rows = clientes.map(c => `
+    const rows = clientes.map(({ id, nombre, apellido, dni }) => `
         <tr class="border-b hover:bg-gray-50 transition-colors">
-            <td class="px-6 py-4 text-sm font-medium text-gray-900">#${c.id}</td>
-            <td class="px-6 py-4 text-sm text-gray-700">${c.nombre} ${c.apellido}</td>
-            <td class="px-6 py-4 text-sm text-gray-700">${c.dni}</td>
+            <td class="px-6 py-4 text-sm font-medium text-gray-900">#${id}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">${nombre} ${apellido}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">${dni}</td>
             <td class="px-6 py-4 text-sm text-center space-x-2">
-                <button data-id="${c.id}" class="js-btn-view text-emerald-600 hover:text-blue-900 font-medium">Ver Ficha</button>
-                <button data-id="${c.id}" class="js-btn-edit text-blue-600 hover:text-blue-900 font-medium">Editar</button>
-                <button data-id="${c.id}" class="js-btn-delete text-red-600 hover:text-red-900 font-medium">Eliminar</button>
+                <button data-id="${id}" class="js-btn-view text-emerald-600 hover:text-blue-900 font-medium">Ver Ficha</button>
+                <button data-id="${id}" class="js-btn-edit text-blue-600 hover:text-blue-900 font-medium">Editar</button>
+                <button data-id="${id}" class="js-btn-delete text-red-600 hover:text-red-900 font-medium">Eliminar</button>
             </td>
         </tr>
     `).join('');

@@ -29,11 +29,15 @@ function handleLoginEvents() {
         const user = document.querySelector('#username').value;
         const pass = document.querySelector('#password').value;
 
-        const success = await authService.login(user, pass);
-        if (success) {
-            init();
-        } else {
-            alert("Error: Usuario o clave incorrectos");
+        try {
+            const success = await authService.login(user, pass);
+            if (success) {
+                init();
+            } else {
+                notifications.showAlert('Error', 'Usuario o contraseña incorrectos', 'error');
+            }
+        } catch (err) {
+            notifications.showAlert('Error de conexión', 'No se pudo conectar con el servidor', 'error');
         }
     });
 }
@@ -55,12 +59,7 @@ function setupDashboardEvents() {
 
             e.preventDefault();
             const target = link.dataset.link;
-
-            if (target === 'home') {
-                document.querySelector('#main-content').innerHTML = renderHomeContent();
-            } else {
-                navigateTo(target);
-            }
+            target === 'home' ? document.querySelector('#main-content').innerHTML = renderHomeContent() : navigateTo(target);
 
             updateActiveLink(link);
         };
@@ -84,11 +83,11 @@ async function navigateTo(entityKey) {
 async function renderMainContent(entityKey, providedData = null) {
     const config = ENTITY_CONFIG[entityKey];
     const container = document.getElementById('main-content');
-    
+
     const data = providedData ? providedData : await config.fetchData();
-    
+
     container.innerHTML = config.renderTable(data);
-    
+
     setupEntityListeners(entityKey, data);
 }
 
@@ -98,14 +97,14 @@ function updateActiveLink(activeLink) {
     links.forEach(link => {
         link.classList.remove('bg-blue-50', 'text-gray-700');
         link.classList.add('text-gray-600', 'hover:bg-gray-100');
-        
+
         const span = link.querySelector('span');
         if (span) span.classList.remove('font-medium');
     });
 
     activeLink.classList.remove('text-gray-600', 'hover:bg-gray-100');
     activeLink.classList.add('bg-blue-50', 'text-gray-700');
-    
+
     const activeSpan = activeLink.querySelector('span');
     if (activeSpan) activeSpan.classList.add('font-medium');
 }
@@ -233,7 +232,7 @@ async function handleEntitySearch(entityKey) {
             await renderMainContent(entityKey); // Carga la lista completa por defecto
         } else {
             await renderMainContent(entityKey, data);
-            
+
             // Devolvemos el foco al input para que el usuario pueda seguir operando
             const newInput = document.querySelector('.js-search-input');
             if (newInput) {

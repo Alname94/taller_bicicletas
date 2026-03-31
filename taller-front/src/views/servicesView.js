@@ -1,21 +1,27 @@
 export function renderServiciosTable(servicios = []) {
-    const rows = servicios.map(s => `
-        <tr class="border-b hover:bg-gray-50 transition-colors">
-            <td class="px-6 py-4 text-sm font-medium text-gray-900">#${s.id}</td>
-            <td class="px-6 py-4 text-sm text-gray-700">${s.nombre}</td>
-            <td class="px-6 py-4 text-sm text-gray-500">${s.descripcion}</td>
-            <td class="px-6 py-4 text-sm font-bold text-gray-900">$${s.valor.toLocaleString()}</td>
-            <td class="px-6 py-4 text-sm">
-                <span class="px-2 py-1 rounded-full text-xs ${s.activo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
-                    ${s.activo ? 'Activo' : 'Inactivo'}
-                </span>
-            </td>
-            <td class="px-6 py-4 text-sm text-center space-x-2">
-                <button data-id="${s.id}" class="js-btn-edit text-blue-600 hover:text-blue-900 font-medium">Editar</button>
-                <button data-id="${s.id}" class="js-btn-delete text-red-600 hover:text-red-900 font-medium">Eliminar</button>
-            </td>
-        </tr>
-    `).join('');
+    const rows = servicios.map(({id, nombre, descripcion, valor, activo}) => {
+        const badgeClass = activo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+        const estadoTexto = activo ? 'Activo' : 'Inactivo';
+        const precioFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor);
+
+        return `
+            <tr class="border-b hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 text-sm font-medium text-gray-900">#${id}</td>
+                <td class="px-6 py-4 text-sm text-gray-700">${nombre}</td>
+                <td class="px-6 py-4 text-sm text-gray-500">${descripcion}</td>
+                <td class="px-6 py-4 text-sm font-bold text-gray-900">${precioFormateado}</td>
+                <td class="px-6 py-4 text-sm">
+                    <span class="px-2 py-1 rounded-full text-xs ${badgeClass}">
+                        ${estadoTexto}
+                    </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-center space-x-2">
+                    <button data-id="${id}" class="js-btn-edit text-blue-600 hover:text-blue-900 font-medium">Editar</button>
+                    <button data-id="${id}" class="js-btn-delete text-red-600 hover:text-red-900 font-medium">Eliminar</button>
+                </td>
+            </tr>
+        `;
+    }).join('');
 
     return `
     <div class="space-y-6">
@@ -25,7 +31,7 @@ export function renderServiciosTable(servicios = []) {
                 <div class="relative w-full md:w-96">
                     <input type="text"
                         class="js-search-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg rounded-r-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" 
-                        placeholder="Buscar por ID del servicio..."
+                        placeholder="Buscar por ID o nombre del servicio..."
                         autocomplete="off">
                 </div>
                 <button class="js-btn-search bg-gray-800 hover:bg-gray-900 text-white px-5 py-2.5 rounded-r-lg rounded-l-none text-sm font-medium transition-colors border border-gray-800">
