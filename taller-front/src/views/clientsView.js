@@ -57,6 +57,15 @@ export function renderClientesTable(clientes = []) {
 export function renderClienteModal(cliente = null) {
     const isEdit = !!cliente; // true si estamos editando
 
+    const {
+        id = '',
+        nombre = '',
+        apellido = '',
+        dni = '',
+        telefono = '',
+        email = ''
+    } = cliente || {};
+
     return `
     <div class="js-entity-modal fixed inset-0 z-50 items-center justify-center hidden">
         <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"></div>
@@ -69,30 +78,30 @@ export function renderClienteModal(cliente = null) {
                 <button class="js-btn-close-modal text-gray-400 hover:text-gray-600">&times;</button>
             </div>
             <form class="js-entity-form p-6 space-y-4">
-                <input type="hidden" name="id" value="${cliente?.id || ''}">
+                <input type="hidden" name="id" value="${id}">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nombre</label>
-                    <input type="text" name="nombre" required value="${cliente?.nombre || ''}" 
+                    <input type="text" name="nombre" required value="${nombre}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Apellido</label>
-                    <input type="text" name="apellido" required value="${cliente?.apellido || ''}" 
+                    <input type="text" name="apellido" required value="${apellido}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">DNI</label>
-                    <input type="text" maxlength="8" name="dni" required value="${cliente?.dni || ''}" 
+                    <input type="text" maxlength="8" name="dni" required value="${dni}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Teléfono</label>
-                    <input type="tel" name="telefono" pattern="^\\+?[0-9]{8,15}$" minlength="8" maxlength="15" inputmode="numeric" required value="${cliente?.telefono || ''}" 
+                    <input type="tel" name="telefono" pattern="^\\+?[0-9]{8,15}$" minlength="8" maxlength="15" inputmode="numeric" required value="${telefono}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" name="email" maxlength="100" required value="${cliente?.email || ''}" 
+                    <input type="email" name="email" maxlength="100" required value="${email}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div class="flex justify-end space-x-3 pt-4 border-t">

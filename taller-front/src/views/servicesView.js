@@ -70,6 +70,14 @@ export function renderServiciosTable(servicios = []) {
 
 export function renderServicioModal(servicio = null) {
     const isEdit = !!servicio; // true si estamos editando
+
+    const { 
+        id = '', 
+        nombre = '', 
+        descripcion = '', 
+        valor = '', 
+        activo = true 
+    } = servicio || {};
     
     return `
     <div class="js-entity-modal fixed inset-0 z-50 items-center justify-center hidden">
@@ -83,28 +91,28 @@ export function renderServicioModal(servicio = null) {
                 <button class="js-btn-close-modal text-gray-400 hover:text-gray-600">&times;</button>
             </div>
             <form class="js-entity-form p-6 space-y-4">
-                <input type="hidden" name="id" value="${servicio?.id || ''}">
+                <input type="hidden" name="id" value="${id}">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nombre del Servicio</label>
-                    <input type="text" name="nombre" required value="${servicio?.nombre || ''}" 
+                    <input type="text" name="nombre" required value="${nombre}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Descripción</label>
                     <textarea name="descripcion" rows="3" 
-                        class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">${servicio?.descripcion || ''}</textarea>
+                        class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">${descripcion}</textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Valor (ARS)</label>
-                    <input type="number" name="valor" required value="${servicio?.valor || ''}" 
+                    <input type="number" name="valor" required value="${valor}" 
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Estado</label>
                     <select name="activo"
                         class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
-                        <option value="true" ${servicio?.activo ? 'selected' : ''}>Activo</option>
-                        <option value="false" ${!servicio?.activo ? 'selected' : ''}>Inactivo</option>
+                        <option value="true" ${activo ? 'selected' : ''}>Activo</option>
+                        <option value="false" ${!activo ? 'selected' : ''}>Inactivo</option>
                     </select>
                 </div>
                 <div class="flex justify-end space-x-3 pt-4 border-t">
