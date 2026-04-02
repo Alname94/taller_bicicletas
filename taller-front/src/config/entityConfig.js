@@ -1,9 +1,10 @@
 import { apiService } from '../services/apiService';
 import { renderServiciosTable, renderServicioModal } from '../views/servicesView';
-import { renderClientesTable, renderClienteModal } from '../views/clientsView';
+import { renderClientesTable, renderClienteModal, renderClientePerfil} from '../views/clientsView';
 
 export const ENTITY_CONFIG = {
     servicios: {
+        entity: 'Servicio',
         title: 'Servicios',
         path: 'servicios',
         fetchData: () => apiService.getServicios(),
@@ -16,6 +17,7 @@ export const ENTITY_CONFIG = {
     },
 
     clientes: {
+        entity: 'Cliente',
         title: 'Clientes',
         path: 'clientes',
         fetchData: () => apiService.getClientes(),
@@ -25,5 +27,9 @@ export const ENTITY_CONFIG = {
 
         renderTable: (data) => renderClientesTable(data),
         renderModal: (item) => renderClienteModal(item),
+        renderProfile: async (id) => {
+            const cliente = await apiService.getClienteById(id);
+            return renderClientePerfil(cliente);
+        }
     }
 };    
