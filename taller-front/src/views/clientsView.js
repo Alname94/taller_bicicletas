@@ -1,3 +1,5 @@
+import { renderBicicletasList } from './bicyclesView.js';
+
 export function renderClientesTable(clientes = []) {
     const rows = clientes.map(({ id, nombre, apellido, dni }) => `
         <tr class="border-b hover:bg-gray-50 transition-colors">
@@ -57,14 +59,7 @@ export function renderClientesTable(clientes = []) {
 export function renderClienteModal(cliente = null) {
     const isEdit = !!cliente; // true si estamos editando
 
-    const {
-        id = '',
-        nombre = '',
-        apellido = '',
-        dni = '',
-        telefono = '',
-        email = ''
-    } = cliente || {};
+    const { id = '', nombre = '', apellido = '', dni = '', telefono = '', email = '' } = cliente || {};
 
     return `
     <div class="js-entity-modal fixed inset-0 z-50 items-center justify-center hidden">
@@ -111,6 +106,58 @@ export function renderClienteModal(cliente = null) {
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+    `;
+}
+
+export function renderClientePerfil(cliente) {
+    const { id, nombre, apellido, dni, email, telefono, bicicletas = [] } = cliente;
+
+    return `
+    <div class="p-6 space-y-6 animate-fade-in">
+        <div class="flex justify-between items-start">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800">${nombre} ${apellido}</h2>
+                <p class="text-gray-500">Cliente #${id} | DNI: ${dni}</p>
+            </div>
+            <button class="js-btn-back px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">
+                Volver a la lista
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h3 class="text-lg font-semibold mb-4 text-blue-600">Información de Contacto</h3>
+                <div class="space-y-3">
+                    <p class="flex items-center text-gray-600">
+                        <span class="font-medium w-24">Email:</span> ${email}
+                    </p>
+                    <p class="flex items-center text-gray-600">
+                        <span class="font-medium w-24">Teléfono:</span> ${telefono}
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h3 class="text-lg font-semibold mb-4 text-blue-600">Resumen de Actividad</h3>
+                <p class="text-3xl font-bold text-gray-800">${bicicletas.length} <span class="text-sm font-normal text-gray-500 text-uppercase">Bicicletas registradas</span></p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
+                <h3 class="font-bold text-gray-700 uppercase tracking-wider">Bicicletas</h3>
+                <button class="js-btn-add-bike bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition-all">
+                    + Agregar Bici
+                </button>
+            </div>
+            <div class="divide-y divide-gray-100">
+                ${bicicletas.length > 0 
+                    ? renderBicicletasList(bicicletas) 
+                    : '<div class="p-10 text-center text-gray-400 italic">No hay bicicletas registradas.</div>'
+                }
+            </div>
         </div>
     </div>
     `;
