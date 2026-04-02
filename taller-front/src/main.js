@@ -139,7 +139,7 @@ function openGenericModal(item = null, entityKey) {
         try {
             const success = await config.onSave(item?.id, formData);
             if (success) {
-                notifications.showToast(`${config.title} guardado con éxito`);
+                notifications.showToast(`${config.entity} guardado con éxito`);
                 closeModal();
                 navigateTo(entityKey);
             }
@@ -178,17 +178,19 @@ function setupTableListeners(data, entityKey) {
             if (confirmado) {
                 const ok = await config.onDelete(id);
                 if (ok) {
-                    notifications.showToast(`${config.title} eliminado`);
+                    notifications.showToast(`${config.entity} eliminado`);
                     navigateTo(entityKey);
                 } else {
-                    notifications.showAlert('Error', `No se pudo eliminar el ${config.title}.`, 'error');
+                    notifications.showAlert('Error', `No se pudo eliminar el ${config.entity}.`, 'error');
                 }
             }
         }
 
-        // if (btn.classList.contains(config.btnViewClass)) {
-        // navigateToClientProfile(id); 
-        // }
+        if (btn.classList.contains('js-btn-view')) {
+            if (config.renderProfile) {
+                await navigateToProfile(id, config);
+            }
+        }
     };
 }
 
@@ -254,6 +256,21 @@ function setupEntityListeners(entityKey, data) {
     }
     setupTableListeners(data, entityKey);
     setupSearchLogic(entityKey);
+}
+
+async function navigateToProfile(id, config) {
+    const mainContent = document.querySelector('#main-content');
+    mainContent.innerHTML = `<div class="p-10 text-center text-gray-500 italic">Cargando...</div>`;
+
+    try {
+        const profileHTML = await config.renderProfile(id);
+        mainContent.innerHTML = profileHTML;
+        const btnBack = mainContent.querySelector('.js-btn-back');
+        if (btnBack) btnBack.onclick = () => navigateTo(config.path);
+
+    } catch (error) {
+        notifications.showAlert('Error', `No se pudo cargar el perfil de ${config.entity}`, 'error');
+    }
 }
 
 // ----------------------------------------------
