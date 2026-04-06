@@ -50,9 +50,6 @@ export function renderClientesTable(clientes = []) {
             </table>
         </div>
     </div>
-    <div class="js-modal-container">
-        ${renderClienteModal()}        
-    </div>
     `;
 }
 
@@ -148,11 +145,11 @@ export function renderClientePerfil(cliente) {
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
                 <h3 class="font-bold text-gray-700 uppercase tracking-wider">Bicicletas</h3>
-                <button class="js-btn-add-bike bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition-all">
+                <button class="js-btn-add-subentity bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-blue-700 transition-all">
                     + Agregar Bici
                 </button>
             </div>
-            <div class="divide-y divide-gray-100">
+            <div class="js-subentity-container divide-y divide-gray-100">
                 ${bicicletas.length > 0 
                     ? renderBicicletasList(bicicletas) 
                     : '<div class="p-10 text-center text-gray-400 italic">No hay bicicletas registradas.</div>'

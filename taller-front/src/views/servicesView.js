@@ -71,13 +71,7 @@ export function renderServiciosTable(servicios = []) {
 export function renderServicioModal(servicio = null) {
     const isEdit = !!servicio; // true si estamos editando
 
-    const { 
-        id = '', 
-        nombre = '', 
-        descripcion = '', 
-        valor = '', 
-        activo = true 
-    } = servicio || {};
+    const { id = '', nombre = '', descripcion = '', valor = '', activo = true } = servicio || {};
     
     return `
     <div class="js-entity-modal fixed inset-0 z-50 items-center justify-center hidden">

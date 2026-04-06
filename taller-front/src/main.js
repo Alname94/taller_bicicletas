@@ -6,6 +6,7 @@ import { renderLogin } from './views/loginView';
 import { renderDashboardLayout, renderHomeContent } from './views/dashboardView';
 
 const app = document.querySelector('#app');
+let currentProfileData = null;
 
 // ----------------------------------------------
 
@@ -109,11 +110,11 @@ function updateActiveLink(activeLink) {
     if (activeSpan) activeSpan.classList.add('font-medium');
 }
 
-function openGenericModal(item = null, entityKey) {
+function openGenericModal(item = null, entityKey, parentId = null) {
     const config = ENTITY_CONFIG[entityKey];
     const modalContainer = document.querySelector('.js-modal-container');
 
-    modalContainer.innerHTML = config.renderModal(item);
+    modalContainer.innerHTML = config.renderModal(item, parentId);
 
     const modal = modalContainer.querySelector('.js-entity-modal');
     const form = modalContainer.querySelector('.js-entity-form');
@@ -141,7 +142,13 @@ function openGenericModal(item = null, entityKey) {
             if (success) {
                 notifications.showToast(`${config.entity} guardado con éxito`);
                 closeModal();
-                navigateTo(entityKey);
+                if (parentId) {
+                    const parentConfig = ENTITY_CONFIG[config.parentEntity];
+                    const idParaRecargar = parentId.id || parentId;
+                    navigateToProfile(idParaRecargar, parentConfig);
+                } else {
+                    navigateTo(entityKey);
+                }
             }
         } catch (error) {
             notifications.showAlert(
@@ -263,13 +270,65 @@ async function navigateToProfile(id, config) {
     mainContent.innerHTML = `<div class="p-10 text-center text-gray-500 italic">Cargando...</div>`;
 
     try {
-        const profileHTML = await config.renderProfile(id);
-        mainContent.innerHTML = profileHTML;
-        const btnBack = mainContent.querySelector('.js-btn-back');
-        if (btnBack) btnBack.onclick = () => navigateTo(config.path);
+        const { html, data } = await config.renderProfile(id);
+        currentProfileData = data;
+        mainContent.innerHTML = html;
+        setupProfileEvents(id, config);
 
     } catch (error) {
         notifications.showAlert('Error', `No se pudo cargar el perfil de ${config.entity}`, 'error');
+    }
+}
+
+function setupProfileEvents(id, config) {
+    const container = document.querySelector('#main-content');
+
+    const btnBack = container.querySelector('.js-btn-back');
+    if (btnBack) {
+        btnBack.onclick = () => navigateTo(config.path);
+    }
+
+    const btnAddSub = container.querySelector('.js-btn-add-subentity');
+    if (btnAddSub) {
+        btnAddSub.onclick = () => {
+            // Abrimos modal vacío, pasamos la clave de la sub-entidad 
+            // y el objeto del padre (currentProfileData) para el encabezado/ID
+            openGenericModal(null, config.subEntity, currentProfileData);
+        };
+    }
+
+    const subContainer = container.querySelector('.js-subentity-container');
+    if (subContainer) {
+        subContainer.onclick = async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+
+            const subId = btn.dataset.id;
+
+            if (btn.classList.contains('js-btn-edit-sub')) {
+                const listField = config.subEntity;
+                const subItem = currentProfileData[listField].find(item => item.id == subId);
+
+                openGenericModal(subItem, config.subEntity, currentProfileData);
+            }
+
+            if (btn.classList.contains('js-btn-delete-sub')) {
+                const confirmado = await notifications.showConfirm(
+                    '¿Estás seguro?',
+                    'Esta acción no se puede deshacer.'
+                );
+
+                if (confirmado) {
+                    const subConfig = ENTITY_CONFIG[config.subEntity];
+                    const ok = await subConfig.onDelete(subId);
+
+                    if (ok) {
+                        notifications.showToast('Eliminado correctamente');
+                        navigateToProfile(id, config);
+                    }
+                }
+            }
+        };
     }
 }
 
