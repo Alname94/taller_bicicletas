@@ -73,4 +73,12 @@ export const apiService = {
     saveCliente: (data) => request('/clientes', 'POST', data),
     updateCliente: (id, data) => request(`/clientes/${id}`, 'PUT', data),
     deleteCliente: (id) => request(`/clientes/borrar/${id}`, 'DELETE'),
+    getClienteById: (id) => request(`/clientes/${id}`, 'GET'),
+
+    // --- BICICLETAS ---
+    getBicicletas: () => request('/bicicletas'),
+    saveBicicleta: (data) => request('/bicicletas', 'POST', data),
+    updateBicicleta: (id, data) => request(`/bicicletas/${id}`, 'PUT', data),
+    deleteBicicleta: (id) => request(`/bicicletas/borrar/${id}`, 'DELETE'),
+    getBicicletaById: (id) => request(`/bicicletas/${id}`, 'GET'),
 };
