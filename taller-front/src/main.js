@@ -4,6 +4,7 @@ import { notifications } from './utils/notifications';
 import { authService } from './services/authService';
 import { renderLogin } from './views/loginView';
 import { renderDashboardLayout, renderHomeContent } from './views/dashboardView';
+import { capitalizeWords, toUpperCase, sanitizeText } from './utils/stringUtils.js';
 
 const app = document.querySelector('#app');
 let currentProfileData = null;
@@ -134,11 +135,28 @@ function openGenericModal(item = null, entityKey, parentId = null) {
 
     form.onsubmit = async (e) => {
         e.preventDefault();
-
         const formData = Object.fromEntries(new FormData(e.target));
+        const cleanData = {};
+        const { capitalize = [], uppercase = [] } = config.transformations || {};
+
+        Object.keys(formData).forEach(key => {
+            let value = formData[key];
+
+            if (typeof value === 'string') {
+                value = sanitizeText(value);
+
+                if (capitalize.includes(key)) {
+                    value = capitalizeWords(value);
+                } else if (uppercase.includes(key)) {
+                    value = toUpperCase(value);
+                }
+            }
+
+            cleanData[key] = value;
+        });
 
         try {
-            const success = await config.onSave(item?.id, formData);
+            const success = await config.onSave(item?.id, cleanData);
             if (success) {
                 notifications.showToast(`${config.entity} guardado con éxito`);
                 closeModal();
