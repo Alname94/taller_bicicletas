@@ -96,7 +96,7 @@ public class RepuestoControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void searchRepuestos_DebeRetornarListaFiltrada() throws Exception {
         Repuesto r = new Repuesto("CUB-29", "Cubierta", "Maxxis", "Negro", 45000.0, 30000.0, 10, null);
-        given(repuestoService.findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase("Maxxis", "Maxxis"))
+        given(repuestoService.findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase("Maxxis", "Maxxis", "Maxxis"))
                 .willReturn(List.of(r));
 
         mockMvc.perform(get("/repuestos/buscar")

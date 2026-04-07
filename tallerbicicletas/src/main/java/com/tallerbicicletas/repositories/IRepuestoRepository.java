@@ -10,7 +10,7 @@ import com.tallerbicicletas.models.entities.Repuesto;
 @Repository
 public interface IRepuestoRepository extends JpaRepository<Repuesto, String>{
 
-    List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase(String query, String query2);
+    List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase(String query, String query2, String query3);
 
     boolean existsById(String codigo);
 }

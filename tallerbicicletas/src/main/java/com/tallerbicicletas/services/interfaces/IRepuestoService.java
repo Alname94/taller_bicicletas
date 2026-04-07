@@ -16,5 +16,5 @@ public interface IRepuestoService {
 
     public Repuesto editRepuesto(Repuesto repuesto);
 
-    List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase(String producto, String marca);
+    List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase(String producto, String marca, String codigo);
 }

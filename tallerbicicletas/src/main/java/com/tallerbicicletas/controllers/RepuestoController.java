@@ -63,6 +63,6 @@ public class RepuestoController {
     @Operation(summary = "Buscar repuestos por producto o marca", description = "Permite buscar repuestos filtrando por el nombre del producto o la marca. Ambos parámetros son opcionales y se pueden usar de forma combinada para refinar la búsqueda.")
     @GetMapping("/buscar")
     public ResponseEntity<List<Repuesto>> searchRepuestos(@RequestParam String query) {
-        return new ResponseEntity<>(repuestoService.findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase(query, query), HttpStatus.OK);
+        return new ResponseEntity<>(repuestoService.findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase(query, query, query), HttpStatus.OK);
     }
 }

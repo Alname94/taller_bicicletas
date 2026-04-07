@@ -72,9 +72,9 @@ public class RepuestoService implements IRepuestoService {
     }
 
     @Override
-    public List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase(String producto, String marca) {
+    public List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase(String producto, String marca, String codigo) {
         List<Repuesto> repuestos = repuestoRepository
-                .findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCase(producto, marca);
+                .findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase(producto, marca, codigo);
         if (repuestos.isEmpty()) {
             throw new ResourceNotFoundException("No hay repuestos que coincidan con: " + producto);
         }
