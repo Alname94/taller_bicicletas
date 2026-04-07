@@ -66,12 +66,12 @@ export function renderBicicletaModal(bicicleta = null, cliente = null) {
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Marca</label>
                         <input type="text" name="marca" required value="${marca}" 
-                            class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                            class="uppercase mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Modelo</label>
                         <input type="text" name="modelo" required value="${modelo}" 
-                            class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                            class="uppercase mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@ export function renderBicicletaModal(bicicleta = null, cliente = null) {
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Color</label>
                         <input type="text" name="color" required value="${color}" 
-                            class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
+                            class="capitalize mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Rodado</label>

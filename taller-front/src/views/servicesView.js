@@ -89,12 +89,12 @@ export function renderServicioModal(servicio = null) {
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nombre del Servicio</label>
                     <input type="text" name="nombre" required value="${nombre}" 
-                        class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        class="capitalize mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Descripción</label>
                     <textarea name="descripcion" rows="3" 
-                        class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">${descripcion}</textarea>
+                        class="capitalize mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">${descripcion}</textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Valor (ARS)</label>

@@ -8,6 +8,9 @@ export const ENTITY_CONFIG = {
         entity: 'Servicio',
         title: 'Servicios',
         path: 'servicios',
+        transformations: {
+            capitalize: ['nombre', 'descripcion']
+        },
         fetchData: () => apiService.getServicios(),
         onSave: (id, data) => id ? apiService.updateServicio(id, data) : apiService.saveServicio(data),
         onDelete: (id) => apiService.deleteServicio(id),
@@ -22,6 +25,9 @@ export const ENTITY_CONFIG = {
         subEntity: 'bicicletas',
         title: 'Clientes',
         path: 'clientes',
+        transformations: {
+            capitalize: ['nombre', 'apellido']
+        },
         fetchData: () => apiService.getClientes(),
         onSave: (id, data) => id ? apiService.updateCliente(id, data) : apiService.saveCliente(data),
         onDelete: (id) => apiService.deleteCliente(id),
@@ -40,6 +46,10 @@ export const ENTITY_CONFIG = {
         parentEntity: 'clientes',
         title: 'Bicicletas',
         path: 'bicicletas',
+        transformations: {
+            capitalize: ['color'],
+            uppercase: ['marca', 'modelo']
+        },
         fetchData: () => apiService.getBicicletas(),
         onSave: (id, data) => id ? apiService.updateBicicleta(id, data) : apiService.saveBicicleta(data),
         onSave: async (id, formData) => {
