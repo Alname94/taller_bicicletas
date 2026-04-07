@@ -38,14 +38,14 @@ export function renderClientesTable(clientes = []) {
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Nombre y Apellido</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">DNI</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Acciones</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Nombre y Apellido</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">DNI</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
-                    ${rows.length > 0 ? rows : '<tr><td colspan="6" class="text-center py-10 text-gray-400">No hay clientes cargados.</td></tr>'}
+                    ${rows.length > 0 ? rows : '<tr><td colspan="4" class="text-center py-10 text-gray-400">No hay clientes cargados.</td></tr>'}
                 </tbody>
             </table>
         </div>

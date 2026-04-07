@@ -1,7 +1,7 @@
 import { apiService } from '../services/apiService';
 import { renderServiciosTable, renderServicioModal } from '../views/servicesView';
 import { renderClientesTable, renderClienteModal, renderClientePerfil } from '../views/clientsView';
-import { renderBicicletaModal } from '../views/bicyclesView';
+import { renderBicicletasTable, renderBicicletaModal } from '../views/bicyclesView';
 
 export const ENTITY_CONFIG = {
     servicios: {
@@ -70,6 +70,7 @@ export const ENTITY_CONFIG = {
         onDelete: (id) => apiService.deleteBicicleta(id),
         onSearch: (query) => apiService.searchEntity('bicicletas', query, 'marca'),
 
+        renderTable: (data) => renderBicicletasTable(data),
         renderModal: (item, parentId) => renderBicicletaModal(item, parentId),
     }
 };    

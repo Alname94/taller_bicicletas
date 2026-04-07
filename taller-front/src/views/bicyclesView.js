@@ -1,3 +1,56 @@
+export function renderBicicletasTable(bicicletas = []) {
+    const rows = bicicletas.map(({ id, marca, modelo, fechaIngreso, cliente }) => `
+        <tr class="border-b hover:bg-gray-50 transition-colors">
+            <td class="px-6 py-4 text-sm font-medium text-gray-900">#${id}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">${marca} ${modelo}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">#${cliente.id} - ${cliente.nombre} ${cliente.apellido} </td>
+            <td class="px-6 py-4 text-sm text-center text-gray-700">${fechaIngreso}</td>
+            <td class="px-6 py-4 text-sm text-center space-x-2">
+                <button data-id="${id}" class="js-btn-edit text-blue-600 hover:text-blue-900 font-medium">Editar</button>
+                <button data-id="${id}" class="js-btn-delete text-red-600 hover:text-red-900 font-medium">Eliminar</button>
+            </td>
+        </tr>
+    `).join('');
+
+    return `
+    <div class="space-y-6">
+        <div class="flex justify-between items-center">
+            <h3 class="text-2xl font-bold text-gray-800">Gestión de Bicicletas</h3>
+            <div class="flex grow max-w-md">
+                <div class="relative w-full md:w-96">
+                    <input type="text"
+                        class="js-search-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg rounded-r-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" 
+                        placeholder="Buscar por ID o marca..."
+                        autocomplete="off">
+                </div>
+                <button class="js-btn-search bg-gray-800 hover:bg-gray-900 text-white px-5 py-2.5 rounded-r-lg rounded-l-none text-sm font-medium transition-colors border border-gray-800">
+                    Buscar
+                </button>
+            </div>
+            <div class="hidden md:block w-44"></div>
+        </div>
+
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Marca y Modelo</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha de Ingreso</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    ${rows.length > 0 ? rows : '<tr><td colspan="5" class="text-center py-10 text-gray-400">No hay bicicletas cargadas.</td></tr>'}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    `;
+}
+
 export function renderBicicletasList(bicicletas = []) {
     return bicicletas.map(({ id, marca, modelo, color, rodado, fechaIngreso }) => `
         <div class="p-4 flex justify-between items-center hover:bg-gray-50 transition-colors group">
