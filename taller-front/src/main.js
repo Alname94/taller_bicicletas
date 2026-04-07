@@ -138,6 +138,7 @@ function openGenericModal(item = null, entityKey, parentId = null) {
         const formData = Object.fromEntries(new FormData(e.target));
         const cleanData = {};
         const { capitalize = [], uppercase = [] } = config.transformations || {};
+        const idParaGuardar = item?.id || item?.codigo;
 
         Object.keys(formData).forEach(key => {
             let value = formData[key];
@@ -156,7 +157,7 @@ function openGenericModal(item = null, entityKey, parentId = null) {
         });
 
         try {
-            const success = await config.onSave(item?.id, cleanData);
+            const success = await config.onSave(idParaGuardar, cleanData);
             if (success) {
                 notifications.showToast(`${config.entity} guardado con éxito`);
                 closeModal();
@@ -190,7 +191,7 @@ function setupTableListeners(data, entityKey) {
         const id = btn.dataset.id;
 
         if (btn.classList.contains('js-btn-edit')) {
-            const item = data.find(i => i.id == id);
+            const item = data.find(i => i.id == id || i.codigo == id);
             openGenericModal(item, entityKey);
         }
 

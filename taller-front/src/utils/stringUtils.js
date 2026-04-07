@@ -1,6 +1,10 @@
 export const capitalizeWords = (str) => {
     if (!str) return "";
-    return str.toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase());
+
+    return str.toLowerCase().replace(
+        /(^|[\s\-])\p{L}/gu,
+        (match) => match.toUpperCase()
+    );
 };
 
 export const toUpperCase = (str) => {

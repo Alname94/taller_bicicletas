@@ -81,4 +81,11 @@ export const apiService = {
     updateBicicleta: (id, data) => request(`/bicicletas/${id}`, 'PUT', data),
     deleteBicicleta: (id) => request(`/bicicletas/borrar/${id}`, 'DELETE'),
     getBicicletaById: (id) => request(`/bicicletas/${id}`, 'GET'),
+
+    // --- REPUESTOS ---
+    getRepuestos: () => request('/repuestos'),
+    saveRepuesto: (data) => request('/repuestos', 'POST', data),
+    updateRepuesto: (codigo, data) => request(`/repuestos/${codigo}`, 'PUT', data),
+    deleteRepuesto: (codigo) => request(`/repuestos/borrar/${codigo}`, 'DELETE'),
+    searchRepuestos: (query) => request(`/repuestos/buscar?query=${query}`),
 };

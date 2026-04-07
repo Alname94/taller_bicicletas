@@ -2,6 +2,7 @@ import { apiService } from '../services/apiService';
 import { renderServiciosTable, renderServicioModal } from '../views/servicesView';
 import { renderClientesTable, renderClienteModal, renderClientePerfil } from '../views/clientsView';
 import { renderBicicletasTable, renderBicicletaModal } from '../views/bicyclesView';
+import { renderRepuestosTable, renderRepuestoModal } from '../views/partsView';
 
 export const ENTITY_CONFIG = {
     servicios: {
@@ -51,7 +52,6 @@ export const ENTITY_CONFIG = {
             uppercase: ['marca', 'modelo']
         },
         fetchData: () => apiService.getBicicletas(),
-        onSave: (id, data) => id ? apiService.updateBicicleta(id, data) : apiService.saveBicicleta(data),
         onSave: async (id, formData) => {
             // Transformo el formData plano en la estructura que espera el backend
             const dataParaEnviar = {
@@ -72,5 +72,26 @@ export const ENTITY_CONFIG = {
 
         renderTable: (data) => renderBicicletasTable(data),
         renderModal: (item, parentId) => renderBicicletaModal(item, parentId),
+    },
+
+    repuestos: {
+        entity: 'Repuesto',
+        title: 'Repuestos',
+        path: 'repuestos',
+        transformations: {
+            capitalize: ['producto', 'color'],
+            uppercase: ['codigo', 'marca']
+        },
+        fetchData: () => apiService.getRepuestos(),
+        onSave: async (id, formData) => {
+            return id
+                ? apiService.updateRepuesto(id, formData)
+                : apiService.saveRepuesto(formData);
+        },
+        onDelete: (codigo) => apiService.deleteRepuesto(codigo),
+        onSearch: (query) => apiService.searchEntity('repuestos', query, 'query'),
+
+        renderTable: (data) => renderRepuestosTable(data),
+        renderModal: (item) => renderRepuestoModal(item),
     }
 };    

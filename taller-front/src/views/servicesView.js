@@ -61,10 +61,6 @@ export function renderServiciosTable(servicios = []) {
             </table>
         </div>
     </div>
-
-    <div class="js-modal-container">
-        ${renderServicioModal()}
-    </div>
     `;
 }
 
@@ -111,7 +107,7 @@ export function renderServicioModal(servicio = null) {
                 </div>
                 <div class="flex justify-end space-x-3 pt-4 border-t">
                     <button type="button" class="js-btn-cancel-modal px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">Cancelar</button>
-                    <button type="submit" id="btnSaveService" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all font-medium">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all font-medium">
                         ${isEdit ? 'Guardar Cambios' : 'Crear Servicio'}
                     </button>
                 </div>
