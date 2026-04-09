@@ -66,7 +66,7 @@ export const apiService = {
     saveServicio: (data) => request('/servicios', 'POST', data),
     updateServicio: (id, data) => request(`/servicios/${id}`, 'PUT', data),
     deleteServicio: (id) => request(`/servicios/borrar/${id}`, 'DELETE'),
-    getServiciosActivos: () => request('/servicios/activos'),
+    getServiciosActivos: () => request('/servicios/activos', 'GET'),
 
     // --- CLIENTES ---
     getClientes: () => request('/clientes'),
@@ -88,4 +88,15 @@ export const apiService = {
     updateRepuesto: (codigo, data) => request(`/repuestos/${codigo}`, 'PUT', data),
     deleteRepuesto: (codigo) => request(`/repuestos/borrar/${codigo}`, 'DELETE'),
     searchRepuestos: (query) => request(`/repuestos/buscar?query=${query}`),
+
+    // --- PRESUPUESTOS ---
+    getPresupuestos: () => request('/presupuestos'),
+    savePresupuesto: (data) => request('/presupuestos', 'POST', data),
+    updatePresupuesto: (numero, data) => request(`/presupuestos/${numero}`, 'PUT', data),
+    deletePresupuesto: (numero) => request(`/presupuestos/borrar/${numero}`, 'DELETE'),
+    searchPresupuestos: (query) => request(`/presupuestos/buscar?query=${query}`),
+    getPresupuestoByNumero: (numero) => request(`/presupuestos/${numero}`, 'GET'),
+    patchEstadoPresupuesto: (numero, nuevoEstado) => 
+        request(`/presupuestos/${numero}/estado?nuevoEstado=${nuevoEstado}`, 'PATCH'),
+
 };
