@@ -64,7 +64,7 @@ public class DetalleService implements IDetalleService {
             presupuesto.setDetalles(new ArrayList<>());
         }
         presupuesto.getDetalles().add(detalle);
-        
+
         Detalle detalleGuardado = detalleRepository.save(detalle);
         actualizarTotal(presupuesto.getNumero());
 
@@ -89,6 +89,9 @@ public class DetalleService implements IDetalleService {
         Repuesto repuesto = detalle.getRepuesto();
         repuesto.setStock(repuesto.getStock() + detalle.getCantidadAgregada());
         repuestoService.editRepuesto(repuesto);
+
+        Presupuesto presupuesto = detalle.getPresupuesto();
+        presupuesto.getDetalles().remove(detalle);
 
         detalleRepository.delete(detalle);
         actualizarTotal(presupuestoNumero);
