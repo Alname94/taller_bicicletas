@@ -321,5 +321,42 @@ function setupProfileEvents(id, config) {
     if (btnAddDetalle) btnAddDetalle.onclick = () => handleOpenSubEntitySearch(id, config);
 }
 
+function setupDetalleModalEvents(modalElement, id, subConfig, parentConfig) {
+    const closeBtns = modalElement.querySelectorAll('.js-btn-close-modal');
+    closeBtns.forEach(btn => btn.onclick = () => {
+        modalElement.remove();
+        navigateToProfile(id, parentConfig);
+    });
+
+    const input = modalElement.querySelector('#search-repuesto-modal');
+    if (input) {
+        input.oninput = () => {
+            const query = input.value.toLowerCase();
+            const rows = modalElement.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(query) ? '' : 'none';
+            });
+        };
+    }
+
+    modalElement.querySelector('tbody').onclick = async (e) => {
+        const btn = e.target.closest('.js-btn-add-item-to-budget');
+        if (!btn) return;
+
+        const codigo = btn.dataset.id;
+        const cantidad = parseInt(modalElement.querySelector(`#qty-${codigo}`).value);
+
+        const ok = await subConfig.onSave(id, { repuestoCodigo: codigo, cantidad: cantidad });
+
+        if (ok) {
+            notifications.showToast('Repuesto añadido');
+            btn.innerHTML = '✓';
+            btn.classList.replace('bg-blue-600', 'bg-green-600');
+            btn.disabled = true;
+        }
+    };
+}
+
+
 // ----------------------------------------------
 init();
