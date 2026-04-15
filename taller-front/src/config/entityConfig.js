@@ -3,6 +3,8 @@ import { renderServiciosTable, renderServicioModal } from '../views/servicesView
 import { renderClientesTable, renderClienteModal, renderClientePerfil } from '../views/clientsView';
 import { renderBicicletasTable, renderBicicletaModal } from '../views/bicyclesView';
 import { renderRepuestosTable, renderRepuestoModal } from '../views/partsView';
+import { renderPresupuestosTable, renderPresupuestoDetalle } from '../views/budgetsView';
+import { renderDetallesTable, renderSelectRepuestosModal } from '../views/detailsView';
 
 export const ENTITY_CONFIG = {
     servicios: {
@@ -93,5 +95,81 @@ export const ENTITY_CONFIG = {
 
         renderTable: (data) => renderRepuestosTable(data),
         renderModal: (item) => renderRepuestoModal(item),
+    },
+
+    presupuestos: {
+        entity: 'Presupuesto',
+        subEntity: 'detalles',
+        title: 'Presupuestos',
+        path: 'presupuestos',
+        fetchData: () => apiService.getPresupuestos(),
+        onDelete: (numero) => apiService.deletePresupuesto(numero),
+        onSearch: (query) => apiService.searchEntity('presupuestos', query, 'query'),
+        fetchFullData: async (id) => {
+            const [presupuesto, servicios] = await Promise.all([
+                request(`/presupuestos/${id}`, 'GET'),
+                request('/servicios/activos', 'GET')
+            ]);
+            return { presupuesto, servicios };
+        },
+        onAction: async (action, id, payload) => {
+            if (action === 'cambiarEstado') {
+                return await apiService.patchEstadoPresupuesto(id, payload.nuevoEstado);
+            }
+        },
+        onSave: async (id, formData) => {
+            const dataParaEnviar = {
+                numero: id,
+                cliente: { id: formData.cliente?.id || formData.clienteId },
+                bicicleta: { id: formData.bicicleta?.id || formData.bicicletaId },
+                servicio: formData.servicioId
+                    ? { id: formData.servicioId }
+                    : (formData.servicio?.id ? { id: formData.servicio.id } : null),
+                fecha: formData.fecha,
+                descripcion: formData.descripcion,
+                // No enviamos 'estado' aquí, ya que se encarga el PATCH
+                valorTotal: formData.valorTotal || 0,
+                valorServicioAplicado: formData.valorServicioAplicado || 0,
+                detalles: formData.detalles || []
+            };
+            return id
+                ? apiService.updatePresupuesto(id, dataParaEnviar)
+                : apiService.savePresupuesto(dataParaEnviar);
+        },
+
+        renderTable: (data) => renderPresupuestosTable(data),
+        renderProfile: async (id) => {
+            const [presupuesto, servicios] = await Promise.all([
+                apiService.getPresupuestoByNumero(id),
+                apiService.getServiciosActivos()
+            ]);
+            return {
+                html: renderPresupuestoDetalle(presupuesto, servicios),
+                data: presupuesto
+            };
+        }
+    },
+
+    detalles: {
+        entity: 'Detalle',
+        parentEntity: 'presupuestos',
+        onSave: async (presupuestoId, data) => {
+            return await apiService.saveDetalle(
+                presupuestoId,
+                data.repuestoCodigo,
+                data.cantidad
+            );
+        },
+        onDelete: async (compositeId) => {
+            const [presupuestoId, repuestoCodigo] = compositeId.split('-');
+            return await apiService.deleteDetalle(presupuestoId, repuestoCodigo);
+        },
+        onAction: async (action) => {
+            if (action === 'abrirBuscadorRepuestos') return await apiService.getRepuestos();
+        },
+        getData: async (presupuestoId) => await apiService.getDetallesByPresupuesto(presupuestoId),
+
+        renderTable: (data) => renderDetallesTable(data),
+        renderSearchModal: (data) => renderSelectRepuestosModal(data),
     }
 };    
