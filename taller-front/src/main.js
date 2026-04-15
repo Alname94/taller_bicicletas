@@ -357,6 +357,94 @@ function setupDetalleModalEvents(modalElement, id, subConfig, parentConfig) {
     };
 }
 
+async function handleEstadoChange(e, id, config) {
+    const nuevoEstado = e.target.value;
+    const mensaje = nuevoEstado === 'FACTURADO' ? '...' : '...';
+
+    if (await notifications.showConfirm('Cambio de Estado', mensaje)) {
+        const ok = await config.onAction('cambiarEstado', id, { nuevoEstado });
+        if (ok) {
+            notifications.showToast(`Estado: ${nuevoEstado}`);
+            navigateToProfile(id, config);
+        }
+    } else {
+        navigateToProfile(id, config);
+    }
+}
+
+async function handleServicioChange(e, id, config) {
+    const nuevoServicioId = e.target.value;
+    const optionSeleccionada = e.target.options[e.target.selectedIndex];
+    const nuevoPrecio = optionSeleccionada.dataset.precio;
+
+    if (!nuevoServicioId) return;
+
+    const confirmado = await notifications.showConfirm(
+        '¿Cambiar servicio?',
+        'Se actualizará el costo de mano de obra del presupuesto.'
+    );
+
+    if (!confirmado) return navigateToProfile(id, config);
+
+    const ok = await config.onSave(id, {
+        ...currentProfileData,
+        servicioId: nuevoServicioId,
+        valorServicioAplicado: parseFloat(nuevoPrecio)
+    });
+
+    if (ok) {
+        notifications.showToast('Servicio actualizado');
+        navigateToProfile(id, config);
+    }
+}
+
+async function handleSubentityActions(e, id, config) {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+
+    if (config.entity === 'Presupuesto' && currentProfileData.estado !== 'PENDIENTE') {
+        notifications.showToast('No se pueden modificar ítems de un presupuesto cerrado', 'info');
+        return;
+    }
+
+    const subId = btn.dataset.id;
+    const listField = config.subEntity;
+
+    if (btn.classList.contains('js-btn-edit-sub')) {
+        const subItem = currentProfileData[listField].find(item => item.id == subId);
+        openGenericModal(subItem, config.subEntity, currentProfileData);
+    }
+
+    if (btn.classList.contains('js-btn-delete-sub')) {
+        const confirmado = await notifications.showConfirm(
+            '¿Estás seguro?',
+            'Esta acción no se puede deshacer y devolverá el stock si corresponde.'
+        );
+
+        if (confirmado) {
+            const subConfig = ENTITY_CONFIG[config.subEntity];
+            const ok = await subConfig.onDelete(subId);
+
+            if (ok) {
+                notifications.showToast('Eliminado correctamente');
+                navigateToProfile(id, config);
+            }
+        }
+    }
+}
+
+async function handleOpenSubEntitySearch(id, parentConfig) {
+    const subConfig = ENTITY_CONFIG[parentConfig.subEntity];
+    if (!subConfig) return;
+
+    const data = await subConfig.onAction('abrirBuscadorRepuestos');
+
+    document.body.insertAdjacentHTML('beforeend', subConfig.renderSearchModal(data));
+    const modalElement = document.querySelector('.js-entity-modal');
+
+    setupDetalleModalEvents(modalElement, id, subConfig, parentConfig);
+}
+
 
 // ----------------------------------------------
 init();
