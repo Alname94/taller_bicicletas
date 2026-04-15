@@ -96,7 +96,24 @@ export const apiService = {
     deletePresupuesto: (numero) => request(`/presupuestos/borrar/${numero}`, 'DELETE'),
     searchPresupuestos: (query) => request(`/presupuestos/buscar?query=${query}`),
     getPresupuestoByNumero: (numero) => request(`/presupuestos/${numero}`, 'GET'),
-    patchEstadoPresupuesto: (numero, nuevoEstado) => 
+    patchEstadoPresupuesto: (numero, nuevoEstado) =>
         request(`/presupuestos/${numero}/estado?nuevoEstado=${nuevoEstado}`, 'PATCH'),
 
+    // --- DETALLES ---
+    saveDetalle: (presupuestoNumero, repuestoCodigo, cantidad) => {
+        const nuevoDetalle = {
+            id: {
+                presupuestoNumero: presupuestoNumero,
+                repuestoCodigo: repuestoCodigo
+            },
+            cantidadAgregada: cantidad
+        };
+        return request('/detalles', 'POST', nuevoDetalle);
+    },
+    deleteDetalle: (presupuestoNumero, repuestoCodigo) => {
+        return request(`/detalles/presupuesto/${presupuestoNumero}/repuesto/${repuestoCodigo}`, 'DELETE');
+    },
+    getDetallesByPresupuesto: (presupuestoNumero) => {
+        return request(`/detalles/presupuesto/${presupuestoNumero}`, 'GET');
+    }
 };
