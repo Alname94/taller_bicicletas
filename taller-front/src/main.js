@@ -138,7 +138,7 @@ function openGenericModal(item = null, entityKey, parentId = null) {
         const formData = Object.fromEntries(new FormData(e.target));
         const cleanData = {};
         const { capitalize = [], uppercase = [] } = config.transformations || {};
-        const idParaGuardar = item?.id || item?.codigo;
+        const idParaGuardar = item?.id || item?.codigo || item?.numero;
 
         Object.keys(formData).forEach(key => {
             let value = formData[key];
@@ -191,7 +191,7 @@ function setupTableListeners(data, entityKey) {
         const id = btn.dataset.id;
 
         if (btn.classList.contains('js-btn-edit')) {
-            const item = data.find(i => i.id == id || i.codigo == id);
+            const item = data.find(i => i.id == id || i.codigo == id || i.numero == id);
             openGenericModal(item, entityKey);
         }
 
@@ -303,52 +303,22 @@ function setupProfileEvents(id, config) {
     const container = document.querySelector('#main-content');
 
     const btnBack = container.querySelector('.js-btn-back');
-    if (btnBack) {
-        btnBack.onclick = () => navigateTo(config.path);
-    }
+    if (btnBack) btnBack.onclick = () => navigateTo(config.path);
 
     const btnAddSub = container.querySelector('.js-btn-add-subentity');
-    if (btnAddSub) {
-        btnAddSub.onclick = () => {
-            // Abrimos modal vacío, pasamos la clave de la sub-entidad 
-            // y el objeto del padre (currentProfileData) para el encabezado/ID
-            openGenericModal(null, config.subEntity, currentProfileData);
-        };
-    }
+    if (btnAddSub) btnAddSub.onclick = () => {openGenericModal(null, config.subEntity, currentProfileData);};
+
+    const selectServicio = container.querySelector('#js-select-servicio');
+    if (selectServicio) selectServicio.onchange = (e) => handleServicioChange(e, id, config);
+
+    const selectEstado = container.querySelector('#js-select-estado');
+    if (selectEstado) selectEstado.onchange = (e) => handleEstadoChange(e, id, config);
 
     const subContainer = container.querySelector('.js-subentity-container');
-    if (subContainer) {
-        subContainer.onclick = async (e) => {
-            const btn = e.target.closest('button');
-            if (!btn) return;
+    if (subContainer) subContainer.onclick = (e) => handleSubentityActions(e, id, config);
 
-            const subId = btn.dataset.id;
-
-            if (btn.classList.contains('js-btn-edit-sub')) {
-                const listField = config.subEntity;
-                const subItem = currentProfileData[listField].find(item => item.id == subId);
-
-                openGenericModal(subItem, config.subEntity, currentProfileData);
-            }
-
-            if (btn.classList.contains('js-btn-delete-sub')) {
-                const confirmado = await notifications.showConfirm(
-                    '¿Estás seguro?',
-                    'Esta acción no se puede deshacer.'
-                );
-
-                if (confirmado) {
-                    const subConfig = ENTITY_CONFIG[config.subEntity];
-                    const ok = await subConfig.onDelete(subId);
-
-                    if (ok) {
-                        notifications.showToast('Eliminado correctamente');
-                        navigateToProfile(id, config);
-                    }
-                }
-            }
-        };
-    }
+    const btnAddDetalle = container.querySelector('.js-btn-add-detalle');
+    if (btnAddDetalle) btnAddDetalle.onclick = () => handleOpenSubEntitySearch(id, config);
 }
 
 // ----------------------------------------------
