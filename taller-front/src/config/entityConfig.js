@@ -3,7 +3,7 @@ import { renderServiciosTable, renderServicioModal } from '../views/servicesView
 import { renderClientesTable, renderClienteModal, renderClientePerfil } from '../views/clientsView';
 import { renderBicicletasTable, renderBicicletaModal } from '../views/bicyclesView';
 import { renderRepuestosTable, renderRepuestoModal } from '../views/partsView';
-import { renderPresupuestosTable, renderPresupuestoDetalle } from '../views/budgetsView';
+import { renderPresupuestosTable, renderPresupuestoDetalle, renderPresupuestoModal } from '../views/budgetsView';
 import { renderDetallesTable, renderSelectRepuestosModal } from '../views/detailsView';
 
 export const ENTITY_CONFIG = {
@@ -147,7 +147,12 @@ export const ENTITY_CONFIG = {
                 html: renderPresupuestoDetalle(presupuesto, servicios),
                 data: presupuesto
             };
-        }
+        },
+        renderModal: async (item, extraData) => {
+            // extraData puede ser el objeto Bicicleta que viene del botón
+            const servicios = await apiService.getServiciosActivos();
+            return renderPresupuestoModal(extraData, servicios);
+        },
     },
 
     detalles: {
