@@ -46,7 +46,8 @@ public class PresupuestoService implements IPresupuestoService {
     @Override
     public Presupuesto savePresupuesto(Presupuesto presupuesto) {
 
-        // primero validamos que el presupuesto tenga un cliente y una bicicleta válidos, y que la bicicleta pertenezca al cliente indicado
+        // primero validamos que el presupuesto tenga un cliente y una bicicleta
+        // válidos, y que la bicicleta pertenezca al cliente indicado
         if (presupuesto.getCliente() == null || presupuesto.getCliente().getId() == null ||
                 presupuesto.getBicicleta() == null || presupuesto.getBicicleta().getId() == null) {
             throw new BadRequestException("El presupuesto debe incluir un Cliente y una Bicicleta válidos.");
@@ -63,7 +64,17 @@ public class PresupuestoService implements IPresupuestoService {
         presupuesto.setCliente(cliente);
         presupuesto.setBicicleta(bicicleta);
 
-        // Si se asigna un servicio al presupuesto, se valida que exista y se asigna su valor al presupuesto para evitar que cambios futuros en el precio del servicio afecten el valor total del presupuesto
+        if (presupuesto.getEstado() == null) {
+            presupuesto.setEstado("PENDIENTE");
+        }
+
+        if (presupuesto.getDescripcion() == null) {
+            presupuesto.setDescripcion("");
+        }
+
+        // Si se asigna un servicio al presupuesto, se valida que exista y se asigna su
+        // valor al presupuesto para evitar que cambios futuros en el precio del
+        // servicio afecten el valor total del presupuesto
         if (presupuesto.getServicio() != null && presupuesto.getServicio().getId() != null) {
             Servicio s = servicioService.findServicio(presupuesto.getServicio().getId());
             presupuesto.setServicio(s);
@@ -91,7 +102,8 @@ public class PresupuestoService implements IPresupuestoService {
     public void deletePresupuesto(Long numero) {
         Presupuesto presupuesto = findPresupuesto(numero);
 
-        if (presupuesto.getEstado().equalsIgnoreCase("FACTURADO")|| presupuesto.getEstado().equalsIgnoreCase("ANULADO")) {
+        if (presupuesto.getEstado().equalsIgnoreCase("FACTURADO")
+                || presupuesto.getEstado().equalsIgnoreCase("ANULADO")) {
             throw new BadRequestException("No se puede eliminar un presupuesto en estado " + presupuesto.getEstado());
         }
 
@@ -146,7 +158,10 @@ public class PresupuestoService implements IPresupuestoService {
 
     @Override
     @Transactional
-    public void cambiarEstado(Long presupuestoNumero, String nuevoEstado) { // Método para cambiar el estado de un presupuesto, con validaciones para evitar cambios no permitidos y devolver el stock de los repuestos al anular un presupuesto
+    public void cambiarEstado(Long presupuestoNumero, String nuevoEstado) { // Método para cambiar el estado de un
+                                                                            // presupuesto, con validaciones para evitar
+                                                                            // cambios no permitidos y devolver el stock
+                                                                            // de los repuestos al anular un presupuesto
         Presupuesto presupuesto = findPresupuesto(presupuestoNumero);
 
         if (presupuesto.getEstado().equalsIgnoreCase("ANULADO")) {
@@ -163,7 +178,9 @@ public class PresupuestoService implements IPresupuestoService {
 
     @Override
     @Transactional
-    public void asignarServicio(Long presupuestoId, Long servicioId) { // Método para asignar un servicio a un presupuesto existente y actualizar su valor total
+    public void asignarServicio(Long presupuestoId, Long servicioId) { // Método para asignar un servicio a un
+                                                                       // presupuesto existente y actualizar su valor
+                                                                       // total
         Presupuesto p = findPresupuesto(presupuestoId);
 
         if (!p.getEstado().equalsIgnoreCase("PENDIENTE")) {
