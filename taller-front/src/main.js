@@ -111,11 +111,11 @@ function updateActiveLink(activeLink) {
     if (activeSpan) activeSpan.classList.add('font-medium');
 }
 
-function openGenericModal(item = null, entityKey, parentId = null) {
+async function openGenericModal(item = null, entityKey, parentId = null) {
     const config = ENTITY_CONFIG[entityKey];
     const modalContainer = document.querySelector('.js-modal-container');
 
-    modalContainer.innerHTML = config.renderModal(item, parentId);
+    modalContainer.innerHTML = await config.renderModal(item, parentId);
 
     const modal = modalContainer.querySelector('.js-entity-modal');
     const form = modalContainer.querySelector('.js-entity-form');
@@ -135,48 +135,61 @@ function openGenericModal(item = null, entityKey, parentId = null) {
 
     form.onsubmit = async (e) => {
         e.preventDefault();
-        const formData = Object.fromEntries(new FormData(e.target));
-        const cleanData = {};
-        const { capitalize = [], uppercase = [] } = config.transformations || {};
-        const idParaGuardar = item?.id || item?.codigo || item?.numero;
-
-        Object.keys(formData).forEach(key => {
-            let value = formData[key];
-
-            if (typeof value === 'string') {
-                value = sanitizeText(value);
-
-                if (capitalize.includes(key)) {
-                    value = capitalizeWords(value);
-                } else if (uppercase.includes(key)) {
-                    value = toUpperCase(value);
-                }
-            }
-
-            cleanData[key] = value;
-        });
-
-        try {
-            const success = await config.onSave(idParaGuardar, cleanData);
-            if (success) {
-                notifications.showToast(`${config.entity} guardado con éxito`);
-                closeModal();
-                if (parentId) {
-                    const parentConfig = ENTITY_CONFIG[config.parentEntity];
-                    const idParaRecargar = parentId.id || parentId;
-                    navigateToProfile(idParaRecargar, parentConfig);
-                } else {
-                    navigateTo(entityKey);
-                }
-            }
-        } catch (error) {
-            notifications.showAlert(
-                'Atención',
-                error.message || 'No se pudo procesar la solicitud',
-                'warning'
-            );
-        }
+        await handleModalSave(e, item, entityKey, parentId, closeModal);
     };
+}
+
+async function handleModalSave(event, item, entityKey, parentId, closeModalCallback) {
+    const config = ENTITY_CONFIG[entityKey];
+    const formData = new FormData(event.target);
+    const idParaGuardar = item?.id || item?.codigo || item?.numero;
+
+    const cleanData = processFormData(Object.fromEntries(formData), config);
+
+    try {
+        const result = await config.onSave(idParaGuardar, cleanData);
+
+        if (result) {
+            notifications.showToast(`${config.entity} guardado con éxito`);
+            if (closeModalCallback) closeModalCallback();
+
+            if (!idParaGuardar && entityKey === 'presupuestos' && result.numero) {
+                return navigateToProfile(result.numero, config);
+            }
+
+            if (parentId) {
+                const parentConfig = ENTITY_CONFIG[config.parentEntity];
+                const idParaRecargar = parentId.id || parentId;
+                return navigateToProfile(idParaRecargar, parentConfig);
+            }
+
+            navigateTo(config.path || entityKey);
+        }
+    } catch (error) {
+        notifications.showAlert('Atención', error.message || 'Error al procesar', 'warning');
+    }
+}
+
+function processFormData(rawEntries, config) {
+    const cleanData = {};
+    const { capitalize = [], uppercase = [] } = config.transformations || {};
+
+    Object.keys(rawEntries).forEach(key => {
+        let value = rawEntries[key];
+
+        if (typeof value === 'string') {
+            value = sanitizeText(value);
+
+            if (capitalize.includes(key)) {
+                value = capitalizeWords(value);
+            } else if (uppercase.includes(key)) {
+                value = toUpperCase(value);
+            }
+        }
+        cleanData[key] = value;
+    });
+
+    return cleanData;
 }
 
 function setupTableListeners(data, entityKey) {
@@ -216,6 +229,11 @@ function setupTableListeners(data, entityKey) {
             if (config.renderProfile) {
                 await navigateToProfile(id, config);
             }
+        }
+
+        if (btn.classList.contains('js-btn-add-presupuesto')) {
+            const bicicleta = data.find(i => i.id == id);
+            await openGenericModal(null, 'presupuestos', bicicleta);
         }
     };
 }
@@ -306,7 +324,7 @@ function setupProfileEvents(id, config) {
     if (btnBack) btnBack.onclick = () => navigateTo(config.path);
 
     const btnAddSub = container.querySelector('.js-btn-add-subentity');
-    if (btnAddSub) btnAddSub.onclick = () => {openGenericModal(null, config.subEntity, currentProfileData);};
+    if (btnAddSub) btnAddSub.onclick = () => { openGenericModal(null, config.subEntity, currentProfileData); };
 
     const selectServicio = container.querySelector('#js-select-servicio');
     if (selectServicio) selectServicio.onchange = (e) => handleServicioChange(e, id, config);
@@ -339,32 +357,36 @@ function setupDetalleModalEvents(modalElement, id, subConfig, parentConfig) {
         };
     }
 
-    modalElement.querySelector('tbody').onclick = async (e) => {
-        const btn = e.target.closest('.js-btn-add-item-to-budget');
-        if (!btn) return;
+    const tbody = modalElement.querySelector('tbody');
 
-        const codigo = btn.dataset.id;
-        const cantidad = parseInt(modalElement.querySelector(`#qty-${codigo}`).value);
+    if (tbody) {
+        tbody.onclick = async (e) => {
+            const btn = e.target.closest('.js-btn-add-item-to-budget');
+            if (!btn) return;
 
-        const ok = await subConfig.onSave(id, { repuestoCodigo: codigo, cantidad: cantidad });
+            const codigo = btn.dataset.id;
+            const cantidad = parseInt(modalElement.querySelector(`#qty-${codigo}`).value);
 
-        if (ok) {
-            notifications.showToast('Repuesto añadido');
-            btn.innerHTML = '✓';
-            btn.classList.replace('bg-blue-600', 'bg-green-600');
-            btn.disabled = true;
-        }
-    };
+            const ok = await subConfig.onSave(id, { repuestoCodigo: codigo, cantidad: cantidad });
+
+            if (ok) {
+                notifications.showToast('Repuesto añadido');
+                btn.innerHTML = '✓';
+                btn.classList.replace('bg-blue-600', 'bg-green-600');
+                btn.disabled = true;
+            }
+        };
+    }
 }
 
 async function handleEstadoChange(e, id, config) {
     const nuevoEstado = e.target.value;
-    const mensaje = nuevoEstado === 'FACTURADO' ? '...' : '...';
+    const mensaje = `¿Confirma que desea cambiar el estado a "${nuevoEstado}"?`;
 
     if (await notifications.showConfirm('Cambio de Estado', mensaje)) {
         const ok = await config.onAction('cambiarEstado', id, { nuevoEstado });
         if (ok) {
-            notifications.showToast(`Estado: ${nuevoEstado}`);
+            notifications.showToast(`Presupuesto ${nuevoEstado}`);
             navigateToProfile(id, config);
         }
     } else {
@@ -435,12 +457,15 @@ async function handleSubentityActions(e, id, config) {
 
 async function handleOpenSubEntitySearch(id, parentConfig) {
     const subConfig = ENTITY_CONFIG[parentConfig.subEntity];
-    if (!subConfig) return;
+    if (!subConfig || parentConfig.entity !== 'Presupuesto') return;
 
     const data = await subConfig.onAction('abrirBuscadorRepuestos');
+    const wrapper = document.createElement('div');
+    
+    wrapper.innerHTML = subConfig.renderSearchModal(data);
 
-    document.body.insertAdjacentHTML('beforeend', subConfig.renderSearchModal(data));
-    const modalElement = document.querySelector('.js-entity-modal');
+    const modalElement = wrapper.firstElementChild;
+    document.body.appendChild(modalElement);
 
     setupDetalleModalEvents(modalElement, id, subConfig, parentConfig);
 }
