@@ -6,6 +6,7 @@ export function renderBicicletasTable(bicicletas = []) {
             <td class="px-6 py-4 text-sm text-gray-700">#${cliente.id} - ${cliente.nombre} ${cliente.apellido} </td>
             <td class="px-6 py-4 text-sm text-center text-gray-700">${fechaIngreso}</td>
             <td class="px-6 py-4 text-sm text-center space-x-2">
+                <button data-id="${id}" class="js-btn-add-presupuesto text-emerald-600 hover:text-blue-900 font-medium">Crear Presupuesto</button>
                 <button data-id="${id}" class="js-btn-edit text-blue-600 hover:text-blue-900 font-medium">Editar</button>
                 <button data-id="${id}" class="js-btn-delete text-red-600 hover:text-red-900 font-medium">Eliminar</button>
             </td>
