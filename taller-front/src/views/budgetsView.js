@@ -1,0 +1,171 @@
+import { renderDetallesTable } from './detailsView.js';
+
+export function renderPresupuestosTable(presupuestos = []) {
+    const rows = presupuestos.map(({ numero, fecha, valorTotal, estado }) => {
+        const estadoClases = {
+            'PENDIENTE': 'bg-yellow-100 text-yellow-800',
+            'FACTURADO': 'bg-green-100 text-green-800',
+            'ANULADO': 'bg-red-100 text-red-800'
+        };
+        const totalFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valorTotal);
+
+        return `
+        <tr class="border-b hover:bg-gray-50 transition-colors">
+            <td class="px-6 py-4 text-sm font-medium text-gray-900">#${numero}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">${fecha}</td>
+            <td class="px-6 py-4 text-sm font-bold text-gray-900">${totalFormateado}</td>
+            <td class="px-6 py-4 text-sm text-center">
+                <span class="px-2 py-1 rounded-full text-xs font-semibold ${estadoClases[estado] || 'bg-gray-100'}">
+                    ${estado}
+                </span>
+            </td>
+            <td class="px-6 py-4 text-sm text-center space-x-2">
+                <button data-id="${numero}" class="js-btn-view text-emerald-600 hover:text-blue-900 font-medium">Ver Presupuesto</button>
+            </td>
+        </tr>
+    `;
+    }).join('');
+
+    return `
+    <div class="space-y-6">
+        <div class="flex justify-between items-center">
+            <h3 class="text-2xl font-bold text-gray-800">Gestión de Presupuestos</h3>
+            <div class="flex grow max-w-md">
+                <div class="relative w-full md:w-96">
+                    <input type="text"
+                        class="js-search-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg rounded-r-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" 
+                        placeholder="Buscar por Número, cliente o bicicleta..."
+                        autocomplete="off">
+                </div>
+                <button class="js-btn-search bg-gray-800 hover:bg-gray-900 text-white px-5 py-2.5 rounded-r-lg rounded-l-none text-sm font-medium transition-colors border border-gray-800">
+                    Buscar
+                </button>
+            </div>
+            <div class="hidden md:block w-44"></div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Número</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Total</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Estado</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    ${rows.length > 0 ? rows : '<tr><td colspan="5" class="text-center py-10 text-gray-400">No hay presupuestos cargados.</td></tr>'}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    `;
+}
+
+export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = []) {
+    const { numero, fecha, valorTotal, estado, cliente, bicicleta, detalles, servicio, valorServicioAplicado = [] } = presupuesto;
+
+    const esEditable = estado === 'PENDIENTE';
+
+    const estadoClases = {
+        'PENDIENTE': 'bg-yellow-100 text-yellow-800',
+        'FACTURADO': 'bg-green-100 text-green-800',
+        'ANULADO': 'bg-red-100 text-red-800'
+    };
+
+    const totalFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valorTotal);
+
+    const optionsServicios = serviciosDisponibles.map(s => {
+        const isSelected = (servicio && s.id === servicio.id) ? 'selected' : '';
+        return `<option value="${s.id}" data-precio="${s.valor}" ${isSelected}>
+            ${s.nombre} ($${s.valor})
+        </option>`;
+    }).join('');
+
+    return `
+    ${!esEditable ? `
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
+            <div class="flex items-center">
+                <i class="fas fa-lock text-amber-400 mr-3"></i>
+                <p class="text-sm text-amber-700">
+                    Este presupuesto está <strong>${estado}</strong> y no puede ser modificado.
+                </p>
+            </div>
+        </div>
+    ` : ''}
+    <div class="p-6 space-y-6 animate-fade-in">
+        <div class="flex justify-between items-start">
+            <div>
+                <div class="flex items-center gap-3">
+                    <h2 class="text-3xl font-bold text-gray-800">Presupuesto #${numero}</h2>
+                    ${esEditable
+            ? `
+                        <select id="js-select-estado" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border-none outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                            <option value="PENDIENTE" ${estado === 'PENDIENTE' ? 'selected' : ''}>PENDIENTE</option>
+                            <option value="FACTURADO" ${estado === 'FACTURADO' ? 'selected' : ''}>FACTURADO</option>
+                            <option value="ANULADO" ${estado === 'ANULADO' ? 'selected' : ''}>ANULADO</option>
+                        </select>
+                        `
+            : `<span class="px-3 py-1 rounded-full text-xs font-bold ${estadoClases[estado]}">${estado}</span>`
+        }
+                </div>
+                <p class="text-gray-500 font-medium text-sm">Fecha: ${fecha}</p>
+            </div>
+            <button class="js-btn-back px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">
+                Volver a la lista
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                <h3 class="text-xs font-bold mb-3 text-blue-600 uppercase tracking-widest">Cliente</h3>
+                <p class="text-base font-bold text-gray-800">${cliente.nombre} ${cliente.apellido}</p>
+                <p class="text-gray-500 text-xs italic">ID: #${cliente.id}</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                <h3 class="text-xs font-bold mb-3 text-emerald-600 uppercase tracking-widest">Bicicleta</h3>
+                <p class="text-base font-bold text-gray-800">${bicicleta.marca} ${bicicleta.modelo}</p>
+                <p class="text-gray-500 text-xs italic">ID: #${bicicleta.id}</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                <h3 class="text-xs font-bold mb-3 text-purple-600 uppercase tracking-widest">Servicio Aplicado</h3>
+                <select id="js-select-servicio" ${!esEditable ? 'disabled' : ''} data-presupuesto="${numero}" 
+                    class="w-full text-sm border rounded-lg p-2 outline-none focus:ring-2 focus:ring-purple-500">
+                    <option value="" ${!servicio ? 'selected' : ''}>-- Seleccionar Servicio --</option>
+                    ${optionsServicios}
+                </select>
+                <div class="mt-2 flex justify-between items-center">
+                    <span class="text-xs text-gray-400 font-medium italic">Precio aplicado:</span>
+                    <span class="text-sm font-bold text-purple-700">$${valorServicioAplicado}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
+                <h3 class="font-bold text-gray-700 uppercase tracking-wider text-sm">Repuestos Agregados</h3>
+                ${esEditable ? `
+                    <button class="js-btn-add-detalle bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow transition-all flex items-center">
+                        <span class="mr-2">+</span> Agregar Repuesto
+                    </button>
+                ` : ''}
+            </div>
+
+            <div class="js-subentity-container divide-y divide-gray-100">
+                ${detalles.length > 0 ? renderDetallesTable(detalles) : '<div class="p-10 text-center text-gray-400 italic">No hay repuestos agregados.</div>'}
+            </div>
+
+            <div class="p-6 bg-gray-50 border-t flex justify-end">
+                <div class="text-right">
+                    <p class="text-xs text-gray-500 uppercase font-bold tracking-tighter">Total Final (Servicio + Repuestos)</p>
+                    <p class="text-4xl font-black text-gray-900">${totalFormateado}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+}
