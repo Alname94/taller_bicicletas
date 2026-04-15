@@ -101,15 +101,15 @@ export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = [])
                 <div class="flex items-center gap-3">
                     <h2 class="text-3xl font-bold text-gray-800">Presupuesto #${numero}</h2>
                     ${esEditable
-            ? `
+                        ? `
                         <select id="js-select-estado" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border-none outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                             <option value="PENDIENTE" ${estado === 'PENDIENTE' ? 'selected' : ''}>PENDIENTE</option>
                             <option value="FACTURADO" ${estado === 'FACTURADO' ? 'selected' : ''}>FACTURADO</option>
                             <option value="ANULADO" ${estado === 'ANULADO' ? 'selected' : ''}>ANULADO</option>
                         </select>
                         `
-            : `<span class="px-3 py-1 rounded-full text-xs font-bold ${estadoClases[estado]}">${estado}</span>`
-        }
+                        : `<span class="px-3 py-1 rounded-full text-xs font-bold ${estadoClases[estado]}">${estado}</span>`
+                    }
                 </div>
                 <p class="text-gray-500 font-medium text-sm">Fecha: ${fecha}</p>
             </div>
@@ -168,4 +168,72 @@ export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = [])
         </div>
     </div>
     `;
+}
+
+export function renderPresupuestoModal(bicicleta = null, servicios = []) {
+    const hoy = new Date().toISOString().split('T')[0];
+    
+    // Extraemos datos de la bicicleta y el cliente asociado
+    const { id: biciId = '', marca = '', modelo = '', cliente = {} } = bicicleta || {};
+    const { id: clienteId = '', nombre = '', apellido = '' } = cliente;
+
+    return `
+    <div class="js-entity-modal fixed inset-0 z-50 items-center justify-center hidden">
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"></div>
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden z-10">
+            <div class="p-6 border-b bg-gray-50 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Crear Nuevo Presupuesto</h3>
+                <button class="js-btn-close-modal text-3xl text-gray-400 hover:text-gray-600">&times;</button>
+            </div>
+
+            <form class="js-entity-form p-6 space-y-4">
+                <input type="hidden" name="bicicletaId" value="${biciId}">
+                <input type="hidden" name="clienteId" value="${clienteId}">
+                <input type="hidden" name="fecha" value="${hoy}">
+
+                <div class="space-y-3">
+                    <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                        <label class="block text-xs font-semibold text-blue-600 uppercase">Cliente</label>
+                        <p class="text-gray-800 font-medium">${nombre} ${apellido}</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase">Bicicleta</label>
+                        <p class="text-gray-800 font-medium">${marca} ${modelo} (ID: ${biciId})</p>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Tipo de Servicio</label>
+                    <select name="servicioId" required 
+                        class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                        <option value="" disabled selected>Seleccione un servicio...</option>
+                        ${servicios.map(s => `
+                            <option value="${s.id}">
+                                ${s.nombre} - $${s.valor.toLocaleString()}
+                            </option>
+                        `).join('')}
+                    </select>
+                    <p class="text-xs text-gray-400 mt-2">Luego podrá agregar los repuestos necesarios en el detalle del presupuesto.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Descripción / Notas Iniciales</label>
+                    <textarea name="descripcion" rows="2" placeholder="Ej: Ruido en la caja pedalera..."
+                        class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4 border-t">
+                    <button type="button" class="js-btn-cancel-modal px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold shadow-lg transition-all transform active:scale-95">
+                        Crear y Continuar &rarr;
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>`;
 }
