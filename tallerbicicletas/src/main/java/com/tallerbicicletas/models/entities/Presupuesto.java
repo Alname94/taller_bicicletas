@@ -98,15 +98,17 @@ public class Presupuesto {
         }
     }
 
-    // Método para calcular el valor total del presupuesto sumando el costo de los repuestos y el valor del servicio aplicado
+    // Método para calcular el valor total del presupuesto sumando el precio unitario de los repuestos y el valor del servicio aplicado
     public double calcularTotalFinal() {
-        double subtotalRepuestos = (this.detalles == null) ? 0.0 : 
-            this.detalles.stream()
-                .mapToDouble(d -> d.getCantidadAgregada() * d.getRepuesto().getPrecioVenta())
-                .sum();
-        
-        double manoDeObra = (this.valorServicioAplicado == null) ? 0.0 : this.valorServicioAplicado;
-        
-        return subtotalRepuestos + manoDeObra;
-    }
+    double subtotalRepuestos = (this.detalles == null) ? 0.0 : 
+        this.detalles.stream()
+            .mapToDouble(d -> {
+                double precio = (d.getPrecioUnitario() != null) ? d.getPrecioUnitario() : 0.0;
+                return d.getCantidadAgregada() * precio;
+            })
+            .sum();
+
+    double manoDeObra = (this.valorServicioAplicado == null) ? 0.0 : this.valorServicioAplicado;    
+    return subtotalRepuestos + manoDeObra;
+}
 }
