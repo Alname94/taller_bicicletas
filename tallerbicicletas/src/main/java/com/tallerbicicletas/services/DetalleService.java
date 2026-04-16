@@ -2,6 +2,7 @@ package com.tallerbicicletas.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,18 +55,33 @@ public class DetalleService implements IDetalleService {
                     "'. Disponible: " + repuesto.getStock());
         }
 
+        Optional<Detalle> detalleExistente = detalleRepository.findById(detalle.getId());
+        Detalle detalleFinal;
+
+        if (detalleExistente.isPresent()) {
+            detalleFinal = detalleExistente.get();
+            detalleFinal.setCantidadAgregada(detalleFinal.getCantidadAgregada() + detalle.getCantidadAgregada());
+
+            detalleFinal.setPrecioUnitario(repuesto.getPrecioVenta());
+        } else {
+            detalle.setRepuesto(repuesto);
+            detalle.setPresupuesto(presupuesto);
+            detalle.setPrecioUnitario(repuesto.getPrecioVenta());
+            detalleFinal = detalle;
+
+            if (presupuesto.getDetalles() == null) {
+                presupuesto.setDetalles(new ArrayList<>());
+            }
+            presupuesto.getDetalles().add(detalleFinal);
+        }
+
+        detalleFinal.calcularSubtotal();
+
         repuesto.setStock(repuesto.getStock() - detalle.getCantidadAgregada());
         repuestoService.editRepuesto(repuesto);
 
-        detalle.setRepuesto(repuesto);
-        detalle.setPresupuesto(presupuesto);
+        Detalle detalleGuardado = detalleRepository.save(detalleFinal);
 
-        if (presupuesto.getDetalles() == null) {
-            presupuesto.setDetalles(new ArrayList<>());
-        }
-        presupuesto.getDetalles().add(detalle);
-
-        Detalle detalleGuardado = detalleRepository.save(detalle);
         actualizarTotal(presupuesto.getNumero());
 
         return detalleGuardado;
