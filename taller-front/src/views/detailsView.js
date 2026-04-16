@@ -9,10 +9,10 @@ export function renderDetallesTable(detalles = []) {
                 ${d.cantidadAgregada}
             </td>
             <td class="px-4 py-3 text-sm text-gray-600">
-                $${d.repuesto.precioVenta.toLocaleString()}
+                $${d.precioUnitario.toLocaleString()}
             </td>
             <td class="px-4 py-3 text-sm font-bold text-gray-900">
-                $${(d.cantidadAgregada * d.repuesto.precioVenta).toLocaleString()}
+                $${d.subtotal.toLocaleString()}
             </td>
             <td class="px-4 py-3 text-right">
                 <button data-id="${d.id.presupuestoNumero}-${d.id.repuestoCodigo}" class="js-btn-delete-sub p-2 text-red-600 hover:bg-red-100 rounded-full" title="Eliminar">
