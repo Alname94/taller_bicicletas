@@ -65,4 +65,10 @@ public class RepuestoController {
     public ResponseEntity<List<Repuesto>> searchRepuestos(@RequestParam String query) {
         return new ResponseEntity<>(repuestoService.findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase(query, query, query), HttpStatus.OK);
     }
+
+    @Operation(summary = "Obtener repuestos con stock disponible", description = "Devuelve una lista de repuestos que tienen stock disponible (stock mayor a 0).")
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<Repuesto>> getRepuestosDisponibles() {
+        return new ResponseEntity<>(repuestoService.findByStockGreaterThan(), HttpStatus.OK);
+    }
 }

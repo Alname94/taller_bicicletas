@@ -80,4 +80,9 @@ public class RepuestoService implements IRepuestoService {
         }
         return repuestos;
     }
+
+    @Override
+    public List<Repuesto> findByStockGreaterThan() {
+        return repuestoRepository.findByStockGreaterThan(0);
+    }
 }
