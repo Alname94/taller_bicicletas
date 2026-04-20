@@ -396,26 +396,21 @@ async function handleEstadoChange(e, id, config) {
 
 async function handleServicioChange(e, id, config) {
     const nuevoServicioId = e.target.value;
-    const optionSeleccionada = e.target.options[e.target.selectedIndex];
-    const nuevoPrecio = optionSeleccionada.dataset.precio;
-
     if (!nuevoServicioId) return;
 
     const confirmado = await notifications.showConfirm(
         '¿Cambiar servicio?',
-        'Se actualizará el costo de mano de obra del presupuesto.'
+        'El costo de mano de obra se actualizará al valor actual del servicio seleccionado.'
     );
 
-    if (!confirmado) return navigateToProfile(id, config);
-
-    const ok = await config.onSave(id, {
-        ...currentProfileData,
-        servicioId: nuevoServicioId,
-        valorServicioAplicado: parseFloat(nuevoPrecio)
-    });
-
-    if (ok) {
-        notifications.showToast('Servicio actualizado');
+    if (confirmado) {
+        const ok = await config.onAction('cambiarServicio', id, { nuevoServicioId });
+        
+        if (ok) {
+            notifications.showToast('Servicio actualizado');
+            navigateToProfile(id, config);
+        }
+    } else {
         navigateToProfile(id, config);
     }
 }
@@ -461,7 +456,7 @@ async function handleOpenSubEntitySearch(id, parentConfig) {
 
     const data = await subConfig.onAction('abrirBuscadorRepuestos');
     const wrapper = document.createElement('div');
-    
+
     wrapper.innerHTML = subConfig.renderSearchModal(data);
 
     const modalElement = wrapper.firstElementChild;
