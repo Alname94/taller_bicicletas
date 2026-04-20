@@ -116,25 +116,30 @@ export const ENTITY_CONFIG = {
             if (action === 'cambiarEstado') {
                 return await apiService.patchEstadoPresupuesto(id, payload.nuevoEstado);
             }
+            if (action === 'cambiarServicio') {
+                return await apiService.patchServicioPresupuesto(id, payload.nuevoServicioId);
+            }
         },
         onSave: async (id, formData) => {
             const dataParaEnviar = {
-                numero: id,
-                cliente: { id: formData.cliente?.id || formData.clienteId },
-                bicicleta: { id: formData.bicicleta?.id || formData.bicicletaId },
+                numero: id ? Number(id) : null,
+                cliente: { id: Number(formData.cliente?.id || formData.clienteId) },
+                bicicleta: { id: Number(formData.bicicleta?.id || formData.bicicletaId) },
                 servicio: formData.servicioId
-                    ? { id: formData.servicioId }
-                    : (formData.servicio?.id ? { id: formData.servicio.id } : null),
+                    ? { id: Number(formData.servicioId) }
+                    : (formData.servicio?.id ? { id: Number(formData.servicio.id) } : null),
                 fecha: formData.fecha,
-                descripcion: formData.descripcion,
-                // No enviamos 'estado' aquí, ya que se encarga el PATCH
-                valorTotal: formData.valorTotal || 0,
-                valorServicioAplicado: formData.valorServicioAplicado || 0,
+                descripcion: formData.descripcion || "",
+                valorTotal: formData.valorTotal,
+                valorServicioAplicado: formData.valorServicioAplicado,
                 detalles: formData.detalles || []
             };
-            return id
-                ? apiService.updatePresupuesto(id, dataParaEnviar)
-                : apiService.savePresupuesto(dataParaEnviar);
+
+            if (id) {
+                return apiService.updatePresupuesto(id, dataParaEnviar);
+            } else {
+                return apiService.savePresupuesto(dataParaEnviar);
+            }
         },
 
         renderTable: (data) => renderPresupuestosTable(data),
