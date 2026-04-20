@@ -13,4 +13,6 @@ public interface IRepuestoRepository extends JpaRepository<Repuesto, String>{
     List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase(String query, String query2, String query3);
 
     boolean existsById(String codigo);
+
+    List<Repuesto> findByStockGreaterThan(int stockMinimo);
 }
