@@ -65,7 +65,7 @@ export function renderPresupuestosTable(presupuestos = []) {
 }
 
 export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = []) {
-    const { numero, fecha, valorTotal, estado, cliente, bicicleta, detalles, servicio, valorServicioAplicado = [] } = presupuesto;
+    const { numero, fecha, valorTotal, estado, cliente, bicicleta, descripcion, detalles, servicio, valorServicioAplicado = [] } = presupuesto;
 
     const esEditable = estado === 'PENDIENTE';
 
@@ -75,14 +75,24 @@ export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = [])
         'ANULADO': 'bg-red-100 text-red-800'
     };
 
-    const totalFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valorTotal);
+    const servicioActualId = servicio ? servicio.id : null;
+    const existeEnDisponibles = serviciosDisponibles.some(s => s.id === servicioActualId);
 
-    const optionsServicios = serviciosDisponibles.map(s => {
-        const isSelected = (servicio && s.id === servicio.id) ? 'selected' : '';
+    let optionsHtml = serviciosDisponibles.map(s => {
+        const isSelected = (servicioActualId && s.id === servicioActualId) ? 'selected' : '';
         return `<option value="${s.id}" data-precio="${s.valor}" ${isSelected}>
             ${s.nombre} ($${s.valor})
         </option>`;
     }).join('');
+
+    if (servicio && !existeEnDisponibles) {
+        optionsHtml += `
+            <option value="${servicio.id}" selected disabled>
+                ${servicio.nombre} ($${valorServicioAplicado} - Inactivo)
+            </option>`;
+    }
+
+    const totalFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valorTotal);
 
     return `
     ${!esEditable ? `
@@ -100,14 +110,12 @@ export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = [])
             <div>
                 <div class="flex items-center gap-3">
                     <h2 class="text-3xl font-bold text-gray-800">Presupuesto #${numero}</h2>
-                    ${esEditable
-                        ? `
-                        <select id="js-select-estado" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border-none outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                    ${esEditable ? 
+                        `<select id="js-select-estado" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border-none outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                             <option value="PENDIENTE" ${estado === 'PENDIENTE' ? 'selected' : ''}>PENDIENTE</option>
                             <option value="FACTURADO" ${estado === 'FACTURADO' ? 'selected' : ''}>FACTURADO</option>
                             <option value="ANULADO" ${estado === 'ANULADO' ? 'selected' : ''}>ANULADO</option>
-                        </select>
-                        `
+                        </select> `
                         : `<span class="px-3 py-1 rounded-full text-xs font-bold ${estadoClases[estado]}">${estado}</span>`
                     }
                 </div>
@@ -133,17 +141,42 @@ export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = [])
 
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                 <h3 class="text-xs font-bold mb-3 text-purple-600 uppercase tracking-widest">Servicio Aplicado</h3>
+
                 <select id="js-select-servicio" ${!esEditable ? 'disabled' : ''} data-presupuesto="${numero}" 
-                    class="w-full text-sm border rounded-lg p-2 outline-none focus:ring-2 focus:ring-purple-500">
-                    <option value="" ${!servicio ? 'selected' : ''}>-- Seleccionar Servicio --</option>
-                    ${optionsServicios}
+                    class="w-full text-sm border rounded-lg p-2 outline-none focus:ring-2 focus:ring-purple-500 ${!esEditable ? 'bg-gray-50 cursor-not-allowed' : 'bg-white'}">
+                    <option value="" ${!servicio ? 'selected' : ''} disabled>-- Seleccionar Servicio --</option>
+                    ${optionsHtml}
                 </select>
-                <div class="mt-2 flex justify-between items-center">
-                    <span class="text-xs text-gray-400 font-medium italic">Precio aplicado:</span>
-                    <span class="text-sm font-bold text-purple-700">$${valorServicioAplicado}</span>
+
+                <div class="mt-2 flex justify-between items-center px-1">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-gray-400 font-medium uppercase">Precio en presupuesto:</span>
+                        <span class="text-sm font-bold text-purple-700">
+                            $${valorServicioAplicado.toLocaleString('es-AR')}
+                        </span>
+                    </div>
+                    
+                    ${esEditable && servicio ? `
+                        <span class="text-[10px] bg-purple-50 text-purple-600 px-2 py-1 rounded-md font-bold">
+                            MODO EDICIÓN
+                        </span>
+                    ` : ''}
                 </div>
             </div>
         </div>
+
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mt-4">
+            <h3 class="text-xs font-bold mb-2 text-blue-600 uppercase tracking-widest">Descripción / Notas</h3>
+            <textarea 
+                id="js-textarea-descripcion"
+                ${!esEditable ? 'readonly' : ''}
+                data-presupuesto="${numero}"
+                placeholder="Agregue notas sobre el estado de la bicicleta o detalles del trabajo..." maxLength="300"
+                class="w-full h-24 text-ms border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none
+                    ${!esEditable ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-800'}"
+                >${descripcion || ""}</textarea>
+            ${esEditable ? `<p class="text-[10px] text-gray-400 mt-2 italic">Se guarda automáticamente al hacer clic fuera del campo.</p>` : ''}
+        </div> 
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
@@ -172,7 +205,7 @@ export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = [])
 
 export function renderPresupuestoModal(bicicleta = null, servicios = []) {
     const hoy = new Date().toISOString().split('T')[0];
-    
+
     // Extraemos datos de la bicicleta y el cliente asociado
     const { id: biciId = '', marca = '', modelo = '', cliente = {} } = bicicleta || {};
     const { id: clienteId = '', nombre = '', apellido = '' } = cliente;
