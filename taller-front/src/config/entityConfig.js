@@ -130,7 +130,7 @@ export const ENTITY_CONFIG = {
                     : (formData.servicio?.id ? { id: Number(formData.servicio.id) } : null),
                 fecha: formData.fecha,
                 descripcion: formData.descripcion || "",
-                valorTotal: formData.valorTotal,
+                valorTotal: formData.valorTotal || 0,
                 valorServicioAplicado: formData.valorServicioAplicado,
                 detalles: formData.detalles || []
             };
@@ -175,7 +175,7 @@ export const ENTITY_CONFIG = {
             return await apiService.deleteDetalle(presupuestoId, repuestoCodigo);
         },
         onAction: async (action) => {
-            if (action === 'abrirBuscadorRepuestos') return await apiService.getRepuestos();
+            if (action === 'abrirBuscadorRepuestos') return await apiService.getRepuestosDisponibles();
         },
         getData: async (presupuestoId) => await apiService.getDetallesByPresupuesto(presupuestoId),
 

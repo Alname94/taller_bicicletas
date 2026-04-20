@@ -88,6 +88,7 @@ export const apiService = {
     updateRepuesto: (codigo, data) => request(`/repuestos/${codigo}`, 'PUT', data),
     deleteRepuesto: (codigo) => request(`/repuestos/borrar/${codigo}`, 'DELETE'),
     searchRepuestos: (query) => request(`/repuestos/buscar?query=${query}`),
+    getRepuestosDisponibles: () => request('/repuestos/disponibles', 'GET'),
 
     // --- PRESUPUESTOS ---
     getPresupuestos: () => request('/presupuestos'),

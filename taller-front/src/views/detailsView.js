@@ -44,8 +44,8 @@ export function renderDetallesTable(detalles = []) {
     `;
 }
 
-export function renderSelectRepuestosModal(repuestos = []) {
-    const rows = repuestos.map(r => `
+export function renderSelectRepuestosModal(repuestosDisponibles = []) {
+    const rows = repuestosDisponibles.map(r => `
         <tr class="border-b hover:bg-gray-50">
             <td class="px-4 py-3">
                 <div class="font-bold text-gray-800">${r.producto}</div>

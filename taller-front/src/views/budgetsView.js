@@ -34,7 +34,7 @@ export function renderPresupuestosTable(presupuestos = []) {
                 <div class="relative w-full md:w-96">
                     <input type="text"
                         class="js-search-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg rounded-r-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" 
-                        placeholder="Buscar por Número, cliente o bicicleta..."
+                        placeholder="Buscar por Número"
                         autocomplete="off">
                 </div>
                 <button class="js-btn-search bg-gray-800 hover:bg-gray-900 text-white px-5 py-2.5 rounded-r-lg rounded-l-none text-sm font-medium transition-colors border border-gray-800">
