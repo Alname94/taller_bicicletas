@@ -98,7 +98,9 @@ export const apiService = {
     getPresupuestoByNumero: (numero) => request(`/presupuestos/${numero}`, 'GET'),
     patchEstadoPresupuesto: (numero, nuevoEstado) =>
         request(`/presupuestos/${numero}/estado?nuevoEstado=${nuevoEstado}`, 'PATCH'),
-
+    patchServicioPresupuesto: (numero, servicioId) =>
+        request(`/presupuestos/${numero}/servicio?servicioId=${servicioId}`, 'PATCH'),
+    
     // --- DETALLES ---
     saveDetalle: (presupuestoNumero, repuestoCodigo, cantidad) => {
         const nuevoDetalle = {
