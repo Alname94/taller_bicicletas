@@ -337,6 +337,9 @@ function setupProfileEvents(id, config) {
 
     const btnAddDetalle = container.querySelector('.js-btn-add-detalle');
     if (btnAddDetalle) btnAddDetalle.onclick = () => handleOpenSubEntitySearch(id, config);
+
+    const textAreaDescripcion = container.querySelector('#js-textarea-descripcion');
+    if (textAreaDescripcion) textAreaDescripcion.onblur = (e) => handleDescripcionChange(e, id, config);
 }
 
 function setupDetalleModalEvents(modalElement, id, subConfig, parentConfig) {
@@ -405,7 +408,7 @@ async function handleServicioChange(e, id, config) {
 
     if (confirmado) {
         const ok = await config.onAction('cambiarServicio', id, { nuevoServicioId });
-        
+
         if (ok) {
             notifications.showToast('Servicio actualizado');
             navigateToProfile(id, config);
@@ -465,6 +468,24 @@ async function handleOpenSubEntitySearch(id, parentConfig) {
     setupDetalleModalEvents(modalElement, id, subConfig, parentConfig);
 }
 
+async function handleDescripcionChange(e, id, config) {
+    const nuevaDescripcion = e.target.value;
+
+    if (currentProfileData.estado !== 'PENDIENTE') return;
+
+    try {
+        const ok = await config.onSave(id, {
+            ...currentProfileData,
+            descripcion: nuevaDescripcion
+        });
+
+        if (ok) {
+            notifications.showToast('Descripción guardada automáticamente');
+        }
+    } catch (error) {
+        console.error('Error en auto-guardado:', error);
+    }
+}
 
 // ----------------------------------------------
 init();
