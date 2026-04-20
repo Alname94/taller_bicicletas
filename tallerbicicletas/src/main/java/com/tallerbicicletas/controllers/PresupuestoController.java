@@ -71,8 +71,14 @@ public class PresupuestoController {
     @Operation(summary = "Buscar presupuestos por cliente o bicicleta", description = "Permite buscar presupuestos filtrando por el nombre del cliente o la marca de la bicicleta. Ambos parámetros son opcionales y se pueden usar de forma combinada para refinar la búsqueda.")
     @GetMapping("/buscar")
     public ResponseEntity<List<Presupuesto>> search(@RequestParam(required = false) String cliente, @RequestParam(required = false) String bicicleta) {
-        return new ResponseEntity<>(
-            presupuestoService.findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(cliente, bicicleta), 
-            HttpStatus.OK);
+        return new ResponseEntity<>(presupuestoService.findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(cliente, bicicleta), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Asignar un servicio a un presupuesto", description = "Permite asignar un servicio a un presupuesto existente utilizando su número de presupuesto y el ID del servicio.")
+    @PatchMapping("/{numero}/servicio")
+    public ResponseEntity<Presupuesto> asignarServicio(@PathVariable Long numero, @RequestParam Long servicioId) {
+        presupuestoService.asignarServicio(numero, servicioId);
+        Presupuesto actualizado = presupuestoService.findPresupuesto(numero);
+        return ResponseEntity.ok(actualizado);
     }
 }
