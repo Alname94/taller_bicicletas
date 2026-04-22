@@ -3,6 +3,8 @@ package com.tallerbicicletas.services.interfaces;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 import com.tallerbicicletas.models.entities.Cliente;
 
 public interface IClienteService {
@@ -20,4 +22,6 @@ public interface IClienteService {
     public List<Cliente> findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(String nombre, String apellido);
 
     public Optional<Cliente> findByDni(String dni);
+
+    public Page<Cliente> listarClientesPaginados(int pagina, int tamaño);
 }

@@ -3,6 +3,7 @@ package com.tallerbicicletas.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,6 +64,15 @@ public class ClienteController {
     @Operation(summary = "Buscar clientes por nombre o apellido", description = "Permite buscar clientes cuyo nombre o apellido contenga el término de búsqueda proporcionado. Se requiere proporcionar el término de búsqueda como parámetro de consulta.")
     @GetMapping("/buscar")
     public ResponseEntity<List<Cliente>> findByNombreOrApellido(@RequestParam String nombre) {
-        return new ResponseEntity<>(clienteService.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(nombre, nombre), HttpStatus.OK);
+        return new ResponseEntity<>(
+                clienteService.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(nombre, nombre),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/paginado")
+    public ResponseEntity<Page<Cliente>> getClientes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(clienteService.listarClientesPaginados(page, size));
     }
 }

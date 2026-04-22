@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tallerbicicletas.exceptions.BadRequestException;
@@ -106,4 +110,10 @@ public class ClienteService implements IClienteService {
     public Optional<Cliente> findByDni(String dni) {
         return clienteRepository.findByDni(dni);
     }
+
+    @Override
+    public Page<Cliente> listarClientesPaginados(int pagina, int tamaño) {
+        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").ascending());
+        return clienteRepository.findAll(pageable);
+    }   
 }
