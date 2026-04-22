@@ -62,7 +62,7 @@ export const apiService = {
     },
 
     // --- SERVICIOS ---
-    getServicios: (page = 0, size = 2) => 
+    getServicios: (page = 0, size = 10) => 
         request(`/servicios/paginado?page=${page}&size=${size}`, 'GET'),
     saveServicio: (data) => request('/servicios', 'POST', data),
     updateServicio: (id, data) => request(`/servicios/${id}`, 'PUT', data),
@@ -86,7 +86,8 @@ export const apiService = {
     getBicicletaById: (id) => request(`/bicicletas/${id}`, 'GET'),
 
     // --- REPUESTOS ---
-    getRepuestos: () => request('/repuestos'),
+    getRepuestos: (page = 0, size = 10) => 
+        request(`/repuestos/paginado?page=${page}&size=${size}`),
     saveRepuesto: (data) => request('/repuestos', 'POST', data),
     updateRepuesto: (codigo, data) => request(`/repuestos/${codigo}`, 'PUT', data),
     deleteRepuesto: (codigo) => request(`/repuestos/borrar/${codigo}`, 'DELETE'),

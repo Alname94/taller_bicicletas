@@ -84,7 +84,7 @@ export const ENTITY_CONFIG = {
             capitalize: ['producto', 'color'],
             uppercase: ['codigo', 'marca']
         },
-        fetchData: () => apiService.getRepuestos(),
+        fetchData: (page = 0) => apiService.getRepuestos(page),
         onSave: async (id, formData) => {
             return id
                 ? apiService.updateRepuesto(id, formData)

@@ -3,6 +3,7 @@ package com.tallerbicicletas.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,5 +71,12 @@ public class RepuestoController {
     @GetMapping("/disponibles")
     public ResponseEntity<List<Repuesto>> getRepuestosDisponibles() {
         return new ResponseEntity<>(repuestoService.findByStockGreaterThan(), HttpStatus.OK);
+    }
+
+    @GetMapping("/paginado")
+    public ResponseEntity<Page<Repuesto>> getRepuestos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(repuestoService.listarRepuestosPaginados(page, size));
     }
 }

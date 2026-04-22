@@ -2,6 +2,8 @@ package com.tallerbicicletas.services.interfaces;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.tallerbicicletas.models.entities.Repuesto;
 
 public interface IRepuestoService {
@@ -19,4 +21,6 @@ public interface IRepuestoService {
     List<Repuesto> findByProductoContainingIgnoreCaseOrMarcaContainingIgnoreCaseOrCodigoContainingIgnoreCase(String producto, String marca, String codigo);
 
     List<Repuesto> findByStockGreaterThan();
+
+    public Page<Repuesto> listarRepuestosPaginados(int pagina, int tamaño);
 }
