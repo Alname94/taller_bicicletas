@@ -69,7 +69,8 @@ export const apiService = {
     getServiciosActivos: () => request('/servicios/activos', 'GET'),
 
     // --- CLIENTES ---
-    getClientes: () => request('/clientes'),
+    getClientes: (page = 0, size = 10) => 
+        request(`/clientes/paginado?page=${page}&size=${size}`, 'GET'),
     saveCliente: (data) => request('/clientes', 'POST', data),
     updateCliente: (id, data) => request(`/clientes/${id}`, 'PUT', data),
     deleteCliente: (id) => request(`/clientes/borrar/${id}`, 'DELETE'),

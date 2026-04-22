@@ -82,15 +82,25 @@ async function navigateTo(entityKey) {
     }
 }
 
-async function renderMainContent(entityKey, providedData = null) {
+async function renderMainContent(entityKey, providedData = null, page = 0) {
     const config = ENTITY_CONFIG[entityKey];
     const container = document.getElementById('main-content');
 
-    const data = providedData ? providedData : await config.fetchData();
+    const response = providedData ? providedData : await config.fetchData(page);
 
-    container.innerHTML = config.renderTable(data);
+    const items = response.content ? response.content : response;
 
-    setupEntityListeners(entityKey, data);
+    container.innerHTML = config.renderTable(items);
+
+    if (response.totalPages && response.totalPages > 1) {
+        container.innerHTML += renderPaginationControls(response);
+    }
+
+    setupEntityListeners(entityKey, items);
+
+    if (response.totalPages > 1) {
+        setupPaginationListeners(entityKey, response);
+    }
 }
 
 function updateActiveLink(activeLink) {
@@ -484,6 +494,46 @@ async function handleDescripcionChange(e, id, config) {
         }
     } catch (error) {
         console.error('Error en auto-guardado:', error);
+    }
+}
+
+function renderPaginationControls(data) {
+    const { number, totalPages, first, last } = data;
+
+    return `
+        <div class="flex flex-col sm:flex-row justify-between items-center p-4 bg-white border-t border-gray-100 gap-4">
+            <span class="text-sm text-gray-500 font-medium">
+                Página <span class="text-blue-600">${number + 1}</span> de ${totalPages}
+            </span>
+            
+            <div class="inline-flex rounded-md shadow-sm">
+                <button 
+                    ${first ? 'disabled' : ''} 
+                    class="js-pag-prev px-4 py-2 text-sm font-medium border border-gray-200 rounded-l-lg ${first ? 'bg-gray-50 text-gray-300 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-50 hover:text-blue-600'}">
+                    &larr; Anterior
+                </button>
+                
+                <button 
+                    ${last ? 'disabled' : ''} 
+                    class="js-pag-next px-4 py-2 text-sm font-medium border-t border-b border-r border-gray-200 rounded-r-lg ${last ? 'bg-gray-50 text-gray-300 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-50 hover:text-blue-600'}">
+                    Siguiente &rarr;
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function setupPaginationListeners(entityKey, response) {
+    const container = document.getElementById('main-content');
+    const btnPrev = container.querySelector('.js-pag-prev');
+    const btnNext = container.querySelector('.js-pag-next');
+
+    if (btnPrev && !response.first) {
+        btnPrev.onclick = () => renderMainContent(entityKey, null, response.number - 1);
+    }
+
+    if (btnNext && !response.last) {
+        btnNext.onclick = () => renderMainContent(entityKey, null, response.number + 1);
     }
 }
 

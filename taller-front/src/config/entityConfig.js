@@ -31,7 +31,7 @@ export const ENTITY_CONFIG = {
         transformations: {
             capitalize: ['nombre', 'apellido']
         },
-        fetchData: () => apiService.getClientes(),
+        fetchData: (page = 0) => apiService.getClientes(page),
         onSave: (id, data) => id ? apiService.updateCliente(id, data) : apiService.saveCliente(data),
         onDelete: (id) => apiService.deleteCliente(id),
         onSearch: (query) => apiService.searchEntity('clientes', query, 'nombre'),
