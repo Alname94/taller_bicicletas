@@ -3,6 +3,7 @@ package com.tallerbicicletas.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tallerbicicletas.models.entities.Bicicleta;
+import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.services.interfaces.IBicicletaService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,5 +74,12 @@ public class BicicletaController {
     @GetMapping("/cliente/{clienteId}")
     public ResponseEntity<List<Bicicleta>> findByCliente(@PathVariable Long clienteId) {
         return new ResponseEntity<>(bicicletaService.findByClienteId(clienteId), HttpStatus.OK);
+    }
+
+    @GetMapping("/paginado")
+    public ResponseEntity<Page<Bicicleta>> getBicicletas(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(bicicletaService.listarBicicletasPaginadas(page, size));
     }
 }

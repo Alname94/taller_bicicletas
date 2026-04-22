@@ -2,6 +2,8 @@ package com.tallerbicicletas.services.interfaces;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.tallerbicicletas.models.entities.Bicicleta;
 
 public interface IBicicletaService {
@@ -19,4 +21,6 @@ public interface IBicicletaService {
     public List<Bicicleta> findByMarcaContainingIgnoreCase(String marca);
 
     public List<Bicicleta> findByClienteId(Long clienteId);
+
+    public Page<Bicicleta> listarBicicletasPaginadas(int pagina, int tamaño);
 }
