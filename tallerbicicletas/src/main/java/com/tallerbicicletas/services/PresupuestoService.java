@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -195,4 +199,10 @@ public class PresupuestoService implements IPresupuestoService {
 
         presupuestoRepository.save(p);
     }
+
+    @Override
+    public Page<Presupuesto> listarPresupuestosPaginados(int pagina, int tamaño) {
+        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("numero").ascending());
+        return presupuestoRepository.findAll(pageable);
+    }  
 }

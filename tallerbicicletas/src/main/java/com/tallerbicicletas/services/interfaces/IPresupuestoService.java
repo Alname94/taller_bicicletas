@@ -2,6 +2,8 @@ package com.tallerbicicletas.services.interfaces;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.tallerbicicletas.models.entities.Presupuesto;
 
 public interface IPresupuestoService {
@@ -23,4 +25,6 @@ public interface IPresupuestoService {
     public void cambiarEstado (Long numero, String nuevoEstado);
 
     public void asignarServicio(Long presupuestoId, Long servicioId);
+
+    public Page<Presupuesto> listarPresupuestosPaginados(int pagina, int tamaño);
 }

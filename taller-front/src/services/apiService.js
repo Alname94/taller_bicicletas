@@ -95,7 +95,8 @@ export const apiService = {
     getRepuestosDisponibles: () => request('/repuestos/disponibles', 'GET'),
 
     // --- PRESUPUESTOS ---
-    getPresupuestos: () => request('/presupuestos'),
+    getPresupuestos: (page = 0, size = 10) => 
+        request(`/presupuestos/paginado?page=${page}&size=${size}`, 'GET'),
     savePresupuesto: (data) => request('/presupuestos', 'POST', data),
     updatePresupuesto: (numero, data) => request(`/presupuestos/${numero}`, 'PUT', data),
     deletePresupuesto: (numero) => request(`/presupuestos/borrar/${numero}`, 'DELETE'),

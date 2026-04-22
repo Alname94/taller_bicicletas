@@ -102,7 +102,7 @@ export const ENTITY_CONFIG = {
         subEntity: 'detalles',
         title: 'Presupuestos',
         path: 'presupuestos',
-        fetchData: () => apiService.getPresupuestos(),
+        fetchData: (page = 0) => apiService.getPresupuestos(page),
         onDelete: (numero) => apiService.deletePresupuesto(numero),
         onSearch: (query) => apiService.searchEntity('presupuestos', query, 'query'),
         fetchFullData: async (id) => {
