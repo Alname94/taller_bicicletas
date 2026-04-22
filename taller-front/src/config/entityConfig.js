@@ -53,7 +53,7 @@ export const ENTITY_CONFIG = {
             capitalize: ['color'],
             uppercase: ['marca', 'modelo']
         },
-        fetchData: () => apiService.getBicicletas(),
+        fetchData: (page = 0) => apiService.getBicicletas(page),
         onSave: async (id, formData) => {
             // Transformo el formData plano en la estructura que espera el backend
             const dataParaEnviar = {

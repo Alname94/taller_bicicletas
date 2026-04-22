@@ -77,7 +77,8 @@ export const apiService = {
     getClienteById: (id) => request(`/clientes/${id}`, 'GET'),
 
     // --- BICICLETAS ---
-    getBicicletas: () => request('/bicicletas'),
+    getBicicletas: (page = 0, size = 10) => 
+        request(`/bicicletas/paginado?page=${page}&size=${size}`, 'GET'),
     saveBicicleta: (data) => request('/bicicletas', 'POST', data),
     updateBicicleta: (id, data) => request(`/bicicletas/${id}`, 'PUT', data),
     deleteBicicleta: (id) => request(`/bicicletas/borrar/${id}`, 'DELETE'),
