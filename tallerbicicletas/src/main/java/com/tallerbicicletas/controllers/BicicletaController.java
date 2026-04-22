@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tallerbicicletas.models.entities.Bicicleta;
-import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.services.interfaces.IBicicletaService;
 
 import io.swagger.v3.oas.annotations.Operation;

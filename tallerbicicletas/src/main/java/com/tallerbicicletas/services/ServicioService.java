@@ -3,6 +3,10 @@ package com.tallerbicicletas.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tallerbicicletas.exceptions.BadRequestException;
@@ -84,4 +88,10 @@ public class ServicioService implements IServicioService {
     public List<Servicio> findByNombreContainingIgnoreCase(String nombre) {
         return servicioRepository.findByNombreContainingIgnoreCase(nombre);
     }
+
+    @Override
+    public Page<Servicio> listarServiciosPaginados(int pagina, int tamaño) {
+        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").ascending());
+        return servicioRepository.findAll(pageable);
+    }    
 }

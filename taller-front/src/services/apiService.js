@@ -62,7 +62,8 @@ export const apiService = {
     },
 
     // --- SERVICIOS ---
-    getServicios: () => request('/servicios'),
+    getServicios: (page = 0, size = 2) => 
+        request(`/servicios/paginado?page=${page}&size=${size}`, 'GET'),
     saveServicio: (data) => request('/servicios', 'POST', data),
     updateServicio: (id, data) => request(`/servicios/${id}`, 'PUT', data),
     deleteServicio: (id) => request(`/servicios/borrar/${id}`, 'DELETE'),

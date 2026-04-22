@@ -2,6 +2,8 @@ package com.tallerbicicletas.services.interfaces;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.tallerbicicletas.models.entities.Servicio;
 
 public interface IServicioService {
@@ -19,4 +21,6 @@ public interface IServicioService {
     public List<Servicio> getServiciosActivos();
 
     public List<Servicio> findByNombreContainingIgnoreCase(String nombre);
+
+    public Page<Servicio> listarServiciosPaginados(int pagina, int tamaño);
 }
