@@ -82,6 +82,10 @@ public class Bicicleta {
     @Schema(description = "Lista de presupuestos asociados a la bicicleta")
     private List<Presupuesto> presupuestos;
 
+    public Bicicleta (Long id) {
+        this.id = id;
+    }
+
     public void setMarca(String marca) {
         this.marca = marca == null ? null : marca.trim();
     }
