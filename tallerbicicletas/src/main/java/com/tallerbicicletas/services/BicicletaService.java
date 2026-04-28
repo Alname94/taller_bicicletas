@@ -93,7 +93,7 @@ public class BicicletaService implements IBicicletaService {
 
     @Override
     public Page<Bicicleta> listarBicicletasPaginadas(int pagina, int tamaño) {
-        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").ascending());
+        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").descending());
         return bicicletaRepository.findAll(pageable);
     }   
 }

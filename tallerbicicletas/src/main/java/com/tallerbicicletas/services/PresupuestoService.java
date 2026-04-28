@@ -202,7 +202,7 @@ public class PresupuestoService implements IPresupuestoService {
 
     @Override
     public Page<Presupuesto> listarPresupuestosPaginados(int pagina, int tamaño) {
-        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("numero").ascending());
+        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("numero").descending());
         return presupuestoRepository.findAll(pageable);
     }  
 }

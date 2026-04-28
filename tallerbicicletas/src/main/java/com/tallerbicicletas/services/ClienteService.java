@@ -113,7 +113,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Page<Cliente> listarClientesPaginados(int pagina, int tamaño) {
-        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").ascending());
+        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").descending());
         return clienteRepository.findAll(pageable);
     }   
 }

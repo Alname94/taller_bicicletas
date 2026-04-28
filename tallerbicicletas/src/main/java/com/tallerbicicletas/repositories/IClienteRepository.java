@@ -24,4 +24,6 @@ public interface IClienteRepository extends JpaRepository<Cliente, Long> {
     boolean existsByEmail(String email);
     
     boolean existsByTelefono(String telefono);
+
+    long count();
 }
