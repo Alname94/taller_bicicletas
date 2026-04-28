@@ -123,5 +123,21 @@ export const apiService = {
     },
     getDetallesByPresupuesto: (presupuestoNumero) => {
         return request(`/detalles/presupuesto/${presupuestoNumero}`, 'GET');
-    }
+    },
+
+    // --- API EXTERNA DÓLAR ---
+    getDolarValue: async () => {
+        try {
+            const response = await fetch('https://dolarapi.com/v1/dolares/blue');
+            const data = await response.json();
+            return data.venta;
+        } catch (error) {
+            console.error("Error obteniendo el dólar:", error);
+            return null;
+        }
+    },
+
+    // --- DASHBOARD ---
+    getDashboardStats: () => request('/dashboard/stats', 'GET'),
+    
 };

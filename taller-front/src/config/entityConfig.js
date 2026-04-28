@@ -5,6 +5,7 @@ import { renderBicicletasTable, renderBicicletaModal } from '../views/bicyclesVi
 import { renderRepuestosTable, renderRepuestoModal } from '../views/partsView';
 import { renderPresupuestosTable, renderPresupuestoDetalle, renderPresupuestoModal } from '../views/budgetsView';
 import { renderDetallesTable, renderSelectRepuestosModal } from '../views/detailsView';
+import { renderHomeContent } from '../views/dashboardView';
 
 export const ENTITY_CONFIG = {
     servicios: {
@@ -181,5 +182,11 @@ export const ENTITY_CONFIG = {
 
         renderTable: (data) => renderDetallesTable(data),
         renderSearchModal: (data) => renderSelectRepuestosModal(data),
+    },
+
+    dashboard: {
+        fetchStats: () => apiService.getDashboardStats(),
+        fetchDolar: () => apiService.getDolarValue(),
+        render: (dolar) => renderHomeContent(dolar)
     }
 };    
