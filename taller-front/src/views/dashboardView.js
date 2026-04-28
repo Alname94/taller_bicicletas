@@ -49,7 +49,9 @@ export function renderHomeContent() {
         <p class="text-gray-500">Hola, ${userName}. Este es el resumen de hoy.</p>
       </div>
       <div class="flex items-center space-x-4">
-        <span class="text-sm font-medium text-gray-500">TC: $1.430,00</span>
+        <div class="js-dolar-value text-sm font-bold text-green-600">
+          TC: Cargando...
+        </div>
         <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white">
           ${userName.charAt(0).toUpperCase()}
         </div>
@@ -59,19 +61,16 @@ export function renderHomeContent() {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div class="bg-blue-500 p-6 rounded-xl shadow-sm text-white">
         <p class="text-blue-100 text-sm font-medium">Presupuestos Pendientes</p>
-        <p class="text-3xl font-bold mt-1">12</p>
+        <p class="js-pendientes text-3xl font-bold mt-1">12</p>
       </div>
       <div class="bg-emerald-500 p-6 rounded-xl shadow-sm text-white">
         <p class="text-emerald-100 text-sm font-medium">Presupuestos del Mes</p>
-        <p class="text-3xl font-bold mt-1">5</p>
+        <p class="js-cantidad-mes text-3xl font-bold mt-1">0</p>
+        <p class="js-monto-mes text-sm text-emerald-50 text-opacity-80 mt-1">$ 0,00 facturados</p>
       </div>
       <div class="bg-orange-500 p-6 rounded-xl shadow-sm text-white">
         <p class="text-orange-100 text-sm font-medium">Clientes Activos</p>
-        <p class="text-3xl font-bold mt-1">84</p>
-      </div>
-      <div class="bg-rose-500 p-6 rounded-xl shadow-sm text-white">
-        <p class="text-rose-100 text-sm font-medium">Stock Bajo</p>
-        <p class="text-3xl font-bold mt-1 text-white">3</p>
+        <p class="js-total-clientes text-3xl font-bold mt-1">84</p>
       </div>
     </div> 
   `;

@@ -11,11 +11,12 @@ let currentProfileData = null;
 
 // ----------------------------------------------
 
-function init() {
+async function init() {
     if (authService.isLoggedIn()) {
         app.innerHTML = renderDashboardLayout();
         const mainContent = document.querySelector('#main-content');
         mainContent.innerHTML = renderHomeContent();
+        await loadDashboard();
         setupDashboardEvents();
     } else {
         app.innerHTML = renderLogin();
@@ -55,14 +56,21 @@ function setupDashboardEvents() {
 
     const sidebar = document.querySelector('#sidebar-menu');
     if (sidebar) {
-        sidebar.onclick = (e) => {
+        sidebar.onclick = async (e) => {
             const link = e.target.closest('[data-link]');
             if (!link) return;
 
             e.preventDefault();
             const target = link.dataset.link;
-            target === 'home' ? document.querySelector('#main-content').innerHTML = renderHomeContent() : navigateTo(target);
+            const mainContent = document.querySelector('#main-content');
 
+            if (target === 'home') {
+                mainContent.innerHTML = renderHomeContent();
+                await loadDashboard();
+            } else {
+                navigateTo(target);
+            }
+            
             updateActiveLink(link);
         };
     }
@@ -535,6 +543,51 @@ function setupPaginationListeners(entityKey, response) {
     if (btnNext && !response.last) {
         btnNext.onclick = () => renderMainContent(entityKey, null, response.number + 1);
     }
+}
+
+async function loadDashboard() {
+    const config = ENTITY_CONFIG.dashboard;
+
+    try {
+        const [valorDolar, stats] = await Promise.all([
+            config.fetchDolar(),
+            config.fetchStats()
+        ]);
+
+        if (valorDolar) {
+            const dolarElement = document.querySelector('.js-dolar-value');
+            if (dolarElement) {
+                dolarElement.textContent = `TC: $${valorDolar.toLocaleString('es-AR')}`;
+            }
+        }
+
+        if (stats) {
+            updateStatCards(stats);
+        }
+
+    } catch (error) {
+        console.error("Error al cargar el dashboard:", error);
+    }
+}
+
+function updateStatCards(stats) {
+    const pendientesElem = document.querySelector('.js-pendientes');
+    if (pendientesElem) pendientesElem.textContent = stats.presupuestosPendientes;
+
+    const cantidadMesElem = document.querySelector('.js-cantidad-mes');
+    if (cantidadMesElem) cantidadMesElem.textContent = stats.cantidadPresupuestosMes;
+
+    const montoMesElem = document.querySelector('.js-monto-mes');
+    if (montoMesElem) {
+        const montoFormatted = new Intl.NumberFormat('es-AR', {
+            style: 'currency',
+            currency: 'ARS'
+        }).format(stats.montoTotalMes);
+        montoMesElem.textContent = `${montoFormatted} facturados`;
+    }
+
+    const clientesElem = document.querySelector('.js-total-clientes');
+    if (clientesElem) clientesElem.textContent = stats.totalClientes;
 }
 
 // ----------------------------------------------
