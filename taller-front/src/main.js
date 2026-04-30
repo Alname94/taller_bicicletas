@@ -233,12 +233,12 @@ function setupTableListeners(data, entityKey) {
             );
 
             if (confirmado) {
-                const ok = await config.onDelete(id);
-                if (ok) {
+                try {
+                    const ok = await config.onDelete(id);
                     notifications.showToast(`${config.entity} eliminado`);
                     navigateTo(entityKey);
-                } else {
-                    notifications.showAlert('Error', `No se pudo eliminar el ${config.entity}.`, 'error');
+                } catch (error) {
+                    notifications.showAlert('Error', error.message || `No se pudo eliminar el ${config.entity}.`, 'error');
                 }
             }
         }
