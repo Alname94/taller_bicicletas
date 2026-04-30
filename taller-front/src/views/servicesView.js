@@ -17,7 +17,6 @@ export function renderServiciosTable(servicios = []) {
                 </td>
                 <td class="px-6 py-4 text-sm text-center space-x-2">
                     <button data-id="${id}" class="js-btn-edit text-blue-600 hover:text-blue-900 font-medium">Editar</button>
-                    <button data-id="${id}" class="js-btn-delete text-red-600 hover:text-red-900 font-medium">Eliminar</button>
                 </td>
             </tr>
         `;
