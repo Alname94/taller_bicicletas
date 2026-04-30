@@ -22,7 +22,7 @@ public interface IPresupuestoRepository extends JpaRepository<Presupuesto, Long>
     long countByEstado(String estado);
 
     @Query("SELECT COUNT(p) AS cantidad, COALESCE(SUM(p.valorTotal), 0.0) AS monto " +
-       "FROM Presupuesto p WHERE p.fecha >= :inicioMes")
+       "FROM Presupuesto p WHERE p.fecha >= :inicioMes AND p.estado = 'FACTURADO'")
     ResumenMensual getResumenMensual(@Param("inicioMes") LocalDate inicioMes);  
 
     public interface ResumenMensual {
