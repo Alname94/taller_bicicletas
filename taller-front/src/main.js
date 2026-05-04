@@ -70,7 +70,7 @@ function setupDashboardEvents() {
             } else {
                 navigateTo(target);
             }
-            
+
             updateActiveLink(link);
         };
     }
@@ -460,12 +460,13 @@ async function handleSubentityActions(e, id, config) {
         );
 
         if (confirmado) {
-            const subConfig = ENTITY_CONFIG[config.subEntity];
-            const ok = await subConfig.onDelete(subId);
-
-            if (ok) {
+            try {
+                const subConfig = ENTITY_CONFIG[config.subEntity];
+                await subConfig.onDelete(subId);
                 notifications.showToast('Eliminado correctamente');
                 navigateToProfile(id, config);
+            } catch (error) {
+                notifications.showAlert('Error al eliminar', error.message, 'error');
             }
         }
     }

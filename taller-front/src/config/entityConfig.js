@@ -172,7 +172,8 @@ export const ENTITY_CONFIG = {
             );
         },
         onDelete: async (compositeId) => {
-            const [presupuestoId, repuestoCodigo] = compositeId.split('-');
+            const [presupuestoId, ...partesCodigo] = compositeId.split('-');
+            const repuestoCodigo = partesCodigo.join('-');
             return await apiService.deleteDetalle(presupuestoId, repuestoCodigo);
         },
         onAction: async (action) => {
