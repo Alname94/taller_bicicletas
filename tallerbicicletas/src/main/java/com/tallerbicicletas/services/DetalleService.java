@@ -19,6 +19,9 @@ import com.tallerbicicletas.repositories.IPresupuestoRepository;
 import com.tallerbicicletas.services.interfaces.IDetalleService;
 import com.tallerbicicletas.services.interfaces.IRepuestoService;
 
+// Servicio para la gestión integral de Detalles de Presupuestos.
+// Implementa validaciones de stock, protección de integridad referencial con Repuestos y Presupuestos,
+// y actualiza automáticamente el valor total del presupuesto al agregar o eliminar detalles.
 @Service
 public class DetalleService implements IDetalleService {
 
@@ -36,9 +39,14 @@ public class DetalleService implements IDetalleService {
         return detalleRepository.findAll();
     }
 
+    /**
+     * Registra un nuevo repuesto en el presupuesto o incrementa la cantidad si ya existe.
+     * Realiza validaciones de estado de presupuesto y suficiencia de stock.
+     */
     @Override
     @Transactional
     public Detalle saveDetalle(Detalle detalle) {
+        // Validar que el presupuesto exista y esté en estado "PENDIENTE" para permitir agregar detalles.
         Presupuesto presupuesto = presupuestoRepository.findById(detalle.getId().getPresupuestoNumero())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "El presupuesto " + detalle.getId().getPresupuestoNumero() + " no existe."));
@@ -50,6 +58,7 @@ public class DetalleService implements IDetalleService {
 
         Repuesto repuesto = repuestoService.findRepuesto(detalle.getId().getRepuestoCodigo());
 
+        // Validar que el stock sea suficiente para la cantidad que se desea agregar.
         if (repuesto.getStock() < detalle.getCantidadAgregada()) {
             throw new BadRequestException("Stock insuficiente para '" + repuesto.getProducto() +
                     "'. Disponible: " + repuesto.getStock());
@@ -58,6 +67,8 @@ public class DetalleService implements IDetalleService {
         Optional<Detalle> detalleExistente = detalleRepository.findById(detalle.getId());
         Detalle detalleFinal;
 
+        // Si el detalle ya existe para ese presupuesto y repuesto, se incrementa la cantidad y se actualiza el precio unitario.
+        // Si no existe, se crea un nuevo detalle y se asocia al presupuesto.
         if (detalleExistente.isPresent()) {
             detalleFinal = detalleExistente.get();
             detalleFinal.setCantidadAgregada(detalleFinal.getCantidadAgregada() + detalle.getCantidadAgregada());
@@ -77,16 +88,19 @@ public class DetalleService implements IDetalleService {
 
         detalleFinal.calcularSubtotal();
 
+        // Actualizar el stock del repuesto restando la cantidad agregada al detalle.
         repuesto.setStock(repuesto.getStock() - detalle.getCantidadAgregada());
         repuestoService.editRepuesto(repuesto);
 
         Detalle detalleGuardado = detalleRepository.save(detalleFinal);
 
+        // Actualizar el valor total del presupuesto después de agregar o actualizar el detalle.
         actualizarTotal(presupuesto.getNumero());
 
         return detalleGuardado;
     }
 
+    // Elimina un detalle específico de un presupuesto, devuelve el stock del repuesto y actualiza el total del presupuesto.
     @Override
     @Transactional
     public void deleteDetalle(Long presupuestoNumero, String repuestoCodigo) {
@@ -102,6 +116,7 @@ public class DetalleService implements IDetalleService {
                     + detalle.getPresupuesto().getEstado());
         }
 
+        // Devolver el stock del repuesto sumando la cantidad que se estaba utilizando en el detalle.
         Repuesto repuesto = detalle.getRepuesto();
         repuesto.setStock(repuesto.getStock() + detalle.getCantidadAgregada());
         repuestoService.editRepuesto(repuesto);
@@ -131,10 +146,10 @@ public class DetalleService implements IDetalleService {
         return detalles;
     }
 
+    // Método para devolver el stock de los repuestos al anular un presupuesto
     @Override
     @Transactional
-    public void devolverStockPorAnulacion(Long presupuestoNumero) { // Método para devolver el stock de los repuestos al
-                                                                    // anular un presupuesto
+    public void devolverStockPorAnulacion(Long presupuestoNumero) { 
         List<Detalle> detalles = detalleRepository.findByIdPresupuestoNumero(presupuestoNumero);
 
         for (Detalle d : detalles) {

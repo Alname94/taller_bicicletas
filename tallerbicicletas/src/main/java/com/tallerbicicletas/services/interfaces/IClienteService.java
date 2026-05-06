@@ -23,5 +23,5 @@ public interface IClienteService {
 
     public Optional<Cliente> findByDni(String dni);
 
-    public Page<Cliente> listarClientesPaginados(int pagina, int tamaño);
+    public Page<Cliente> listarClientesPaginados(int page, int size);
 }

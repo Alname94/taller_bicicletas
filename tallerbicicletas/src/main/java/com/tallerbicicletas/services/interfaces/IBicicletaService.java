@@ -22,5 +22,5 @@ public interface IBicicletaService {
 
     public List<Bicicleta> findByClienteId(Long clienteId);
 
-    public Page<Bicicleta> listarBicicletasPaginadas(int pagina, int tamaño);
+    public Page<Bicicleta> listarBicicletasPaginadas(int page, int size);
 }

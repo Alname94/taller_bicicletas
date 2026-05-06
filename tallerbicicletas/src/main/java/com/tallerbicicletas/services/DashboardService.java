@@ -12,6 +12,9 @@ import com.tallerbicicletas.repositories.IPresupuestoRepository;
 import com.tallerbicicletas.repositories.IPresupuestoRepository.ResumenMensual;
 import com.tallerbicicletas.services.interfaces.IDashboardService;
 
+// Servicio para el dashboard que proporciona estadísticas clave para la gestión del taller.
+// Implementa un método para obtener un resumen de estadísticas como cantidad de presupuestos pendientes,
+// cantidad y monto total de presupuestos del mes, y total de clientes registrados.
 @Service
 public class DashboardService implements IDashboardService {
 

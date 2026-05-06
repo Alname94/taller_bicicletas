@@ -27,7 +27,7 @@ public interface IPresupuestoService {
 
     public void asignarServicio(Long presupuestoId, Long servicioId);
 
-    public Page<Presupuesto> listarPresupuestosPaginados(int pagina, int tamaño);
+    public Page<Presupuesto> listarPresupuestosPaginados(int page, int size);
 
     public Page<PresupuestoListDTO> listarPresupuestosPaginadosDTO(int page, int size);
 

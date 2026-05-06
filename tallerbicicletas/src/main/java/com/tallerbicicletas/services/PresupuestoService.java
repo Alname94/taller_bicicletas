@@ -25,6 +25,11 @@ import com.tallerbicicletas.services.interfaces.IDetalleService;
 import com.tallerbicicletas.services.interfaces.IPresupuestoService;
 import com.tallerbicicletas.services.interfaces.IServicioService;
 
+/**
+ * Servicio principal que orquestra la gestión de presupuestos.
+ * Maneja el ciclo de vida completo: creación, asignación de servicios, 
+ * cambios de estado y cálculos de montos finales.
+ */
 @Service
 public class PresupuestoService implements IPresupuestoService {
 
@@ -51,8 +56,7 @@ public class PresupuestoService implements IPresupuestoService {
     @Override
     public Presupuesto savePresupuesto(Presupuesto presupuesto) {
 
-        // primero validamos que el presupuesto tenga un cliente y una bicicleta
-        // válidos, y que la bicicleta pertenezca al cliente indicado
+        // Validar que el presupuesto tenga un cliente y una bicicleta
         if (presupuesto.getCliente() == null || presupuesto.getCliente().getId() == null ||
                 presupuesto.getBicicleta() == null || presupuesto.getBicicleta().getId() == null) {
             throw new BadRequestException("El presupuesto debe incluir un Cliente y una Bicicleta válidos.");
@@ -61,6 +65,7 @@ public class PresupuestoService implements IPresupuestoService {
         Cliente cliente = clienteService.findCliente(presupuesto.getCliente().getId());
         Bicicleta bicicleta = bicicletaService.findBicicleta(presupuesto.getBicicleta().getId());
 
+        // Validar que la bicicleta pertenezca al cliente indicado para mantener la integridad referencial.
         if (!bicicleta.getCliente().getId().equals(cliente.getId())) {
             throw new BadRequestException("La bicicleta con ID " + bicicleta.getId() +
                     " no pertenece al cliente " + cliente.getNombre() + " " + cliente.getApellido());
@@ -69,6 +74,7 @@ public class PresupuestoService implements IPresupuestoService {
         presupuesto.setCliente(cliente);
         presupuesto.setBicicleta(bicicleta);
 
+        // Inicialización de valores por defecto para nuevos presupuestos.
         if (presupuesto.getEstado() == null) {
             presupuesto.setEstado("PENDIENTE");
         }
@@ -88,6 +94,7 @@ public class PresupuestoService implements IPresupuestoService {
             presupuesto.setValorServicioAplicado(0.0);
         }
 
+        // Cálculo dinámico del total (Servicio + sumatoria de Repuestos).
         presupuesto.setValorTotal(presupuesto.calcularTotalFinal());
 
         if (presupuesto.getFecha().isAfter(LocalDate.now())) {
@@ -107,6 +114,7 @@ public class PresupuestoService implements IPresupuestoService {
     public void deletePresupuesto(Long numero) {
         Presupuesto presupuesto = findPresupuesto(numero);
 
+        // Solo se permiten eliminar presupuestos que estén en estado PENDIENTE y no tengan detalles asociados.
         if (presupuesto.getEstado().equalsIgnoreCase("FACTURADO")
                 || presupuesto.getEstado().equalsIgnoreCase("ANULADO")) {
             throw new BadRequestException("No se puede eliminar un presupuesto en estado " + presupuesto.getEstado());
@@ -123,6 +131,7 @@ public class PresupuestoService implements IPresupuestoService {
     public Presupuesto editPresupuesto(Presupuesto presupuesto) {
         Presupuesto presupuestoExistente = findPresupuesto(presupuesto.getNumero());
 
+        // Solo se permiten editar presupuestos que estén en estado PENDIENTE para evitar inconsistencias en presupuestos ya facturados o anulados.
         if (!presupuestoExistente.getEstado().equalsIgnoreCase("PENDIENTE")) {
             throw new BadRequestException("Solo se pueden modificar presupuestos en estado PENDIENTE. " +
                     "El estado actual es: " + presupuestoExistente.getEstado());
@@ -161,12 +170,12 @@ public class PresupuestoService implements IPresupuestoService {
         return presupuestos;
     }
 
+    // Método para cambiar el estado de un presupuesto, 
+    // con validaciones para evitar cambios no permitidos y devolver el stock
+    // de los repuestos al anular un presupuesto
     @Override
     @Transactional
-    public void cambiarEstado(Long presupuestoNumero, String nuevoEstado) { // Método para cambiar el estado de un
-                                                                            // presupuesto, con validaciones para evitar
-                                                                            // cambios no permitidos y devolver el stock
-                                                                            // de los repuestos al anular un presupuesto
+    public void cambiarEstado(Long presupuestoNumero, String nuevoEstado) {
         Presupuesto presupuesto = findPresupuesto(presupuestoNumero);
 
         if (presupuesto.getEstado().equalsIgnoreCase("ANULADO")) {
@@ -181,11 +190,11 @@ public class PresupuestoService implements IPresupuestoService {
         presupuestoRepository.save(presupuesto);
     }
 
+
+    // Método para asignar un servicio a un presupuesto existente y actualizar su valor total
     @Override
     @Transactional
-    public void asignarServicio(Long presupuestoId, Long servicioId) { // Método para asignar un servicio a un
-                                                                       // presupuesto existente y actualizar su valor
-                                                                       // total
+    public void asignarServicio(Long presupuestoId, Long servicioId) {
         Presupuesto p = findPresupuesto(presupuestoId);
 
         if (!p.getEstado().equalsIgnoreCase("PENDIENTE")) {
@@ -202,11 +211,15 @@ public class PresupuestoService implements IPresupuestoService {
     }
 
     @Override
-    public Page<Presupuesto> listarPresupuestosPaginados(int pagina, int tamaño) {
-        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("numero").descending());
+    public Page<Presupuesto> listarPresupuestosPaginados(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("numero").descending());
         return presupuestoRepository.findAll(pageable);
     }
 
+    /**
+     * Retorna una página de DTOs simplificados para la visualización en tablas.
+     * Concatena información de cliente y bicicleta en un solo String desde el servidor.
+     */
     @Override
     public Page<PresupuestoListDTO> listarPresupuestosPaginadosDTO(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("numero").descending());

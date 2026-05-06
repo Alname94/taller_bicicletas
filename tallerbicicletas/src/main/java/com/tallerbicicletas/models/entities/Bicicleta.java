@@ -45,7 +45,7 @@ public class Bicicleta {
     @JsonIgnoreProperties("bicicletas") // Ignora la lista de bicicletas de cada cliente para evitar referencias circulares
     @NotNull(message = "El cliente no puede estar vacío")
     @Schema(description = "Cliente propietario de la bicicleta")
-    private Cliente cliente;
+    private Cliente cliente; // Relación obligatoria, cada bicicleta debe tener un cliente asociado
 
     @Column(name = "marca", nullable = false, length = 100)
     @NotBlank(message = "La marca de la bicicleta no puede estar vacía")

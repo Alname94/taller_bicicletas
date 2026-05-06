@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// Define los servicios de mano de obra que el taller ofrece, como cambio de cadena, ajuste de frenos, etc.
 @Entity
 @Data
 @NoArgsConstructor

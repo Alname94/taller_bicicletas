@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// Catálogo de repuestos disponibles para los presupuestos
 @Entity
 @Data
 @AllArgsConstructor

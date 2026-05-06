@@ -22,5 +22,5 @@ public interface IRepuestoService {
 
     List<Repuesto> findByStockGreaterThan();
 
-    public Page<Repuesto> listarRepuestosPaginados(int pagina, int tamaño);
+    public Page<Repuesto> listarRepuestosPaginados(int page, int size);
 }

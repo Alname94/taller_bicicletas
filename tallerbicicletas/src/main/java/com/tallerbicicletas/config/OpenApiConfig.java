@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 
+// Configuración de Swagger/OpenAPI para la documentación de la API REST 
 @Configuration
 public class OpenApiConfig {
 
@@ -20,6 +21,6 @@ public class OpenApiConfig {
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Soporte Taller")
-                                .email("soporte@tallerbicicletas.com")));                
+                                .email("example@tallerbicicletas.com")));                
     }
 }

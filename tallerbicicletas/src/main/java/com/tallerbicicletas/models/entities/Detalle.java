@@ -18,6 +18,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Representa un renglón individual dentro de un presupuesto.
+ * Utiliza DetalleId como clave primaria compuesta para vincularse al presupuesto padre.
+ */
 @Entity
 @Data
 @AllArgsConstructor

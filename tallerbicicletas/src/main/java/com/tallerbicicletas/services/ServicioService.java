@@ -16,6 +16,11 @@ import com.tallerbicicletas.repositories.IPresupuestoRepository;
 import com.tallerbicicletas.repositories.IServicioRepository;
 import com.tallerbicicletas.services.interfaces.IServicioService;
 
+/**
+ * Servicio para la gestión integral de Servicios.
+ * Implementa validaciones de unicidad de nombre y valor positivo,
+ * y protege la integridad referencial con Presupuestos.
+ */
 @Service
 public class ServicioService implements IServicioService {
 
@@ -32,6 +37,7 @@ public class ServicioService implements IServicioService {
 
     @Override
     public Servicio saveServicio(Servicio servicio) {
+        // Validar unicidad de nombre y valor positivo antes de guardar.
         if (servicioRepository.existsByNombreIgnoreCase(servicio.getNombre())) {
             throw new BadRequestException("El Servicio '" + servicio.getNombre() + "' ya está registrado.");
         }
@@ -53,6 +59,8 @@ public class ServicioService implements IServicioService {
     public void deleteServicio(Long id) {
         Servicio servicio = this.findServicio(id);
 
+        // Impedir el borrado si el servicio ya figura en presupuestos para proteger la integridad referencial.
+        // Si el servicio está asociado a presupuestos, en lugar de eliminarlo, se marca como inactivo.
         if (presupuestoRepository.existsByServicioId(id)) {
             servicio.setActivo(false);
             servicioRepository.save(servicio);
@@ -65,10 +73,15 @@ public class ServicioService implements IServicioService {
     public Servicio editServicio(Servicio servicio) {
         Servicio existente = this.findServicio(servicio.getId());
 
+        // Validar unicidad de nombre y valor positivo antes de editar.
         if (!existente.getNombre().equalsIgnoreCase(servicio.getNombre())) {
             if (servicioRepository.existsByNombreIgnoreCase(servicio.getNombre())) {
                 throw new BadRequestException("Ya existe otro servicio con ese nombre.");
             }
+        }
+
+        if (servicio.getValor() <= 0) {
+            throw new BadRequestException("El valor del servicio debe ser mayor a 0.");
         }
 
         existente.setNombre(servicio.getNombre());
@@ -79,6 +92,7 @@ public class ServicioService implements IServicioService {
         return servicioRepository.save(existente);
     }
 
+    // Método adicional para obtener solo los servicios activos, útil para listados en el frontend.
     @Override
     public List<Servicio> getServiciosActivos() {
         return servicioRepository.findByActivoTrue();
@@ -90,8 +104,8 @@ public class ServicioService implements IServicioService {
     }
 
     @Override
-    public Page<Servicio> listarServiciosPaginados(int pagina, int tamaño) {
-        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").ascending());
+    public Page<Servicio> listarServiciosPaginados(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         return servicioRepository.findAll(pageable);
     }    
 }

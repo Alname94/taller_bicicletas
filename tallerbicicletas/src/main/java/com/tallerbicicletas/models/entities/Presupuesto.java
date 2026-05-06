@@ -52,14 +52,14 @@ public class Presupuesto {
     @NotNull(message = "El cliente no puede estar vacío")
     @JsonIgnoreProperties("bicicletas")
     @Schema(description = "Cliente asociado al presupuesto")
-    private Cliente cliente;
+    private Cliente cliente; // Relación obligatoria, cada presupuesto debe tener un cliente asociado
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bicicleta_id", nullable = false)
     @NotNull(message = "La bicicleta no puede estar vacía")
     @JsonIgnoreProperties("cliente")
     @Schema(description = "Bicicleta asociada al presupuesto")
-    private Bicicleta bicicleta;
+    private Bicicleta bicicleta; // Relación obligatoria, cada presupuesto debe tener una bicicleta asociada
 
     @Column(name = "valor_total", nullable = false)
     @NotNull(message = "El valor total no puede estar vacío")

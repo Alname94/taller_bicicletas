@@ -16,6 +16,11 @@ import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.repositories.IClienteRepository;
 import com.tallerbicicletas.services.interfaces.IClienteService;
 
+/**
+ * Servicio para la gestión integral de Clientes.
+ * Implementa validaciones de unicidad de datos (DNI, Email, Teléfono) 
+ * y protege la integridad referencial con Bicicletas.
+ */
 @Service
 public class ClienteService implements IClienteService {
 
@@ -29,7 +34,7 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Cliente saveCliente(Cliente cliente) {
-
+        // Validar unicidad de DNI, Email y Teléfono antes de guardar.
         if (clienteRepository.existsByDni(cliente.getDni())) {
             throw new BadRequestException("El DNI '" + cliente.getDni() + "' ya está registrado.");
         }
@@ -49,6 +54,7 @@ public class ClienteService implements IClienteService {
     public void deleteCliente(Long id) {
         Cliente cliente = findCliente(id);
 
+        // Impedir el borrado si el cliente tiene bicicletas asociadas.
         if (cliente.getBicicletas() != null && !cliente.getBicicletas().isEmpty()) {
             throw new BadRequestException("No se puede eliminar el cliente porque tiene bicicletas asociadas.");
         }
@@ -65,10 +71,10 @@ public class ClienteService implements IClienteService {
 
     @Override
     public Cliente editCliente(Cliente cliente) {
-        
+        // Validar que el cliente exista antes de intentar editarlo.
         Cliente clienteExistente = findCliente(cliente.getId());
-
         
+        // Validar unicidad de DNI, Email y Teléfono para el cliente editado, excluyendo su propio registro.
         clienteRepository.findByDni(cliente.getDni())
                 .filter(c -> !c.getId().equals(cliente.getId()))
                 .ifPresent(c -> {
@@ -112,8 +118,9 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public Page<Cliente> listarClientesPaginados(int pagina, int tamaño) {
-        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").descending());
+    public Page<Cliente> listarClientesPaginados(int page, int size) {
+        // Paginación configurada por ID descendente para ver ingresos recientes primero.
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         return clienteRepository.findAll(pageable);
     }   
 }

@@ -17,6 +17,10 @@ import com.tallerbicicletas.repositories.IBicicletaRepository;
 import com.tallerbicicletas.services.interfaces.IBicicletaService;
 import com.tallerbicicletas.services.interfaces.IClienteService;
 
+/**
+ * Servicio encargado de la lógica de negocio para la gestión de Bicicletas.
+ * Maneja la relación con Clientes y valida la integridad con Presupuestos.
+ */
 @Service
 public class BicicletaService implements IBicicletaService {
 
@@ -33,9 +37,11 @@ public class BicicletaService implements IBicicletaService {
 
     @Override
     public Bicicleta saveBicicleta(Bicicleta bicicleta) {
+        // Validar que se haya seleccionado un cliente válido
         if (bicicleta.getCliente() == null || bicicleta.getCliente().getId() == null) {
             throw new BadRequestException("Debe seleccionar un cliente válido para la bicicleta.");
         }
+        // Verificar que el cliente exista en la base de datos
         Cliente cliente = clienteService.findCliente(bicicleta.getCliente().getId());
         bicicleta.setCliente(cliente);
         return bicicletaRepository.save(bicicleta);
@@ -45,6 +51,8 @@ public class BicicletaService implements IBicicletaService {
     public void deleteBicicleta(Long id) {
         Bicicleta bicicleta = findBicicleta(id);
 
+        // Impedir el borrado si hay historial de presupuestos.
+        // Esto evita que queden presupuestos "huérfanos" en el sistema.
         if (bicicleta.getPresupuestos() != null && !bicicleta.getPresupuestos().isEmpty()) {
             throw new BadRequestException("No se puede eliminar la bicicleta porque tiene presupuestos asociados.");
         }
@@ -60,6 +68,7 @@ public class BicicletaService implements IBicicletaService {
 
     @Override
     public Bicicleta editBicicleta(Bicicleta bicicleta) {
+        // Recuperar la instancia persistida para actualizar solo los campos permitidos.
         Bicicleta bicicletaExistente = findBicicleta(bicicleta.getId());
 
         bicicletaExistente.setMarca(bicicleta.getMarca());
@@ -82,6 +91,7 @@ public class BicicletaService implements IBicicletaService {
 
     @Override
     public List<Bicicleta> findByClienteId(Long clienteId) {
+        // Validar primero la existencia del cliente para dar un mensaje de error más preciso.
         clienteService.findCliente(clienteId);
 
         List<Bicicleta> bicicletas = bicicletaRepository.findByClienteId(clienteId);
@@ -92,8 +102,9 @@ public class BicicletaService implements IBicicletaService {
     }
 
     @Override
-    public Page<Bicicleta> listarBicicletasPaginadas(int pagina, int tamaño) {
-        Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("id").descending());
+    public Page<Bicicleta> listarBicicletasPaginadas(int page, int size) {
+        // Paginación configurada por ID descendente para ver ingresos recientes primero.
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         return bicicletaRepository.findAll(pageable);
     }   
 }

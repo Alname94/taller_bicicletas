@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+
+// Configuración de seguridad para proteger los endpoints de la API REST utilizando Spring Security
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -21,20 +23,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF para facilitar las pruebas con herramientas como Postman
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs", "/swagger-ui.html").permitAll()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/v3/api-docs", "/swagger-ui.html").permitAll() // Permitir acceso a la documentación de Swagger sin autenticación
                 .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
 
+    // Configuración de un usuario en memoria para autenticación básica
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Definir un usuario con rol ADMIN para acceder a los endpoints protegidos
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails admin = User.builder()

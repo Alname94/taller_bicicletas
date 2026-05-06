@@ -22,5 +22,5 @@ public interface IServicioService {
 
     public List<Servicio> findByNombreContainingIgnoreCase(String nombre);
 
-    public Page<Servicio> listarServiciosPaginados(int pagina, int tamaño);
+    public Page<Servicio> listarServiciosPaginados(int page, int size);
 }
