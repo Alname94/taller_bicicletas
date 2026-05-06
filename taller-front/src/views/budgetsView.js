@@ -1,7 +1,7 @@
 import { renderDetallesTable } from './detailsView.js';
 
 export function renderPresupuestosTable(presupuestos = []) {
-    const rows = presupuestos.map(({ numero, fecha, valorTotal, estado }) => {
+    const rows = presupuestos.map(({ numero, fecha, clienteResumen, bicicletaResumen, valorTotal, estado }) => {
         const estadoClases = {
             'PENDIENTE': 'bg-yellow-100 text-yellow-800',
             'FACTURADO': 'bg-green-100 text-green-800',
@@ -13,6 +13,8 @@ export function renderPresupuestosTable(presupuestos = []) {
         <tr class="border-b hover:bg-gray-50 transition-colors">
             <td class="px-6 py-4 text-sm font-medium text-gray-900">#${numero}</td>
             <td class="px-6 py-4 text-sm text-gray-700">${fecha}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">${clienteResumen}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">${bicicletaResumen}</td>
             <td class="px-6 py-4 text-sm font-bold text-gray-900">${totalFormateado}</td>
             <td class="px-6 py-4 text-sm text-center">
                 <span class="px-2 py-1 rounded-full text-xs font-semibold ${estadoClases[estado] || 'bg-gray-100'}">
@@ -50,13 +52,15 @@ export function renderPresupuestosTable(presupuestos = []) {
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Número</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Bicicleta</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Total</th>
                         <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Estado</th>
                         <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
-                    ${rows.length > 0 ? rows : '<tr><td colspan="5" class="text-center py-10 text-gray-400">No hay presupuestos cargados.</td></tr>'}
+                    ${rows.length > 0 ? rows : '<tr><td colspan="7" class="text-center py-10 text-gray-400">No hay presupuestos cargados.</td></tr>'}
                 </tbody>
             </table>
         </div>

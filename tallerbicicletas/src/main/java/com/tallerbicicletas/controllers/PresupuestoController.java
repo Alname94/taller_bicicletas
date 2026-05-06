@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tallerbicicletas.dtos.presupuestos.PresupuestoListDTO;
 import com.tallerbicicletas.models.entities.Presupuesto;
 import com.tallerbicicletas.services.interfaces.IPresupuestoService;
 
@@ -84,9 +85,9 @@ public class PresupuestoController {
     }
 
     @GetMapping("/paginado")
-    public ResponseEntity<Page<Presupuesto>> getPresupuestos(
+    public ResponseEntity<Page<PresupuestoListDTO>> getPresupuestos(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(presupuestoService.listarPresupuestosPaginados(page, size));
+        return ResponseEntity.ok(presupuestoService.listarPresupuestosPaginadosDTO(page, size));
     }
 }

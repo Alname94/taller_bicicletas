@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tallerbicicletas.dtos.presupuestos.PresupuestoListDTO;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.exceptions.ResourceNotFoundException;
 import com.tallerbicicletas.models.entities.Bicicleta;
@@ -204,5 +205,21 @@ public class PresupuestoService implements IPresupuestoService {
     public Page<Presupuesto> listarPresupuestosPaginados(int pagina, int tamaño) {
         Pageable pageable = PageRequest.of(pagina, tamaño, Sort.by("numero").descending());
         return presupuestoRepository.findAll(pageable);
-    }  
+    }
+
+    @Override
+    public Page<PresupuestoListDTO> listarPresupuestosPaginadosDTO(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("numero").descending());
+        Page<Presupuesto> presupuestosPage = presupuestoRepository.findAll(pageable);
+
+        return presupuestosPage.map(p -> new PresupuestoListDTO(
+                p.getNumero(),
+                p.getFecha().toString(),
+                String.format("#%d - %s %s", p.getCliente().getId(), p.getCliente().getNombre(),
+                        p.getCliente().getApellido()),
+                String.format("#%d - %s %s", p.getBicicleta().getId(), p.getBicicleta().getMarca(),
+                        p.getBicicleta().getModelo()),
+                p.getValorTotal(),
+                p.getEstado()));
+    }
 }

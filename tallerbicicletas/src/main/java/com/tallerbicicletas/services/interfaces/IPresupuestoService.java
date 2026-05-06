@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.tallerbicicletas.dtos.presupuestos.PresupuestoListDTO;
 import com.tallerbicicletas.models.entities.Presupuesto;
 
 public interface IPresupuestoService {
@@ -27,4 +28,7 @@ public interface IPresupuestoService {
     public void asignarServicio(Long presupuestoId, Long servicioId);
 
     public Page<Presupuesto> listarPresupuestosPaginados(int pagina, int tamaño);
+
+    public Page<PresupuestoListDTO> listarPresupuestosPaginadosDTO(int page, int size);
+
 }
