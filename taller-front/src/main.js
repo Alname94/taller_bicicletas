@@ -6,11 +6,20 @@ import { renderLogin } from './views/loginView';
 import { renderDashboardLayout, renderHomeContent } from './views/dashboardView';
 import { capitalizeWords, toUpperCase, sanitizeText } from './utils/stringUtils.js';
 
+// Referencia al contenedor principal del DOM (definido en index.html)
 const app = document.querySelector('#app');
+
+// Variable global para almacenar datos de la entidad actualmente visualizada en el perfil, 
+// útil para operaciones relacionadas con sub-entidades o cambios rápidos sin recargar toda la información. 
+// Se actualiza cada vez que se navega a un perfil específico.
 let currentProfileData = null;
 
 // ----------------------------------------------
 
+/**
+ * Función asíncrona que se ejecuta al cargar la página.
+ * Controla el flujo de autenticación y la inyección inicial de HTML.
+ */
 async function init() {
     if (authService.isLoggedIn()) {
         app.innerHTML = renderDashboardLayout();
@@ -24,11 +33,12 @@ async function init() {
     }
 }
 
+// Configura el escuchador de eventos para el formulario de acceso.
 function handleLoginEvents() {
     const form = document.querySelector('#loginForm');
     if (!form) return;
     form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // // Evita la recarga de página por defecto del formulario
         const user = document.querySelector('#username').value;
         const pass = document.querySelector('#password').value;
 
@@ -45,6 +55,10 @@ function handleLoginEvents() {
     });
 }
 
+/**
+ * Configura la interactividad global una vez que el Dashboard está montado.
+ * Gestiona el cierre de sesión y la navegación entre módulos.
+ */
 function setupDashboardEvents() {
     const logoutBtn = document.querySelector('#logoutBtn');
     if (logoutBtn) {
@@ -68,7 +82,7 @@ function setupDashboardEvents() {
                 mainContent.innerHTML = renderHomeContent();
                 await loadDashboard();
             } else {
-                navigateTo(target);
+                await navigateTo(target);
             }
 
             updateActiveLink(link);
@@ -76,6 +90,10 @@ function setupDashboardEvents() {
     }
 }
 
+/**
+ * Orquestador dinámico de navegación por módulos.
+ * @param {string} entityKey - La clave de la entidad (ej: 'repuestos', 'clientes').
+ */
 async function navigateTo(entityKey) {
     const config = ENTITY_CONFIG[entityKey];
     if (!config) return;
@@ -90,6 +108,13 @@ async function navigateTo(entityKey) {
     }
 }
 
+/**
+ * renderMainContent(entityKey, providedData, page)
+ * Motor de renderizado dinámico para todas las entidades del sistema.
+ * @param {string} entityKey 
+ * @param {object|null} providedData - Datos ya obtenidos (opcional, para filtros/búsquedas).
+ * @param {number} page - Número de página para la paginación de Spring Boot.
+ */
 async function renderMainContent(entityKey, providedData = null, page = 0) {
     const config = ENTITY_CONFIG[entityKey];
     const container = document.getElementById('main-content');
@@ -111,6 +136,10 @@ async function renderMainContent(entityKey, providedData = null, page = 0) {
     }
 }
 
+/**
+ * Gestiona el estado visual de la navegación en el sidebar.
+ * @param {HTMLElement} activeLink - El elemento del DOM que recibió el click.
+ */
 function updateActiveLink(activeLink) {
     const links = document.querySelectorAll('[data-link]');
 
@@ -129,6 +158,12 @@ function updateActiveLink(activeLink) {
     if (activeSpan) activeSpan.classList.add('font-medium');
 }
 
+/**
+ * Gestiona la apertura, cierre y envío de formularios en ventanas modales.
+ * @param {object|null} item - Datos del objeto a editar. Si es null, el modal es para 'Crear'.
+ * @param {string} entityKey - Clave de la entidad
+ * @param {number|null} parentId - ID de una entidad superior (ej: clienteId para una bicicleta).
+ */
 async function openGenericModal(item = null, entityKey, parentId = null) {
     const config = ENTITY_CONFIG[entityKey];
     const modalContainer = document.querySelector('.js-modal-container');
@@ -157,6 +192,14 @@ async function openGenericModal(item = null, entityKey, parentId = null) {
     };
 }
 
+/**
+ * Procesa el envío del formulario, guarda los datos y redirige según el contexto.
+ * @param {Event} event - El evento de submit del formulario.
+ * @param {Object|null} item - El objeto original (si se está editando).
+ * @param {string} entityKey - Clave de la entidad. 
+ * @param {any} parentId - ID de la entidad padre para recargar perfiles específicos.
+ * @param {Function} closeModalCallback - Función para cerrar el modal tras el éxito.
+ */
 async function handleModalSave(event, item, entityKey, parentId, closeModalCallback) {
     const config = ENTITY_CONFIG[entityKey];
     const formData = new FormData(event.target);
@@ -188,6 +231,12 @@ async function handleModalSave(event, item, entityKey, parentId, closeModalCallb
     }
 }
 
+/**
+ * Transforma los datos crudos del formulario en datos limpios y formateados.
+ * @param {Object} rawEntries - Objeto con los datos extraídos del formulario (Object.fromEntries).
+ * @param {Object} config - Configuración de la entidad (ENTITY_CONFIG) que contiene las reglas de transformación.
+ * @returns {Object} cleanData - Objeto listo para ser enviado al backend.
+ */
 function processFormData(rawEntries, config) {
     const cleanData = {};
     const { capitalize = [], uppercase = [] } = config.transformations || {};
@@ -210,6 +259,11 @@ function processFormData(rawEntries, config) {
     return cleanData;
 }
 
+/**
+ * Gestiona las acciones CRUD y de navegación disparadas desde las tablas de datos.
+ * @param {Array} data - Lista de objetos cargados en la tabla actual.
+ * @param {string} entityKey - Clave de la entidad para acceder a su configuración.
+ */
 function setupTableListeners(data, entityKey) {
     const config = ENTITY_CONFIG[entityKey];
     const tbody = document.querySelector('tbody');
@@ -256,6 +310,10 @@ function setupTableListeners(data, entityKey) {
     };
 }
 
+/**
+ * Configura los triggers para el motor de búsqueda por entidad.
+ * @param {string} entityKey - Clave de la entidad donde se realizará la búsqueda.
+ */
 function setupSearchLogic(entityKey) {
     const btn = document.querySelector('.js-btn-search');
     const input = document.querySelector('.js-search-input');
@@ -271,6 +329,10 @@ function setupSearchLogic(entityKey) {
     };
 }
 
+/**
+ * Ejecuta la lógica de búsqueda filtrando los datos a través de la API.
+ * @param {string} entityKey - Clave de la entidad.
+ */
 async function handleEntitySearch(entityKey) {
     const input = document.querySelector('.js-search-input');
     if (!input) return;
@@ -311,6 +373,12 @@ async function handleEntitySearch(entityKey) {
     }
 }
 
+/**
+ * Inicializa todos los escuchadores de eventos específicos de un módulo (CRUD + Búsqueda).
+ * Se ejecuta cada vez que se renderiza una nueva entidad en el contenedor principal.
+ * @param {string} entityKey - Clave de la entidad.
+ * @param {Array} data - El set de datos actual renderizado en la tabla.
+ */
 function setupEntityListeners(entityKey, data) {
     const btnNewEntity = document.querySelector('.js-btn-new-entity');
     if (btnNewEntity) {
@@ -320,6 +388,11 @@ function setupEntityListeners(entityKey, data) {
     setupSearchLogic(entityKey);
 }
 
+/**
+ * Carga y renderiza la vista detallada (perfil) de una entidad específica.
+ * @param {string|number} id - Identificador de la entidad.
+ * @param {Object} config - Configuración de la entidad.
+ */
 async function navigateToProfile(id, config) {
     const mainContent = document.querySelector('#main-content');
     mainContent.innerHTML = `<div class="p-10 text-center text-gray-500 italic">Cargando...</div>`;
@@ -335,6 +408,11 @@ async function navigateToProfile(id, config) {
     }
 }
 
+/**
+ * Inicializa todos los disparadores de interacción dentro de una vista de perfil.
+ * @param {string|number} id - Identificador de la entidad.
+ * @param {Object} config - Configuración de la entidad.
+ */
 function setupProfileEvents(id, config) {
     const container = document.querySelector('#main-content');
 
@@ -360,6 +438,13 @@ function setupProfileEvents(id, config) {
     if (textAreaDescripcion) textAreaDescripcion.onblur = (e) => handleDescripcionChange(e, id, config);
 }
 
+/**
+ * Gestiona la búsqueda local y el guardado de items dentro del modal de selección de repuestos.
+ * @param {HTMLElement} modalElement - El nodo del DOM que contiene el modal.
+ * @param {number|string} id - ID de la entidad padre.
+ * @param {Object} subConfig - Configuración de la sub-entidad.
+ * @param {Object} parentConfig - Configuración de la entidad padre.
+ */
 function setupDetalleModalEvents(modalElement, id, subConfig, parentConfig) {
     const closeBtns = modalElement.querySelectorAll('.js-btn-close-modal');
     closeBtns.forEach(btn => btn.onclick = () => {
@@ -367,6 +452,7 @@ function setupDetalleModalEvents(modalElement, id, subConfig, parentConfig) {
         navigateToProfile(id, parentConfig);
     });
 
+    // Filtra las filas de la tabla de repuestos mientras el usuario escribe.
     const input = modalElement.querySelector('#search-repuesto-modal');
     if (input) {
         input.oninput = () => {
@@ -400,6 +486,12 @@ function setupDetalleModalEvents(modalElement, id, subConfig, parentConfig) {
     }
 }
 
+/**
+ * Gestiona la actualización del estado de un presupuesto con confirmación del usuario.
+ * @param {Event} e - Evento de cambio del elemento <select>.
+ * @param {number|string} id - ID del presupuesto a modificar.
+ * @param {Object} config - Configuración de la entidad.
+ */
 async function handleEstadoChange(e, id, config) {
     const nuevoEstado = e.target.value;
     const mensaje = `¿Confirma que desea cambiar el estado a "${nuevoEstado}"?`;
@@ -415,6 +507,12 @@ async function handleEstadoChange(e, id, config) {
     }
 }
 
+/**
+ * Cambia el tipo de servicio (mano de obra) asociado a un presupuesto y actualiza su valor.
+ * @param {Event} e - Evento de cambio del elemento <select> de servicios.
+ * @param {number|string} id - ID del presupuesto a actualizar.
+ * @param {Object} config - Configuración de la entidad.
+ */
 async function handleServicioChange(e, id, config) {
     const nuevoServicioId = e.target.value;
     if (!nuevoServicioId) return;
@@ -436,6 +534,12 @@ async function handleServicioChange(e, id, config) {
     }
 }
 
+/**
+ * Gestiona acciones (editar/eliminar) sobre elementos anidados dentro de un perfil.
+ * @param {Event} e - Evento de click para delegación.
+ * @param {number|string} id - ID de la entidad principal.
+ * @param {Object} config - Configuración de la entidad principal.
+ */
 async function handleSubentityActions(e, id, config) {
     const btn = e.target.closest('button');
     if (!btn) return;
@@ -472,6 +576,11 @@ async function handleSubentityActions(e, id, config) {
     }
 }
 
+/**
+ * Orquestador para abrir el buscador de repuestos e integrarlos al presupuesto.
+ * @param {number|string} id - ID del presupuesto actual.
+ * @param {Object} parentConfig - Configuración de la entidad padre.
+ */
 async function handleOpenSubEntitySearch(id, parentConfig) {
     const subConfig = ENTITY_CONFIG[parentConfig.subEntity];
     if (!subConfig || parentConfig.entity !== 'Presupuesto') return;
@@ -487,6 +596,12 @@ async function handleOpenSubEntitySearch(id, parentConfig) {
     setupDetalleModalEvents(modalElement, id, subConfig, parentConfig);
 }
 
+/**
+ * Realiza el guardado automático de la descripción del presupuesto al perder el foco. * 
+ * @param {Event} e - Evento blur del textarea.
+ * @param {number|string} id - ID del presupuesto.
+ * @param {Object} config - Configuración de la entidad.
+ */
 async function handleDescripcionChange(e, id, config) {
     const nuevaDescripcion = e.target.value;
 
@@ -506,6 +621,11 @@ async function handleDescripcionChange(e, id, config) {
     }
 }
 
+/**
+ * Genera el HTML para los controles de paginación basados en la respuesta del backend.
+ * @param {Object} data - Objeto Page de Spring Boot (contiene number, totalPages, first, last).
+ * @returns {string} - Template literal con la estructura de navegación.
+ */
 function renderPaginationControls(data) {
     const { number, totalPages, first, last } = data;
 
@@ -532,6 +652,11 @@ function renderPaginationControls(data) {
     `;
 }
 
+/**
+ * Activa los eventos de clic para navegar entre las páginas de una entidad.
+ * @param {string} entityKey - La entidad actual.
+ * @param {Object} response - El objeto de respuesta de Spring Data (Page).
+ */
 function setupPaginationListeners(entityKey, response) {
     const container = document.getElementById('main-content');
     const btnPrev = container.querySelector('.js-pag-prev');
@@ -546,6 +671,10 @@ function setupPaginationListeners(entityKey, response) {
     }
 }
 
+/**
+ * Carga y actualiza los indicadores clave (KPIs) y datos externos en Home.
+ * Utiliza concurrencia para optimizar el tiempo de respuesta.
+ */
 async function loadDashboard() {
     const config = ENTITY_CONFIG.dashboard;
 
@@ -571,6 +700,10 @@ async function loadDashboard() {
     }
 }
 
+/**
+ * Inyecta los datos estadísticos en los elementos visuales de Home.
+ * @param {Object} stats - Objeto con los contadores y montos.
+ */
 function updateStatCards(stats) {
     const pendientesElem = document.querySelector('.js-pendientes');
     if (pendientesElem) pendientesElem.textContent = stats.presupuestosPendientes;
