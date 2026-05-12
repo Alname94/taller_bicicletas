@@ -1,3 +1,8 @@
+/**
+ * Objeto de configuración centralizado que mapea el comportamiento de cada entidad del sistema.
+ * Implementa el patrón 'Strategy', permitiendo que la UI sea genérica y se adapte según la entidad activa.
+ */
+
 import { apiService } from '../services/apiService';
 import { renderServiciosTable, renderServicioModal } from '../views/servicesView';
 import { renderClientesTable, renderClienteModal, renderClientePerfil } from '../views/clientsView';
@@ -122,6 +127,7 @@ export const ENTITY_CONFIG = {
             }
         },
         onSave: async (id, formData) => {
+            // Normalización de datos para asegurar tipos numéricos y estructuras de objetos
             const dataParaEnviar = {
                 numero: id ? Number(id) : null,
                 cliente: { id: Number(formData.cliente?.id || formData.clienteId) },
@@ -172,6 +178,7 @@ export const ENTITY_CONFIG = {
             );
         },
         onDelete: async (compositeId) => {
+            // Lógica para separar el ID compuesto (PresupuestoID-CodigoRepuesto)
             const [presupuestoId, ...partesCodigo] = compositeId.split('-');
             const repuestoCodigo = partesCodigo.join('-');
             return await apiService.deleteDetalle(presupuestoId, repuestoCodigo);
