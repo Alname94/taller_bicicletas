@@ -1,5 +1,9 @@
 import { renderDetallesTable } from './detailsView.js';
 
+/**
+ * Renderiza la tabla de presupuestos disponibles.
+ * Incluye formateo de moneda local y badges de estado.
+ */
 export function renderPresupuestosTable(presupuestos = []) {
     const rows = presupuestos.map(({ numero, fecha, clienteResumen, bicicletaResumen, valorTotal, estado }) => {
         const estadoClases = {
@@ -68,6 +72,12 @@ export function renderPresupuestosTable(presupuestos = []) {
     `;
 }
 
+/**
+ * Renderiza la ficha en detalle de un presupuesto.
+ * Incluye información del cliente, bicicleta y servicios aplicados.
+ * Permite edición de estado, servicio aplicado y descripción si el presupuesto está pendiente.
+ * También permite agregar, editar o eliminar repuestos en el detalle si el presupuesto está pendiente.
+ */
 export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = []) {
     const { numero, fecha, valorTotal, estado, cliente, bicicleta, descripcion, detalles, servicio, valorServicioAplicado = [] } = presupuesto;
 
@@ -207,6 +217,11 @@ export function renderPresupuestoDetalle(presupuesto, serviciosDisponibles = [])
     `;
 }
 
+/**
+ * Renderiza el modal para crear un nuevo presupuesto.
+ * Pre-carga información de la bicicleta y cliente.
+ * Permite seleccionar un servicio inicial para el presupuesto.
+ */
 export function renderPresupuestoModal(bicicleta = null, servicios = []) {
     const hoy = new Date().toISOString().split('T')[0];
 

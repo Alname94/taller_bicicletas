@@ -1,5 +1,10 @@
+/**
+ * Renderiza la tabla de servicios disponibles.
+ * Incluye formateo de moneda local y badges de estado.
+ */
 export function renderServiciosTable(servicios = []) {
     const rows = servicios.map(({id, nombre, descripcion, valor, activo}) => {
+        // Lógica visual para el estado
         const badgeClass = activo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
         const estadoTexto = activo ? 'Activo' : 'Inactivo';
         const precioFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor);
@@ -8,7 +13,7 @@ export function renderServiciosTable(servicios = []) {
             <tr class="border-b hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4 text-sm font-medium text-gray-900">#${id}</td>
                 <td class="px-6 py-4 text-sm text-gray-700">${nombre}</td>
-                <td class="px-6 py-4 text-sm text-gray-500">${descripcion}</td>
+                <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">${descripcion}</td>
                 <td class="px-6 py-4 text-sm font-bold text-gray-900">${precioFormateado}</td>
                 <td class="px-6 py-4 text-sm">
                     <span class="px-2 py-1 rounded-full text-xs ${badgeClass}">
@@ -63,6 +68,10 @@ export function renderServiciosTable(servicios = []) {
     `;
 }
 
+/**
+ * Modal para creación/edición de servicios.
+ * Utiliza un select para el estado booleano 'activo'.
+ */
 export function renderServicioModal(servicio = null) {
     const isEdit = !!servicio; // true si estamos editando
 

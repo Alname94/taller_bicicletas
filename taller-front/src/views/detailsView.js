@@ -1,3 +1,6 @@
+/**
+ * Renderiza la lista de repuestos ya asignados al presupuesto.
+ */
 export function renderDetallesTable(detalles = []) {
     const rows = detalles.map(d => `
         <tr class="border-b hover:bg-gray-50 transition-colors">
@@ -44,6 +47,9 @@ export function renderDetallesTable(detalles = []) {
     `;
 }
 
+/**
+ * Modal de búsqueda y selección de repuestos disponibles en stock.
+ */
 export function renderSelectRepuestosModal(repuestosDisponibles = []) {
     const rows = repuestosDisponibles.map(r => `
         <tr class="border-b hover:bg-gray-50">

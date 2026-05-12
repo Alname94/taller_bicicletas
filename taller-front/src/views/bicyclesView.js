@@ -1,3 +1,6 @@
+/**
+ * Renderiza la tabla principal de bicicletas con información del propietario.
+ */
 export function renderBicicletasTable(bicicletas = []) {
     const rows = bicicletas.map(({ id, marca, modelo, fechaIngreso, cliente }) => `
         <tr class="border-b hover:bg-gray-50 transition-colors">
@@ -52,6 +55,9 @@ export function renderBicicletasTable(bicicletas = []) {
     `;
 }
 
+/**
+ * Renderiza una lista simplificada de bicicletas para ser embebida en el perfil del cliente.
+ */
 export function renderBicicletasList(bicicletas = []) {
     return bicicletas.map(({ id, marca, modelo, color, rodado, fechaIngreso }) => `
         <div class="p-4 flex justify-between items-center hover:bg-gray-50 transition-colors group">
@@ -82,6 +88,10 @@ export function renderBicicletasList(bicicletas = []) {
     `).join('');
 }
 
+/**
+ * Modal de Bicicleta. 
+ * Gestiona la lógica de 'pertenencia': siempre requiere un cliente asociado.
+ */
 export function renderBicicletaModal(bicicleta = null, cliente = null) {
     const isEdit = !!bicicleta;
     

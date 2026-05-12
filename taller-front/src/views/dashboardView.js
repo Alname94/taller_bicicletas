@@ -1,3 +1,7 @@
+/**
+ * Renderiza la estructura principal.
+ * Incluye el sidebar de navegación lateral y el contenedor principal.
+ */
 export function renderDashboardLayout() {
   return `
     <div class="flex h-screen bg-gray-50">
@@ -40,6 +44,10 @@ export function renderDashboardLayout() {
     `;
 }
 
+/**
+ * Renderiza el contenido inicial del Dashboard.
+ * Muestra métricas clave y el valor del dólar obtenido de la API externa.
+ */
 export function renderHomeContent() {
   const userName = localStorage.getItem('user_name') || 'Mecánico';
   return `

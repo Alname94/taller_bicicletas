@@ -1,5 +1,9 @@
 import { renderBicicletasList } from './bicyclesView.js';
 
+/**
+ * Genera la tabla principal de clientes.
+ * @param {Array} clientes - Lista de objetos cliente desde el backend.
+ */
 export function renderClientesTable(clientes = []) {
     const rows = clientes.map(({ id, nombre, apellido, dni }) => `
         <tr class="border-b hover:bg-gray-50 transition-colors">
@@ -53,6 +57,10 @@ export function renderClientesTable(clientes = []) {
     `;
 }
 
+/**
+ * Genera el modal para Crear o Editar un cliente.
+ * Implementa validaciones nativas de HTML5 (pattern, required, inputmode).
+ */
 export function renderClienteModal(cliente = null) {
     const isEdit = !!cliente; // true si estamos editando
 
@@ -108,6 +116,10 @@ export function renderClienteModal(cliente = null) {
     `;
 }
 
+/**
+ * Renderiza la Ficha Detallada del Cliente.
+ * Implementa el concepto de 'Sub-entidades' al mostrar las bicicletas del cliente.
+ */
 export function renderClientePerfil(cliente) {
     const { id, nombre, apellido, dni, email, telefono, bicicletas = [] } = cliente;
 

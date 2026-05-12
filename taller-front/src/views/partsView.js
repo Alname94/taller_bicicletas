@@ -1,7 +1,12 @@
+/**
+ * Renderiza la tabla de inventario.
+ * Implementa alertas visuales de stock bajo y formateo de moneda local.
+ */
 export function renderRepuestosTable(repuestos = []) {
     const rows = repuestos.map(({codigo, producto, marca, color, precioVenta, precioCosto, stock}) => {
         const precioVentaFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(precioVenta);
         const precioCostoFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(precioCosto);
+        // Alerta visual: Rojo si el stock es crítico (5 o menos)
         const badgeClass = stock > 5 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
 
         return `
@@ -68,6 +73,10 @@ export function renderRepuestosTable(repuestos = []) {
     `;
 }
 
+/**
+ * Modal para el alta y modificación de repuestos.
+ * El campo 'codigo' es la PK, por lo que se bloquea en modo edición.
+ */
 export function renderRepuestoModal(repuesto = null) {
     const isEdit = !!repuesto; // true si estamos editando
 
@@ -109,12 +118,12 @@ export function renderRepuestoModal(repuesto = null) {
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Precio Venta</label>
+                        <label class="block text-sm font-bold text-emerald-700">Precio Venta</label>
                         <input type="number" step="0.01" name="precioVenta" required value="${precioVenta}" 
                             class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Precio Costo</label>
+                        <label class="block text-sm font-bold text-red-700">Precio Costo</label>
                         <input type="number" step="0.01" name="precioCosto" required value="${precioCosto}" 
                             class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                     </div>
