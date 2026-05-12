@@ -1,7 +1,11 @@
 import { authService } from './authService';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
+/**
+ * Función base para realizar peticiones HTTP centralizadas.
+ * Gestiona automáticamente los encabezados de autenticación y el parseo de errores.
+ */
 async function request(endpoint, method = 'GET', body = null) {
     const options = {
         method,
@@ -18,6 +22,7 @@ async function request(endpoint, method = 'GET', body = null) {
     try {
         const response = await fetch(`${API_URL}${endpoint}`, options);
 
+        // Caso especial: Respuestas exitosas sin contenido (ej: DELETE exitoso o 204 No Content)
         if (response.status === 204 || response.ok && method === 'DELETE') {
             return true;
         }
@@ -26,10 +31,12 @@ async function request(endpoint, method = 'GET', body = null) {
             let errorMessage = "Error en la operación";
             try {
                 const errorData = await response.json();
+                // Si el error es un objeto de validación (Spring Validation), unimos los mensajes
                 if (typeof errorData === 'object' && !errorData.message) {
                     errorMessage = Object.values(errorData).join(' / ');
                 }
                 else {
+                    // Si viene un mensaje específico (BadRequestException)
                     errorMessage = errorData.message || errorData.error || errorMessage;
                 }
             } catch (e) {
@@ -38,11 +45,11 @@ async function request(endpoint, method = 'GET', body = null) {
             throw new Error(errorMessage);
         }
 
+        // Si la respuesta es JSON, parseamos y retornamos el objeto. Si no, retornamos true para indicar éxito. 
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("application/json")) {
             return await response.json();
         }
-
         return true;
     } catch (error) {
         console.error(`Error en la petición ${method} ${endpoint}:`, error);
@@ -50,6 +57,7 @@ async function request(endpoint, method = 'GET', body = null) {
     }
 }
 
+// Define todos los métodos de acceso a datos del sistema organizados por módulos.
 export const apiService = {
     // --- BÚSQUEDA GENÉRICA ---
     // Permite buscar por ID (si el query es numérico) o por un término específico (si es texto)
