@@ -3,6 +3,8 @@ package com.tallerbicicletas.repositories;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +15,11 @@ import com.tallerbicicletas.models.entities.Presupuesto;
 @Repository
 public interface IPresupuestoRepository extends JpaRepository<Presupuesto, Long>{
 
-    List<Presupuesto> findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(String nombre, String marca);
+    @Query("SELECT p FROM Presupuesto p WHERE " +
+           "(:query IS NULL OR LOWER(p.cliente.nombre) LIKE LOWER(CONCAT('%', :query, '%'))) OR " +
+           "(:query IS NULL OR LOWER(p.bicicleta.marca) LIKE LOWER(CONCAT('%', :query, '%')))")
+    Page<Presupuesto> findByClienteOrMarca(@Param("query") String query, Pageable pageable);
+
 
     List<Presupuesto> findByBicicletaId(Long bicicletaId);
 

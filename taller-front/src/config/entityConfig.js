@@ -110,7 +110,7 @@ export const ENTITY_CONFIG = {
         path: 'presupuestos',
         fetchData: (page = 0) => apiService.getPresupuestos(page),
         onDelete: (numero) => apiService.deletePresupuesto(numero),
-        onSearch: (query) => apiService.searchEntity('presupuestos', query, 'query'),
+        onSearch: (query, page = 0) => apiService.searchEntity('presupuestos', query, 'query'),
         fetchFullData: async (id) => {
             const [presupuesto, servicios] = await Promise.all([
                 request(`/presupuestos/${id}`, 'GET'),

@@ -11,8 +11,8 @@ public class PresupuestoListDTO {
 
     private Long numero;
     private String fecha;
-    private String clienteResumen;
-    private String bicicletaResumen;
+    private String cliente;
+    private String bicicleta;
     private Double valorTotal;
     private String estado;
 }

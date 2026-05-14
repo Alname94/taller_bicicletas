@@ -5,7 +5,14 @@ import { renderDetallesTable } from './detailsView.js';
  * Incluye formateo de moneda local y badges de estado.
  */
 export function renderPresupuestosTable(presupuestos = []) {
-    const rows = presupuestos.map(({ numero, fecha, clienteResumen, bicicletaResumen, valorTotal, estado }) => {
+    // función auxiliar para formatear referencias a cliente o bicicleta, manejando casos de DTO o entidad completa
+    const formatRef = (ref) => {
+        if (!ref) return 'N/A';
+        if (typeof ref === 'string') return ref; // Caso DTO
+        // Caso Entidad completa extrae los datos
+        return `#${ref.id} - ${ref.nombre || ref.marca} ${ref.apellido || ref.modelo}`;
+    };
+    const rows = presupuestos.map(({ numero, fecha, cliente, bicicleta, valorTotal, estado }) => {
         const estadoClases = {
             'PENDIENTE': 'bg-yellow-100 text-yellow-800',
             'FACTURADO': 'bg-green-100 text-green-800',
@@ -17,8 +24,8 @@ export function renderPresupuestosTable(presupuestos = []) {
         <tr class="border-b hover:bg-gray-50 transition-colors">
             <td class="px-6 py-4 text-sm font-medium text-gray-900">#${numero}</td>
             <td class="px-6 py-4 text-sm text-gray-700">${fecha}</td>
-            <td class="px-6 py-4 text-sm text-gray-700">${clienteResumen}</td>
-            <td class="px-6 py-4 text-sm text-gray-700">${bicicletaResumen}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">${formatRef(cliente)}</td>
+            <td class="px-6 py-4 text-sm text-gray-700">${formatRef(bicicleta)}</td>
             <td class="px-6 py-4 text-sm font-bold text-gray-900">${totalFormateado}</td>
             <td class="px-6 py-4 text-sm text-center">
                 <span class="px-2 py-1 rounded-full text-xs font-semibold ${estadoClases[estado] || 'bg-gray-100'}">

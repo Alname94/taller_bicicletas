@@ -346,18 +346,33 @@ async function handleEntitySearch(entityKey) {
     }
 
     try {
-        let data = await config.onSearch(query);
+        const response = await config.onSearch(query);
+        let dataList;
+        let isPaged = false;
 
-        // Si la respuesta es un solo objeto, lo convertimos en un array para mantener la consistencia
-        if (data && !Array.isArray(data)) {
-            data = [data];
+        if (response && response.content && Array.isArray(response.content)) {
+            // Es una respuesta paginada de Spring (Page<DTO>)
+            dataList = response.content;
+            isPaged = true;
+        } else if (Array.isArray(response)) {
+            // Es una lista simple (List<T>)
+            dataList = response;
+        } else if (response && typeof response === 'object') {
+            // Es un objeto único (buscado por ID)
+            dataList = [response];
+        } else {
+            dataList = [];
         }
 
-        if (!data || data.length === 0) {
-            notifications.showAlert('Sin resultados', `No se encontraron ${config.title} con el término: "${query}"`, 'info');
-            await renderMainContent(entityKey); // Carga la lista completa por defecto
+        if (dataList.length === 0) {
+            notifications.showAlert('Sin resultados', `No se encontraron resultados para: "${query}"`, 'info');
+            await renderMainContent(entityKey);
         } else {
-            await renderMainContent(entityKey, data);
+            /*
+             * Si es paginado, envia la respuesta completa a renderMainContent
+             * Si no es paginado, envia el array directamente.
+             */
+            await renderMainContent(entityKey, isPaged ? response : dataList);
 
             // Devolvemos el foco al input para que el usuario pueda seguir operando
             const newInput = document.querySelector('.js-search-input');

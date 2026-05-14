@@ -18,12 +18,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.tallerbicicletas.config.SecurityConfig;
+import com.tallerbicicletas.dtos.presupuestos.PresupuestoListDTO;
 import com.tallerbicicletas.models.entities.Bicicleta;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.models.entities.Presupuesto;
@@ -33,7 +36,7 @@ import tools.jackson.databind.ObjectMapper;
 
 @WebMvcTest(PresupuestoController.class)
 @Import(SecurityConfig.class)
-@WithMockUser(username = "admin", roles = {"ADMIN"})
+@WithMockUser(username = "admin", roles = { "ADMIN" })
 public class PresupuestoControllerTest {
 
     @Autowired
@@ -65,7 +68,7 @@ public class PresupuestoControllerTest {
 
     // --- GET ALL ---
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     void getPresupuestos_DebeRetornarListaYOk() throws Exception {
         given(presupuestoService.getPresupuestos()).willReturn(List.of(presupuestoMock));
 
@@ -77,7 +80,7 @@ public class PresupuestoControllerTest {
 
     // --- POST ---
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     void savePresupuesto_DebeRetornarCreated_CuandoEsValido() throws Exception {
         given(presupuestoService.savePresupuesto(any(Presupuesto.class))).willReturn(presupuestoMock);
 
@@ -90,7 +93,7 @@ public class PresupuestoControllerTest {
 
     // --- PATCH (Cambio de Estado) ---
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     void cambiarEstado_DebeRetornarOk() throws Exception {
         doNothing().when(presupuestoService).cambiarEstado(100L, "FACTURADO");
 
@@ -102,22 +105,39 @@ public class PresupuestoControllerTest {
 
     // --- BUSCAR CON MULTIPLES PARAMS ---
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void search_DebeRetornarListaSegunFiltros() throws Exception {
-        given(presupuestoService.findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase("Juan", "Vairo"))
-                .willReturn(List.of(presupuestoMock));
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
+    void search_DebeRetornarPaginaDePresupuestosDTO() throws Exception {
+        PresupuestoListDTO dto = new PresupuestoListDTO(
+                presupuestoMock.getNumero(),
+                presupuestoMock.getFecha().toString(),
+                String.format("#%d - %s %s", clienteMock.getId(), clienteMock.getNombre(), clienteMock.getApellido()),
+                String.format("#%d - %s %s", bicicletaMock.getId(), bicicletaMock.getMarca(),
+                        bicicletaMock.getModelo()),
+                presupuestoMock.getValorTotal(),
+                presupuestoMock.getEstado());
+
+        // Implementación de Page para pruebas
+        Page<PresupuestoListDTO> pageResponse = new PageImpl<>(List.of(dto));
+
+        // mock del service con los parámetros que envía el controlador por defecto
+        given(presupuestoService.buscarPresupuestosDTO("Juan", 0, 10))
+                .willReturn(pageResponse);
 
         mockMvc.perform(get("/presupuestos/buscar")
-                .param("cliente", "Juan")
-                .param("bicicleta", "Vairo"))
+                .param("query", "Juan")
+                .param("page", "0")
+                .param("size", "10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].numero").value(100));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content[0].numero").value(100))
+                .andExpect(jsonPath("$.content[0].cliente").value("#1 - Juan Perez"))
+                .andExpect(jsonPath("$.totalElements").value(1));
     }
 
     // --- TESTS DE VALIDACIÓN (Bean Validation) ---
 
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     void savePresupuesto_DebeRetornarBadRequest_CuandoFechaEsFutura() throws Exception {
         presupuestoMock.setFecha(LocalDate.now().plusDays(1)); // Mañana
 
@@ -128,7 +148,7 @@ public class PresupuestoControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     void savePresupuesto_DebeRetornarBadRequest_CuandoEstadoEsInvalido() throws Exception {
         presupuestoMock.setEstado("TERMINADO");
 
@@ -139,7 +159,7 @@ public class PresupuestoControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = { "ADMIN" })
     void savePresupuesto_DebeRetornarBadRequest_CuandoValorTotalEsNegativo() throws Exception {
         presupuestoMock.setValorTotal(-1.0);
 

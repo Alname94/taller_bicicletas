@@ -108,7 +108,7 @@ export const apiService = {
     savePresupuesto: (data) => request('/presupuestos', 'POST', data),
     updatePresupuesto: (numero, data) => request(`/presupuestos/${numero}`, 'PUT', data),
     deletePresupuesto: (numero) => request(`/presupuestos/borrar/${numero}`, 'DELETE'),
-    searchPresupuestos: (query) => request(`/presupuestos/buscar?query=${query}`),
+    searchPresupuestos: (query, page = 0, size = 10) => request(`/presupuestos/buscar?query=${query}&page=${page}&size=${size}`, 'GET'),
     getPresupuestoByNumero: (numero) => request(`/presupuestos/${numero}`, 'GET'),
     patchEstadoPresupuesto: (numero, nuevoEstado) =>
         request(`/presupuestos/${numero}/estado?nuevoEstado=${nuevoEstado}`, 'PATCH'),

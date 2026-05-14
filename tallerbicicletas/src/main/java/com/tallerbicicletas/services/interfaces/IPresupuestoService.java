@@ -19,9 +19,7 @@ public interface IPresupuestoService {
 
     public Presupuesto editPresupuesto(Presupuesto presupuesto);
 
-    public List<Presupuesto> findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(String query, String query2);
-
-    public List<Presupuesto> findByBicicletaId(Long bicicletaId);
+    public Page<PresupuestoListDTO> buscarPresupuestosDTO(String query, int page, int size);
 
     public void cambiarEstado (Long numero, String nuevoEstado);
 

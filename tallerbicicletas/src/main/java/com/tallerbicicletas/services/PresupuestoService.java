@@ -150,24 +150,24 @@ public class PresupuestoService implements IPresupuestoService {
         return presupuestoRepository.save(presupuestoExistente);
     }
 
+    // Método para buscar presupuestos por cliente o marca de bicicleta con paginación
     @Override
-    public List<Presupuesto> findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(String query,
-            String query2) {
-        List<Presupuesto> presupuestos = presupuestoRepository
-                .findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(query, query2);
-        if (presupuestos.isEmpty()) {
-            throw new ResourceNotFoundException("No hay presupuestos que coincidan con: " + query);
-        }
-        return presupuestos;
+    public Page<PresupuestoListDTO> buscarPresupuestosDTO(String query, int page, int size) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("numero").descending());
+    
+    if (query == null || query.trim().isEmpty()) {
+        return listarPresupuestosPaginadosDTO(page, size);
     }
 
-    @Override
-    public List<Presupuesto> findByBicicletaId(Long bicicletaId) {
-        List<Presupuesto> presupuestos = presupuestoRepository.findByBicicletaId(bicicletaId);
-        if (presupuestos.isEmpty()) {
-            throw new ResourceNotFoundException("No hay presupuestos que coincidan con la bicicleta: " + bicicletaId);
-        }
-        return presupuestos;
+    Page<Presupuesto> presupuestosPage = presupuestoRepository.findByClienteOrMarca(query, pageable);
+
+    return presupuestosPage.map(p -> new PresupuestoListDTO(
+            p.getNumero(),
+            p.getFecha().toString(),
+            String.format("#%d - %s %s", p.getCliente().getId(), p.getCliente().getNombre(), p.getCliente().getApellido()),
+            String.format("#%d - %s %s", p.getBicicleta().getId(), p.getBicicleta().getMarca(), p.getBicicleta().getModelo()),
+            p.getValorTotal(),
+            p.getEstado()));
     }
 
     // Método para cambiar el estado de un presupuesto, 

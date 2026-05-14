@@ -72,8 +72,12 @@ public class PresupuestoController {
 
     @Operation(summary = "Buscar presupuestos por cliente o bicicleta", description = "Permite buscar presupuestos filtrando por el nombre del cliente o la marca de la bicicleta. Ambos parámetros son opcionales y se pueden usar de forma combinada para refinar la búsqueda.")
     @GetMapping("/buscar")
-    public ResponseEntity<List<Presupuesto>> search(@RequestParam(required = false) String cliente, @RequestParam(required = false) String bicicleta) {
-        return new ResponseEntity<>(presupuestoService.findByClienteNombreContainingIgnoreCaseOrBicicletaMarcaContainingIgnoreCase(cliente, bicicleta), HttpStatus.OK);
+    public ResponseEntity<Page<PresupuestoListDTO>> search(
+            @RequestParam(required = false) String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+    
+        return ResponseEntity.ok(presupuestoService.buscarPresupuestosDTO(query, page, size));
     }
 
     @Operation(summary = "Asignar un servicio a un presupuesto", description = "Permite asignar un servicio a un presupuesto existente utilizando su número de presupuesto y el ID del servicio.")
