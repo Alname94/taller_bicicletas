@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tallerbicicletas.dtos.clientes.ClienteListDTO;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.services.interfaces.IClienteService;
 
@@ -63,16 +64,17 @@ public class ClienteController {
 
     @Operation(summary = "Buscar clientes por nombre o apellido", description = "Permite buscar clientes cuyo nombre o apellido contenga el término de búsqueda proporcionado. Se requiere proporcionar el término de búsqueda como parámetro de consulta.")
     @GetMapping("/buscar")
-    public ResponseEntity<List<Cliente>> findByNombreOrApellido(@RequestParam String nombre) {
-        return new ResponseEntity<>(
-                clienteService.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(nombre, nombre),
-                HttpStatus.OK);
+    public ResponseEntity<Page<ClienteListDTO>> buscarClientes(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return new ResponseEntity<>(clienteService.buscarClientesDTO(query, page, size), HttpStatus.OK);
     }
 
     @GetMapping("/paginado")
-    public ResponseEntity<Page<Cliente>> getClientes(
+    public ResponseEntity<Page<ClienteListDTO>> getClientes(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(clienteService.listarClientesPaginados(page, size));
+        return ResponseEntity.ok(clienteService.listarClientesPaginadosDTO(page, size));
     }
 }

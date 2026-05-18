@@ -40,7 +40,7 @@ export const ENTITY_CONFIG = {
         fetchData: (page = 0) => apiService.getClientes(page),
         onSave: (id, data) => id ? apiService.updateCliente(id, data) : apiService.saveCliente(data),
         onDelete: (id) => apiService.deleteCliente(id),
-        onSearch: (query) => apiService.searchEntity('clientes', query, 'nombre'),
+        onSearch: (query) => apiService.searchEntity('clientes', query, 'query'),
 
         renderTable: (data) => renderClientesTable(data),
         renderModal: (item) => renderClienteModal(item),

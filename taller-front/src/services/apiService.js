@@ -67,7 +67,7 @@ export const apiService = {
             : `/${path}/${query}`;
 
         return request(url);
-    },
+    },   
 
     // --- SERVICIOS ---
     getServicios: (page = 0, size = 10) => 
@@ -99,7 +99,6 @@ export const apiService = {
     saveRepuesto: (data) => request('/repuestos', 'POST', data),
     updateRepuesto: (codigo, data) => request(`/repuestos/${codigo}`, 'PUT', data),
     deleteRepuesto: (codigo) => request(`/repuestos/borrar/${codigo}`, 'DELETE'),
-    searchRepuestos: (query) => request(`/repuestos/buscar?query=${query}`),
     getRepuestosDisponibles: () => request('/repuestos/disponibles', 'GET'),
 
     // --- PRESUPUESTOS ---
@@ -108,7 +107,6 @@ export const apiService = {
     savePresupuesto: (data) => request('/presupuestos', 'POST', data),
     updatePresupuesto: (numero, data) => request(`/presupuestos/${numero}`, 'PUT', data),
     deletePresupuesto: (numero) => request(`/presupuestos/borrar/${numero}`, 'DELETE'),
-    searchPresupuestos: (query, page = 0, size = 10) => request(`/presupuestos/buscar?query=${query}&page=${page}&size=${size}`, 'GET'),
     getPresupuestoByNumero: (numero) => request(`/presupuestos/${numero}`, 'GET'),
     patchEstadoPresupuesto: (numero, nuevoEstado) =>
         request(`/presupuestos/${numero}/estado?nuevoEstado=${nuevoEstado}`, 'PATCH'),

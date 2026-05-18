@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.tallerbicicletas.dtos.clientes.ClienteListDTO;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.exceptions.ResourceNotFoundException;
 import com.tallerbicicletas.models.entities.Cliente;
@@ -107,9 +108,16 @@ public class ClienteService implements IClienteService {
 
     
     @Override
-    public List<Cliente> findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(String nombre, String apellido) {
-        return clienteRepository.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(nombre, apellido);
-    }
+    public Page<ClienteListDTO> buscarClientesDTO(String query, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<Cliente> clientesPage = clienteRepository.buscarPorNombreOApellido(query, pageable);
+        return clientesPage.map(c -> new ClienteListDTO(
+                c.getId(),
+                c.getNombre(),
+                c.getApellido(),
+                c.getDni()
+        ));
+    }    
 
     
     @Override
@@ -118,9 +126,15 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public Page<Cliente> listarClientesPaginados(int page, int size) {
+    public Page<ClienteListDTO> listarClientesPaginadosDTO(int page, int size) {
         // Paginación configurada por ID descendente para ver ingresos recientes primero.
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return clienteRepository.findAll(pageable);
+        Page<Cliente> clientesPage = clienteRepository.findAll(pageable);
+        return clientesPage.map(c -> new ClienteListDTO(
+                c.getId(),
+                c.getNombre(),
+                c.getApellido(),
+                c.getDni()
+        ));
     }   
 }

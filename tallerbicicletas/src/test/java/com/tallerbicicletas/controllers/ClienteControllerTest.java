@@ -15,16 +15,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.tallerbicicletas.config.SecurityConfig;
+import com.tallerbicicletas.dtos.clientes.ClienteListDTO;
 import com.tallerbicicletas.exceptions.BadRequestException;
 import com.tallerbicicletas.models.entities.Cliente;
 import com.tallerbicicletas.services.interfaces.IClienteService;
@@ -45,12 +49,18 @@ public class ClienteControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private Cliente clienteMock;
+
+    @BeforeEach
+    void setUp() {
+        clienteMock = new Cliente(1L, "Juan", "Perez", "12345678", "11223344", "juan@mail.com");
+    }
+
     // --- GET ALL ---
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getClientes_DebeRetornarListaYOk() throws Exception {
-        Cliente c = new Cliente(1L, "Juan", "Perez", "12345678", "+5411223344", "juan@mail.com");
-        given(clienteService.getClientes()).willReturn(List.of(c));
+        given(clienteService.getClientes()).willReturn(List.of(clienteMock));
 
         mockMvc.perform(get("/clientes"))
                 .andExpect(status().isOk())
@@ -62,12 +72,11 @@ public class ClienteControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void findCliente_DebeRetornarCliente_CuandoExiste() throws Exception {
-        Cliente c = new Cliente(1L, "Ana", "Gomez", "87654321", "1199887766", "ana@mail.com");
-        given(clienteService.findCliente(1L)).willReturn(c);
+        given(clienteService.findCliente(1L)).willReturn(clienteMock);
 
         mockMvc.perform(get("/clientes/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.apellido").value("Gomez"));
+                .andExpect(jsonPath("$.apellido").value("Perez"));
     }
 
     // --- POST ---
@@ -111,15 +120,21 @@ public class ClienteControllerTest {
     // --- GET BUSCAR (QUERY PARAM) ---
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void findByNombreOrApellido_DebeRetornarListaFiltrada() throws Exception {
-        Cliente c = new Cliente(1L, "Juan", "Perez", "12345678", "11223344", "juan@mail.com");
-        given(clienteService.findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase("Juan", "Juan"))
-                .willReturn(List.of(c));
+    void search_DebeRetornarPaginaDeClientesDTO() throws Exception {
+        ClienteListDTO dto = new ClienteListDTO(
+                clienteMock.getId(),
+                clienteMock.getNombre(),
+                clienteMock.getApellido(),
+                clienteMock.getDni());
+        Page<ClienteListDTO> pageResponse = new PageImpl<>(List.of(dto));
+        given(clienteService.buscarClientesDTO("Juan", 0, 10)).willReturn(pageResponse);
 
         mockMvc.perform(get("/clientes/buscar")
-                .param("nombre", "Juan"))
+                .param("query", "Juan")
+                .param("page", "0")
+                .param("size", "10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].nombre").value("Juan"));
+                .andExpect(jsonPath("$.content[0].nombre").value("Juan"));
     }
 
     // --- TESTS DE VALIDACIÓN (BEAN VALIDATION) ---

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
+import com.tallerbicicletas.dtos.clientes.ClienteListDTO;
 import com.tallerbicicletas.models.entities.Cliente;
 
 public interface IClienteService {
@@ -19,9 +20,9 @@ public interface IClienteService {
 
     public Cliente editCliente(Cliente cliente);
 
-    public List<Cliente> findByNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(String nombre, String apellido);
+    public Page <ClienteListDTO> buscarClientesDTO(String query, int page, int size);
 
     public Optional<Cliente> findByDni(String dni);
 
-    public Page<Cliente> listarClientesPaginados(int page, int size);
+    public Page<ClienteListDTO> listarClientesPaginadosDTO(int page, int size);
 }
