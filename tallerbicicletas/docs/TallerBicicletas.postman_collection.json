@@ -276,7 +276,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "localhost:8080/clientes/buscar?nombre=ju",
+              "raw": "localhost:8080/clientes/buscar?query=ju",
               "host": [
                 "localhost"
               ],
@@ -287,21 +287,20 @@
               ],
               "query": [
                 {
-                  "key": "nombre",
-                  "value": "ju",
-                  "type": "text"
+                  "key": "query",
+                  "value": "ju"
                 }
               ]
             }
           },
           "response": [
             {
-              "name": "Buscar Cliente por nombre o apellido Response",
+              "name": "Buscar Cliente por nombre o apellido",
               "originalRequest": {
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "localhost:8080/clientes/buscar?nombre=ju",
+                  "raw": "localhost:8080/clientes/buscar?query=ju",
                   "host": [
                     "localhost"
                   ],
@@ -312,7 +311,7 @@
                   ],
                   "query": [
                     {
-                      "key": "nombre",
+                      "key": "query",
                       "value": "ju"
                     }
                   ]
@@ -368,7 +367,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Tue, 10 Mar 2026 12:26:10 GMT"
+                  "value": "Tue, 19 May 2026 11:57:34 GMT"
                 },
                 {
                   "key": "Keep-Alive",
@@ -380,7 +379,7 @@
                 }
               ],
               "cookie": [],
-              "body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Juan\",\n        \"apellido\": \"Perez\",\n        \"dni\": \"40123456\",\n        \"telefono\": \"1234567890\",\n        \"email\": \"juanperez@example.com\",\n        \"bicicletas\": []\n    }\n]"
+              "body": "{\n    \"content\": [\n        {\n            \"id\": 3,\n            \"nombre\": \"Juan\",\n            \"apellido\": \"Gonzalez\",\n            \"dni\": \"40123656\"\n        },\n        {\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 2,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"totalElements\": 2,\n    \"totalPages\": 1\n}"
             }
           ]
         },
@@ -749,6 +748,133 @@
               ],
               "cookie": [],
               "body": "Cliente eliminado correctamente"
+            }
+          ]
+        },
+        {
+          "name": "Get Clientes Paginados",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/clientes/paginado",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "clientes",
+                "paginado"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Clientes Paginados",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/clientes/paginado",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "clientes",
+                    "paginado"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 19 May 2026 12:01:23 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"content\": [\n        {\n            \"id\": 13,\n            \"nombre\": \"Alejandro\",\n            \"apellido\": \"Coria\",\n            \"dni\": \"56938939\"\n        },\n        {\n            \"id\": 11,\n            \"nombre\": \"Carla\",\n            \"apellido\": \"Lin\",\n            \"dni\": \"45678492\"\n        },\n        {\n            \"id\": 10,\n            \"nombre\": \"Nico\",\n            \"apellido\": \"Paz\",\n            \"dni\": \"49585757\"\n        },\n        {\n            \"id\": 9,\n            \"nombre\": \"Luis\",\n            \"apellido\": \"Masei\",\n            \"dni\": \"34546655\"\n        },\n        {\n            \"id\": 8,\n            \"nombre\": \"Sofia\",\n            \"apellido\": \"Gimenez\",\n            \"dni\": \"40558575\"\n        },\n        {\n            \"id\": 7,\n            \"nombre\": \"Daniel\",\n            \"apellido\": \"Rago\",\n            \"dni\": \"34556955\"\n        },\n        {\n            \"id\": 6,\n            \"nombre\": \"Esteban\",\n            \"apellido\": \"Lago\",\n            \"dni\": \"43544590\"\n        },\n        {\n            \"id\": 5,\n            \"nombre\": \"Daniel\",\n            \"apellido\": \"Jimenez\",\n            \"dni\": \"32233453\"\n        },\n        {\n            \"id\": 4,\n            \"nombre\": \"Maxi\",\n            \"apellido\": \"Diaz\",\n            \"dni\": \"12345678\"\n        },\n        {\n            \"id\": 3,\n            \"nombre\": \"Juan\",\n            \"apellido\": \"Gonzalez\",\n            \"dni\": \"40123656\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": false,\n    \"number\": 0,\n    \"numberOfElements\": 10,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"totalElements\": 11,\n    \"totalPages\": 2\n}"
             }
           ]
         }
@@ -1626,6 +1752,133 @@
               "body": "Bicicleta eliminada con éxito"
             }
           ]
+        },
+        {
+          "name": "Get Bicicletas Paginado",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/bicicletas/paginado",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "bicicletas",
+                "paginado"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Bicicletas Paginado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/bicicletas/paginado",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "bicicletas",
+                    "paginado"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 19 May 2026 12:02:07 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"content\": [\n        {\n            \"cliente\": {\n                \"apellido\": \"Coria\",\n                \"dni\": \"56938939\",\n                \"email\": \"acoria@mail.com\",\n                \"id\": 13,\n                \"nombre\": \"Alejandro\",\n                \"telefono\": \"1145679102\"\n            },\n            \"color\": \"Gris\",\n            \"fechaIngreso\": \"2026-05-19\",\n            \"id\": 19,\n            \"marca\": \"SUNSPEED\",\n            \"modelo\": \"GRAVEL\",\n            \"rodado\": \"28\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Lin\",\n                \"dni\": \"45678492\",\n                \"email\": \"clin@mail.com\",\n                \"id\": 11,\n                \"nombre\": \"Carla\",\n                \"telefono\": \"11567893234\"\n            },\n            \"color\": \"Gris\",\n            \"fechaIngreso\": \"2026-05-06\",\n            \"id\": 18,\n            \"marca\": \"TOPMEGA\",\n            \"modelo\": \"MTB\",\n            \"rodado\": \"26\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Paz\",\n                \"dni\": \"49585757\",\n                \"email\": \"pazn@mail.com\",\n                \"id\": 10,\n                \"nombre\": \"Nico\",\n                \"telefono\": \"1156732121\"\n            },\n            \"color\": \"Azul\",\n            \"fechaIngreso\": \"2026-05-04\",\n            \"id\": 16,\n            \"marca\": \"SHISANO\",\n            \"modelo\": \"PLAYERA\",\n            \"rodado\": \"26\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Masei\",\n                \"dni\": \"34546655\",\n                \"email\": \"lmasei@mail.com\",\n                \"id\": 9,\n                \"nombre\": \"Luis\",\n                \"telefono\": \"1156789234\"\n            },\n            \"color\": \"Naranaja\",\n            \"fechaIngreso\": \"2026-04-30\",\n            \"id\": 15,\n            \"marca\": \"KONA\",\n            \"modelo\": \"KALEA\",\n            \"rodado\": \"26\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Gimenez\",\n                \"dni\": \"40558575\",\n                \"email\": \"sofgi@mail.com\",\n                \"id\": 8,\n                \"nombre\": \"Sofia\",\n                \"telefono\": \"11459485747\"\n            },\n            \"color\": \"Rosa\",\n            \"fechaIngreso\": \"2026-04-23\",\n            \"id\": 14,\n            \"marca\": \"OLMO\",\n            \"modelo\": \"URBAN\",\n            \"rodado\": \"26\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Rago\",\n                \"dni\": \"34556955\",\n                \"email\": \"drago@mail.com\",\n                \"id\": 7,\n                \"nombre\": \"Daniel\",\n                \"telefono\": \"1159657483\"\n            },\n            \"color\": \"Verde\",\n            \"fechaIngreso\": \"2026-04-23\",\n            \"id\": 13,\n            \"marca\": \"MERCURI\",\n            \"modelo\": \"PISTA\",\n            \"rodado\": \"28\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Lago\",\n                \"dni\": \"43544590\",\n                \"email\": \"estebanlago1@mail.com\",\n                \"id\": 6,\n                \"nombre\": \"Esteban\",\n                \"telefono\": \"1506958587\"\n            },\n            \"color\": \"Negro\",\n            \"fechaIngreso\": \"2026-04-23\",\n            \"id\": 12,\n            \"marca\": \"MARIN\",\n            \"modelo\": \"GESTALT\",\n            \"rodado\": \"28\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Jimenez\",\n                \"dni\": \"32233453\",\n                \"email\": \"djimenez@mail.com\",\n                \"id\": 5,\n                \"nombre\": \"Daniel\",\n                \"telefono\": \"323423423423\"\n            },\n            \"color\": \"Negro\",\n            \"fechaIngreso\": \"2026-04-07\",\n            \"id\": 11,\n            \"marca\": \"VAIRO\",\n            \"modelo\": \"RUTA\",\n            \"rodado\": \"28\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Gonzalez\",\n                \"dni\": \"40123656\",\n                \"email\": \"juangonz@example.com\",\n                \"id\": 3,\n                \"nombre\": \"Juan\",\n                \"telefono\": \"1234563456780\"\n            },\n            \"color\": \"Celeste\",\n            \"fechaIngreso\": \"2026-04-06\",\n            \"id\": 10,\n            \"marca\": \"BIANCHI\",\n            \"modelo\": \"PISTA\",\n            \"rodado\": \"28\"\n        },\n        {\n            \"cliente\": {\n                \"apellido\": \"Perez\",\n                \"dni\": \"40123456\",\n                \"email\": \"juan.perezperez@example.com\",\n                \"id\": 1,\n                \"nombre\": \"Juan\",\n                \"telefono\": \"+5491112345678\"\n            },\n            \"color\": \"Plata\",\n            \"fechaIngreso\": \"2026-04-06\",\n            \"id\": 8,\n            \"marca\": \"AVENTON\",\n            \"modelo\": \"CORDOBA\",\n            \"rodado\": \"28\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": false,\n    \"number\": 0,\n    \"numberOfElements\": 10,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"totalElements\": 16,\n    \"totalPages\": 2\n}"
+            }
+          ]
         }
       ]
     },
@@ -2375,6 +2628,133 @@
               "body": "Repuesto eliminado correctamente"
             }
           ]
+        },
+        {
+          "name": "Get Repuestos Paginado",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/repuestos/paginado",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "repuestos",
+                "paginado"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Repuestos Paginado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/repuestos/paginado",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "repuestos",
+                    "paginado"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 19 May 2026 12:02:40 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"content\": [\n        {\n            \"codigo\": \"BK-3312\",\n            \"producto\": \"Llanta Tubeless Ready 29x2.25\",\n            \"marca\": \"MAXXIS\",\n            \"color\": \"Marrón\",\n            \"precioVenta\": 10000,\n            \"precioCosto\": 7000,\n            \"stock\": 2\n        },\n        {\n            \"codigo\": \"BK-5567\",\n            \"producto\": \"Pedales De Plataforma De Aluminio\",\n            \"marca\": \"RACEFACE\",\n            \"color\": \"Azul\",\n            \"precioVenta\": 5000,\n            \"precioCosto\": 3000,\n            \"stock\": 10\n        },\n        {\n            \"codigo\": \"CAD-9047\",\n            \"producto\": \"Cadena 10v\",\n            \"marca\": \"KMC\",\n            \"color\": \"Plata\",\n            \"precioVenta\": 10000,\n            \"precioCosto\": 8500,\n            \"stock\": 4\n        },\n        {\n            \"codigo\": \"CADKMC\",\n            \"producto\": \"Cadena 8v\",\n            \"marca\": \"KMC\",\n            \"color\": \"Aluminio\",\n            \"precioVenta\": 9000,\n            \"precioCosto\": 5000,\n            \"stock\": 2\n        },\n        {\n            \"codigo\": \"CADSHI-11V\",\n            \"producto\": \"Cadena 11v\",\n            \"marca\": \"SHIMANO\",\n            \"color\": \"Plata\",\n            \"precioVenta\": 10000,\n            \"precioCosto\": 7000,\n            \"stock\": 9\n        },\n        {\n            \"codigo\": \"CAM26KEN\",\n            \"producto\": \"Cámara 26\",\n            \"marca\": \"KENDA\",\n            \"color\": \"Negro\",\n            \"precioVenta\": 5000,\n            \"precioCosto\": 3500,\n            \"stock\": 0\n        },\n        {\n            \"codigo\": \"CAM28KEN\",\n            \"producto\": \"Cámara Rodado 28\",\n            \"marca\": \"KENDA\",\n            \"color\": \"Negro\",\n            \"precioVenta\": 8000,\n            \"precioCosto\": 6000,\n            \"stock\": 10\n        },\n        {\n            \"codigo\": \"F-ZIPO-Z58\",\n            \"producto\": \"Kit Freno Herradura Ruta Fixie\",\n            \"marca\": \"ZIPO\",\n            \"color\": \"Negro\",\n            \"precioVenta\": 20000,\n            \"precioCosto\": 17000,\n            \"stock\": 7\n        },\n        {\n            \"codigo\": \"REP12345\",\n            \"producto\": \"Frenos De Disco\",\n            \"marca\": \"SHIMANO\",\n            \"color\": \"Negro\",\n            \"precioVenta\": 6000,\n            \"precioCosto\": 3000,\n            \"stock\": 9\n        },\n        {\n            \"codigo\": \"VEL-0023\",\n            \"producto\": \"Asiento Antiprostatico\",\n            \"marca\": \"VELO\",\n            \"color\": \"Negro\",\n            \"precioVenta\": 7000,\n            \"precioCosto\": 4500,\n            \"stock\": 5\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 10,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"totalElements\": 10,\n    \"totalPages\": 1\n}"
+            }
+          ]
         }
       ]
     },
@@ -3110,6 +3490,133 @@
               "body": "Servicio eliminado/desactivado correctamente"
             }
           ]
+        },
+        {
+          "name": "Get Servicios Paginado",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/servicios/paginado",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "servicios",
+                "paginado"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Servicios Paginado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/servicios/paginado",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "servicios",
+                    "paginado"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 19 May 2026 12:04:15 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"content\": [\n        {\n            \"id\": 2,\n            \"nombre\": \"Service Full\",\n            \"descripcion\": \"Desarmado Completo\",\n            \"valor\": 20000,\n            \"activo\": true\n        },\n        {\n            \"id\": 3,\n            \"nombre\": \"Cambio De Cadena\",\n            \"descripcion\": \"Incluye Cambio De Cadena, Ajuste De Cambios Y Lubricación\",\n            \"valor\": 5000,\n            \"activo\": true\n        },\n        {\n            \"id\": 11,\n            \"nombre\": \"Service Basico\",\n            \"descripcion\": \"\",\n            \"valor\": 5000,\n            \"activo\": true\n        },\n        {\n            \"id\": 12,\n            \"nombre\": \"Centrado De Ruedas\",\n            \"descripcion\": \"\",\n            \"valor\": 6000,\n            \"activo\": true\n        },\n        {\n            \"id\": 13,\n            \"nombre\": \"Armado De Ruedas\",\n            \"descripcion\": \"\",\n            \"valor\": 14000,\n            \"activo\": true\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 5,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"totalElements\": 5,\n    \"totalPages\": 1\n}"
+            }
+          ]
         }
       ]
     },
@@ -3528,7 +4035,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "localhost:8080/presupuestos/buscar?cliente=ju",
+              "raw": "localhost:8080/presupuestos/buscar?query=ju",
               "host": [
                 "localhost"
               ],
@@ -3539,7 +4046,7 @@
               ],
               "query": [
                 {
-                  "key": "cliente",
+                  "key": "query",
                   "value": "ju"
                 }
               ]
@@ -3547,16 +4054,16 @@
           },
           "response": [
             {
-              "name": "Get Presupuesto por Cliente o Bicicleta Response",
+              "name": "Get Presupuesto por Cliente o Bicicleta",
               "originalRequest": {
                 "method": "GET",
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"fecha\": \"2024-06-15\",\r\n  \"cliente\": {\r\n    \"id\": 1\r\n  },\r\n  \"bicicleta\": {\r\n    \"id\": 1\r\n  },\r\n  \"valorTotal\": 1500,\r\n  \"descripcion\": \"\",\r\n  \"estado\": \"PENDIENTE\",\r\n  \"detalles\": [],\r\n  \"servicio\": {\r\n    \"id\": 2\r\n  },\r\n  \"valorServicioAplicado\": 0\r\n}"
+                  "raw": ""
                 },
                 "url": {
-                  "raw": "localhost:8080/presupuestos/buscar?cliente=ju",
+                  "raw": "localhost:8080/presupuestos/buscar?query=ju",
                   "host": [
                     "localhost"
                   ],
@@ -3567,7 +4074,7 @@
                   ],
                   "query": [
                     {
-                      "key": "cliente",
+                      "key": "query",
                       "value": "ju"
                     }
                   ]
@@ -3623,7 +4130,7 @@
                 },
                 {
                   "key": "Date",
-                  "value": "Wed, 11 Mar 2026 13:14:24 GMT"
+                  "value": "Tue, 19 May 2026 11:59:52 GMT"
                 },
                 {
                   "key": "Keep-Alive",
@@ -3635,7 +4142,7 @@
                 }
               ],
               "cookie": [],
-              "body": "[\n    {\n        \"numero\": 1,\n        \"fecha\": \"2024-06-15\",\n        \"cliente\": {\n            \"apellido\": \"Perez\",\n            \"dni\": \"40123456\",\n            \"email\": \"juan.perezperez@example.com\",\n            \"id\": 1,\n            \"nombre\": \"Juan\",\n            \"telefono\": \"+5491112345678\"\n        },\n        \"bicicleta\": {\n            \"id\": 1,\n            \"marca\": \"Trek\",\n            \"modelo\": \"Domane SL 7\",\n            \"color\": \"Negro\",\n            \"rodado\": \"28\",\n            \"fechaIngreso\": \"2024-06-01\"\n        },\n        \"valorTotal\": 10000,\n        \"descripcion\": \"\",\n        \"estado\": \"PENDIENTE\",\n        \"detalles\": [],\n        \"servicio\": {\n            \"id\": 2,\n            \"nombre\": \"Service full\",\n            \"descripcion\": \"Desarmado completo\",\n            \"valor\": 10000,\n            \"activo\": true\n        },\n        \"valorServicioAplicado\": 10000\n    }\n]"
+              "body": "{\n    \"content\": [\n        {\n            \"numero\": 6,\n            \"fecha\": \"2026-04-15\",\n            \"cliente\": \"#3 - Juan Gonzalez\",\n            \"bicicleta\": \"#10 - BIANCHI PISTA\",\n            \"valorTotal\": 10000,\n            \"estado\": \"PENDIENTE\"\n        },\n        {\n            \"numero\": 4,\n            \"fecha\": \"2024-06-15\",\n            \"cliente\": \"#1 - Juan Perez\",\n            \"bicicleta\": \"#1 - TREK DOMANE SL 7\",\n            \"valorTotal\": 5000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 3,\n            \"fecha\": \"2025-06-15\",\n            \"cliente\": \"#1 - Juan Perez\",\n            \"bicicleta\": \"#1 - TREK DOMANE SL 7\",\n            \"valorTotal\": 13000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 1,\n            \"fecha\": \"2024-06-15\",\n            \"cliente\": \"#1 - Juan Perez\",\n            \"bicicleta\": \"#1 - TREK DOMANE SL 7\",\n            \"valorTotal\": 10000,\n            \"estado\": \"ANULADO\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 4,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"totalElements\": 4,\n    \"totalPages\": 1\n}"
             }
           ]
         },
@@ -4036,6 +4543,133 @@
               ],
               "cookie": [],
               "body": "Presupuesto eliminado con éxito"
+            }
+          ]
+        },
+        {
+          "name": "Get Presupuestos Paginado",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/presupuestos/paginado",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "presupuestos",
+                "paginado"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Presupuestos Paginado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/presupuestos/paginado",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "presupuestos",
+                    "paginado"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 19 May 2026 12:03:16 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"content\": [\n        {\n            \"numero\": 18,\n            \"fecha\": \"2026-05-19\",\n            \"cliente\": \"#13 - Alejandro Coria\",\n            \"bicicleta\": \"#19 - SUNSPEED GRAVEL\",\n            \"valorTotal\": 30000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 17,\n            \"fecha\": \"2026-05-14\",\n            \"cliente\": \"#10 - Nico Paz\",\n            \"bicicleta\": \"#16 - SHISANO PLAYERA\",\n            \"valorTotal\": 34000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 16,\n            \"fecha\": \"2026-05-06\",\n            \"cliente\": \"#11 - Carla Lin\",\n            \"bicicleta\": \"#18 - TOPMEGA MTB\",\n            \"valorTotal\": 30000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 15,\n            \"fecha\": \"2026-05-04\",\n            \"cliente\": \"#9 - Luis Masei\",\n            \"bicicleta\": \"#15 - KONA KALEA\",\n            \"valorTotal\": 5000,\n            \"estado\": \"PENDIENTE\"\n        },\n        {\n            \"numero\": 14,\n            \"fecha\": \"2026-05-04\",\n            \"cliente\": \"#10 - Nico Paz\",\n            \"bicicleta\": \"#16 - SHISANO PLAYERA\",\n            \"valorTotal\": 30000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 13,\n            \"fecha\": \"2026-04-30\",\n            \"cliente\": \"#9 - Luis Masei\",\n            \"bicicleta\": \"#15 - KONA KALEA\",\n            \"valorTotal\": 29000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 12,\n            \"fecha\": \"2026-04-23\",\n            \"cliente\": \"#8 - Sofia Gimenez\",\n            \"bicicleta\": \"#14 - OLMO URBAN\",\n            \"valorTotal\": 6000,\n            \"estado\": \"ANULADO\"\n        },\n        {\n            \"numero\": 11,\n            \"fecha\": \"2026-04-23\",\n            \"cliente\": \"#7 - Daniel Rago\",\n            \"bicicleta\": \"#13 - MERCURI PISTA\",\n            \"valorTotal\": 5000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 10,\n            \"fecha\": \"2026-04-23\",\n            \"cliente\": \"#6 - Esteban Lago\",\n            \"bicicleta\": \"#12 - MARIN GESTALT\",\n            \"valorTotal\": 30000,\n            \"estado\": \"FACTURADO\"\n        },\n        {\n            \"numero\": 9,\n            \"fecha\": \"2026-04-20\",\n            \"cliente\": \"#4 - Maxi Diaz\",\n            \"bicicleta\": \"#6 - ZENITH ALPES\",\n            \"valorTotal\": 20000,\n            \"estado\": \"FACTURADO\"\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": false,\n    \"number\": 0,\n    \"numberOfElements\": 10,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"totalElements\": 17,\n    \"totalPages\": 2\n}"
             }
           ]
         }
@@ -5303,6 +5937,138 @@
               ],
               "cookie": [],
               "body": "{\n    \"status\": 400,\n    \"message\": \"No se puede eliminar el repuesto porque ya figura en presupuestos existentes.\",\n    \"timestamp\": \"2026-03-11T14:13:13.0191253\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Stats",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "taller2026",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "localhost:8080/dashboard/stats",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "dashboard",
+                "stats"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Stats",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "localhost:8080/dashboard/stats",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "dashboard",
+                    "stats"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Vary",
+                  "value": "Origin"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Method"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Access-Control-Request-Headers"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Expires",
+                  "value": "0"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "DENY"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 19 May 2026 12:07:17 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"montoTotalMes\": 129000,\n    \"totalClientes\": 11,\n    \"presupuestosPendientes\": 1,\n    \"cantidadPresupuestosMes\": 5\n}"
             }
           ]
         }
