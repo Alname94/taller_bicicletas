@@ -1,10 +1,10 @@
-Usar Maven con Java 21 para compilar
+# Usar Maven con Java 21 para compilar
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-Usar la imagen liviana de Java 21 (Eclipse Temurin) para correr la app
+# Usar la imagen liviana de Java 21 (Eclipse Temurin) para correr la app
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
