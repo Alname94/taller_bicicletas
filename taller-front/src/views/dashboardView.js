@@ -69,16 +69,16 @@ export function renderHomeContent() {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div class="bg-blue-500 p-6 rounded-xl shadow-sm text-white">
         <p class="text-blue-100 text-sm font-medium">Presupuestos Pendientes</p>
-        <p class="js-pendientes text-3xl font-bold mt-1">12</p>
+        <p class="js-pendientes text-3xl font-bold mt-1">Cargando...</p>
       </div>
       <div class="bg-emerald-500 p-6 rounded-xl shadow-sm text-white">
         <p class="text-emerald-100 text-sm font-medium">Presupuestos del Mes</p>
-        <p class="js-cantidad-mes text-3xl font-bold mt-1">0</p>
+        <p class="js-cantidad-mes text-3xl font-bold mt-1">Cargando...</p>
         <p class="js-monto-mes text-sm text-emerald-50 text-opacity-80 mt-1">$ 0,00 facturados</p>
       </div>
       <div class="bg-orange-500 p-6 rounded-xl shadow-sm text-white">
         <p class="text-orange-100 text-sm font-medium">Clientes Activos</p>
-        <p class="js-total-clientes text-3xl font-bold mt-1">84</p>
+        <p class="js-total-clientes text-3xl font-bold mt-1">Cargando...</p>
       </div>
     </div> 
   `;
