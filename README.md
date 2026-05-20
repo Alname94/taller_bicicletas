@@ -1,6 +1,21 @@
 # ⚙️ **Sistema de Gestión para Taller de Bicicletas** 🚲
-Este es un sistema de gestión integral desarrollado con Java y Spring Boot para la administración de un taller de reparación de bicicletas. 
-El sistema permite gestionar clientes, bicicletas, repuestos, servicios y la generación de presupuestos con control de stock automatizado.
+Este es un sistema de gestión integral desarrollado para la administración de un taller de reparación de bicicletas. Permite gestionar clientes, bicicletas, repuestos, servicios y la generación de presupuestos con control de stock automatizado.
+
+![Demo del Sistema](./tallerbicicletas/docs/demo.gif)
+
+---
+
+# 🌐 Despliegue Demo
+
+La aplicación ya se encuentra en producción! Podés probarla ingresando en la  siguiente URL:
+
+* 💻 **Frontend:** [taller-bicicletas-three.vercel.app](https://taller-bicicletas-three.vercel.app/)
+* 🔑 **Credenciales de Prueba:**
+    * **Usuario:** `admin`
+    * **Contraseña:** `taller2026`
+* ⚠️ *Nota:* El backend utiliza el plan gratuito de Render. Si es la primera vez que ingresás en el día o tras un periodo de inactividad, el servidor puede tardar entre **1 y 2 minutos en "despertar"**.
+
+---
 
 # 🚀 Características Principales
 - **Gestión de Clientes y Bicicletas**: Registro detallado de propietarios y sus bicicletas asociadas.
@@ -13,18 +28,22 @@ El sistema permite gestionar clientes, bicicletas, repuestos, servicios y la gen
 
 - **Integridad de Datos**: Validaciones de negocio para evitar duplicados de DNI, Email, Teléfono y códigos de repuestos.
 
+---
+
 # 🛠️ Tecnologías Utilizadas
-- **Lenguaje**: Java 21
+- **Backend**: Java 21, Spring Boot, Spring Data JPA, Spring Security (InMemory Auth)
 
-- **Framework**: Spring Boot
+- **Frontend**: JavaScript, Vite, Tailwind CSS v4
 
-- **Persistencia**: Spring Data JPA
+- **Base de Datos**: MySQL ( Desarrollo local / Producción en Aiven) / H2 (Testing)
 
-- **Base de Datos**: MySQL (Producción/Desarrollo) / H2 (Testing)
+- **Hosting / Deploy**: Vercel (Front) & Render (Back + Docker)
 
 - **Testing**: JUnit 5, Mockito, AssertJ
 
 - **Validaciones**: Bean Validation (Hibernate Validator)
+
+---
 
 # ✅ Calidad y Testing
 El proyecto cuenta con una robusta suite de Tests Unitarios que aseguran la estabilidad de las reglas de negocio:
@@ -39,13 +58,13 @@ El proyecto cuenta con una robusta suite de Tests Unitarios que aseguran la esta
 
 - **Pruebas de Controlador**: Uso de MockMvc para validar los endpoints REST y el manejo de excepciones personalizadas.
 
-- ## 🚀 Pruebas con Postman
+---
+# 🚀 Pruebas con Postman o OpenAPI (Swagger)
++ **Postman:** He incluido una colección para facilitar las pruebas de los endpoints. Para usarla, importa el archivo `docs/TallerBicicletas.postman_collection.json` en tu Postman.
 
- + He incluido una colección de Postman para facilitar las pruebas de los endpoints. 
- + Para usarla:
-    + 1. Importa el archivo `docs/TallerBicicletas.postman_collection.json` en tu Postman.
-    + 2. Asegúrate de tener la aplicación corriendo en `localhost:8080`.
-    + 3. Las peticiones están configuradas con **Basic Auth** (Usuario: `admin`, Contraseña: `taller2026`).
++ **Swagger:** También podés visualizar y probar la API directo en producción desde la interfaz de Swagger ingresando a: `https://taller-bicicletas-back.onrender.com/swagger-ui/index.html` (Puede demorar un par de minutos en conectarse con Render).
+
+---
 
 # 🛠️ Buenas Prácticas y Arquitectura
 - **Arquitectura en Capas**: El proyecto está estructurado siguiendo el patrón de diseño por capas (Controller - Service - Repository), separando claramente las responsabilidades.
@@ -61,4 +80,4 @@ El proyecto cuenta con una robusta suite de Tests Unitarios que aseguran la esta
 > [!NOTE]
 > Proyecto en desarrollo.
 
-### Autor: Alejo Méndez
+### Autor: [Alejo Méndez](https://github.com/Alname94)
