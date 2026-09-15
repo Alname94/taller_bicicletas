@@ -77,7 +77,5 @@ El proyecto cuenta con una robusta suite de Tests Unitarios que aseguran la esta
 
 - **Validación de Datos**: Uso de anotaciones de Jakarta Validation para asegurar la integridad de los datos antes de que lleguen a la capa de servicio.
 ##
-> [!NOTE]
-> Proyecto en desarrollo.
 
 ### Autor: [Alejo Méndez](https://github.com/Alname94)
