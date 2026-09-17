@@ -62,7 +62,7 @@ El proyecto cuenta con una robusta suite de Tests Unitarios que aseguran la esta
 # 🚀 Pruebas con Postman o OpenAPI (Swagger)
 + **Postman:** He incluido una colección para facilitar las pruebas de los endpoints. Para usarla, importa el archivo `docs/TallerBicicletas.postman_collection.json` en tu Postman.
 
-+ **Swagger:** También podés visualizar y probar la API directo en producción desde la interfaz de Swagger ingresando a: `https://taller-bicicletas-back.onrender.com/swagger-ui/index.html` (Puede demorar un par de minutos en conectarse con Render).
++ **Swagger:** También podés visualizar y probar la API directo en producción desde la interfaz de Swagger ingresando a: [https://taller-bicicletas-back.onrender.com/swagger-ui/index.html](https://taller-bicicletas-back.onrender.com/swagger-ui/index.html) (Puede demorar un par de minutos en conectarse con Render).
 
 ---
 
